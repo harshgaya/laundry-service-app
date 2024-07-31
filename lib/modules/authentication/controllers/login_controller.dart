@@ -6,6 +6,7 @@ import 'package:laundry_service/modules/authentication/pages/login_page.dart';
 import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/campus_employee/pages/campus_employee_dashboard.dart';
 import 'package:laundry_service/modules/driver/pages/driver_page.dart';
+import 'package:laundry_service/modules/driver/pages/vehicle_inspection_page1.dart';
 import 'package:laundry_service/network/url_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +26,8 @@ class LoginController extends GetxController {
       if (response['data'].isNotEmpty) {
         await saveSharedPref(
             userId: response['data'][0]['_id'],
-            userType: response['data'][0]['userType']);
+            userType: response['data'][0]['userType'],
+            college: response['data'][0]['collegeName']);
         Get.offAll(() => const UserState());
       } else {
         Utils.showScaffoldMessageI(
@@ -38,10 +40,13 @@ class LoginController extends GetxController {
   }
 
   Future<void> saveSharedPref(
-      {required String userId, required String userType}) async {
+      {required String userId,
+      required String userType,
+      required String college}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString(SharedPreferenceKey.UserId, userId);
     await sharedPreferences.setString(SharedPreferenceKey.userType, userType);
+    await sharedPreferences.setString(SharedPreferenceKey.collegeName, college);
   }
 
   Future<void> checkUserPrefs() async {
@@ -55,8 +60,8 @@ class LoginController extends GetxController {
       Get.offAll(() => LoginPage());
     } else if (userType == 'Campus Employee') {
       Get.offAll(() => const CampusEmployeeDashboard());
-    } else {
-      Get.offAll(() => const DriverDashboard());
+    } else if (userType == 'Driver') {
+      Get.offAll(() => const VehicleInspectionPage1());
     }
   }
 
@@ -64,6 +69,7 @@ class LoginController extends GetxController {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.remove(SharedPreferenceKey.UserId);
     await sharedPreferences.remove(SharedPreferenceKey.userType);
+    await sharedPreferences.remove(SharedPreferenceKey.collegeName);
     Get.offAll(() => const UserState());
   }
 }

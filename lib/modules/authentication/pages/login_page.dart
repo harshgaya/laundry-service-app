@@ -34,43 +34,23 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/login.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 50, right: 50, top: 250),
-            child: Form(
-              key: _formKey,
+        body: Padding(
+          padding: const EdgeInsets.only(left: 50, right: 50, top: 10),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Image.asset('assets/images/login.png'),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   TextFormField(
-                    style: const TextStyle(color: Colors.white),
-                    cursorColor: Colors.white,
                     controller: _usernameController,
-                    decoration: InputDecoration(
-                        fillColor: const Color(0xFFA3A3A5),
+                    decoration: const InputDecoration(
+                        fillColor: Colors.white,
                         filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Adjust the radius here
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Adjust the radius here
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Adjust the radius here
-                          borderSide:
-                              const BorderSide(color: Colors.blue, width: 2.0),
-                        ),
                         labelText: 'Username'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -83,28 +63,10 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   TextFormField(
-                    style: const TextStyle(color: Colors.white),
-                    cursorColor: Colors.white,
                     controller: _passwordController,
-                    decoration: InputDecoration(
-                        fillColor: const Color(0xFFA3A3A5),
+                    decoration: const InputDecoration(
+                        fillColor: Colors.white,
                         filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Adjust the radius here
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Adjust the radius here
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              30.0), // Adjust the radius here
-                          borderSide:
-                              const BorderSide(color: Colors.blue, width: 2.0),
-                        ),
                         labelText: 'Password'),
                     obscureText: true,
                     validator: (value) {
@@ -118,13 +80,12 @@ class _LoginPageState extends State<LoginPage> {
                   Obx(
                     () => loginController.loginLoading.value
                         ? const CircularProgressIndicator()
-                        : ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA0D4BE)),
+                        : TextButton(
                             onPressed: _login,
                             child: const Text(
-                              'Login',
-                              style: TextStyle(color: Colors.white),
+                              'Sign In',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
                             ),
                           ),
                   ),

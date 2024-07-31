@@ -5,4 +5,7 @@ class UrlConstants {
 
   ///authentication
   static const login = '${BASE_URL}getUserByIdAndPassword';
+
+  ///orders
+  static const createCollectionNo = '${BASE_URL}createNewCollection';
 }

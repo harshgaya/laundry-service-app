@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:laundry_service/modules/authentication/controllers/login_controller.dart';
-import 'package:laundry_service/modules/campus_employee/pages/collection_page.dart';
-import 'package:laundry_service/modules/campus_employee/pages/create_collection_page.dart';
-import 'package:laundry_service/modules/campus_employee/pages/remarks_warehouse.dart';
+import 'package:laundry_service/modules/campus_employee/pages/campus_employee_profile.dart';
+import 'package:laundry_service/modules/driver/pages/driver_task_page_home.dart';
+import 'package:laundry_service/modules/driver/pages/to_do_list_view_driver.dart';
 
-import 'campus_employee_profile.dart';
-
-class CampusEmployeeDashboard extends StatefulWidget {
-  const CampusEmployeeDashboard({super.key});
+class DriverDashboard extends StatefulWidget {
+  const DriverDashboard({super.key});
 
   @override
-  State<CampusEmployeeDashboard> createState() =>
-      _CampusEmployeeDashboardState();
+  State<DriverDashboard> createState() => _DriverDashboardState();
 }
 
-class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
-  final loginController = Get.put(LoginController());
+class _DriverDashboardState extends State<DriverDashboard> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    CreateCollectionPage(),
-    CollectionPage(),
+    const DriverTaskPageHome(),
     Container(),
-    RemarksWarehouse(),
     CampusEmployeeProfile(),
   ];
 
@@ -60,14 +51,6 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
             BottomNavigationBarItem(
               icon: Icon(Icons.collections),
               label: 'Collection',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.call),
-              label: 'Call',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.edit),
-              label: 'Remarks',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
