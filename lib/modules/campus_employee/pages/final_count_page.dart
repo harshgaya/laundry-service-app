@@ -18,27 +18,141 @@ class _FinalCountPageState extends State<FinalCountPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const CircleAvatar(
+              backgroundColor: Colors.blue,
+              child: Center(
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                  size: 16,
+                ),
+              ),
+            ),
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  WhiteContainer(
-                      widget: Text(
-                          'Tag Count ${campusEmployeeController.orders.length}')),
-                  WhiteContainer(
-                      widget: Text(
-                          'Total Pieces ${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.count)}')),
-                ],
+              const Text(
+                'Faculty Day Sheet',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              WhiteContainer(
-                  widget: Text(
-                      'Faculty Count ${campusEmployeeController.teacherOrders.fold(0, (sum, order) => sum + order.quantity)}')),
+              // WhiteContainer(
+              //     widget: Text(
+              //         'Faculty Count ${campusEmployeeController.teacherOrders.fold(0, (sum, order) => sum + order.quantity)}')),
+              Obx(() => Expanded(
+                    child: SingleChildScrollView(
+                      child: Table(
+                        border: const TableBorder(
+                            horizontalInside:
+                                BorderSide(color: Colors.black, width: 0.2)),
+                        children: [
+                          // Table header
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'S.NO.',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'Faculty Name',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'Total Cloths',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Table rows from the orders list
+                          ...campusEmployeeController.teacherOrders
+                              .asMap()
+                              .entries
+                              .map((order) {
+                            final totals = campusEmployeeController
+                                .calculateTotalClothesPerTeacher();
+                            final sortedTeacherNames = totals.keys.toList()
+                              ..sort();
+
+                            return TableRow(
+                              children: [
+                                TableCell(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      '${order.key + 1}',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      order.value.teacherName,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      '${totals[order.value.teacherName]}',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ],
+                      ),
+                    ),
+                  )),
               const SizedBox(
                 height: 50,
               ),
@@ -64,7 +178,39 @@ class _FinalCountPageState extends State<FinalCountPage> {
                           );
                         });
                   },
-                  child: WhiteContainer(widget: Text('Finish'))),
+                  child: Center(
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.done,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Done',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )),
             ],
           ),
         ),

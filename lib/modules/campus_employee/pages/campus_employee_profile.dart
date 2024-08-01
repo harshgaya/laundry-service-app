@@ -21,12 +21,12 @@ class _CampusEmployeeProfileState extends State<CampusEmployeeProfile> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.blue,
             radius: 50,
             child: Icon(
               Icons.person,
               size: 60,
-              color: Color(0xFF7FD0FE),
+              color: Colors.white,
             ),
           ),
           const SizedBox(
@@ -34,7 +34,9 @@ class _CampusEmployeeProfileState extends State<CampusEmployeeProfile> {
           ),
           Text(
             'Profile',
-            style: TextStyle(fontSize: 28, color: Colors.white),
+            style: TextStyle(
+              fontSize: 28,
+            ),
           ),
           const SizedBox(
             height: 50,
@@ -79,8 +81,7 @@ class ProfileWidget extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 50,
-              color: Colors.white,
+              size: 30,
             ),
             const SizedBox(
               width: 10,
@@ -88,8 +89,7 @@ class ProfileWidget extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
+                fontSize: 16,
               ),
             )
           ],
@@ -100,7 +100,6 @@ class ProfileWidget extends StatelessWidget {
         Container(
           width: Get.width,
           height: 2,
-          color: Colors.white,
         ),
         const SizedBox(
           height: 20,

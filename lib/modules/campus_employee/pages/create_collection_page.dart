@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
 import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
@@ -33,36 +34,106 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Obx(() => WhiteContainer(
-                    widget: Text(
-                        'User Id:${campusEmployeeController.userId.isEmpty ? '' : campusEmployeeController.userId.toString().substring(0, 6)}'))),
-                WhiteContainer(widget: Text('${DateTime.now()}'))
+                Text('Login Time :${DateFormat.jm().format(DateTime.now())}'),
+                Row(
+                  children: [
+                    Text(
+                      'Nima',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    CircleAvatar(
+                      backgroundColor: Colors.black,
+                      child: Text(
+                        'N',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 80,
             ),
-            Obx(() => WhiteContainer(
-                widget: Text(campusEmployeeController.collegeName.value))),
+            Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('College Name',
+                      style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.blue,
+                        fontSize: 25,
+                      )),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    campusEmployeeController.collegeName.value.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(
-              height: 200,
+              height: 100,
             ),
             Obx(
               () => campusEmployeeController.creatingCollection.value
                   ? const CircularProgressIndicator()
-                  : WhiteContainer(
-                      widget: InkWell(
-                        onTap: () async {
-                          Get.to(() => const CreateCollectionView());
-                        },
-                        child: const Column(
-                          children: [
-                            Icon(Icons.collections),
-                            SizedBox(
-                              height: 10,
+                  : InkWell(
+                      onTap: () async {
+                        Get.to(() => const CreateCollectionView());
+                      },
+                      child: Container(
+                        width: 180,
+                        height: 180,
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
                             ),
-                            Text('New Collection'),
-                          ],
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/collection_big.png',
+                                    height: 60,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'New Collection',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

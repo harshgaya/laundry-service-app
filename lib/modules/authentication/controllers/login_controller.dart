@@ -7,6 +7,7 @@ import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/campus_employee/pages/campus_employee_dashboard.dart';
 import 'package:laundry_service/modules/driver/pages/driver_page.dart';
 import 'package:laundry_service/modules/driver/pages/vehicle_inspection_page1.dart';
+import 'package:laundry_service/modules/washing/select_washing_machine_page.dart';
 import 'package:laundry_service/network/url_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,6 +63,8 @@ class LoginController extends GetxController {
       Get.offAll(() => const CampusEmployeeDashboard());
     } else if (userType == 'Driver') {
       Get.offAll(() => const VehicleInspectionPage1());
+    } else if (userType == 'Washing') {
+      Get.offAll(() => const SelectWashingMachinePage());
     }
   }
 

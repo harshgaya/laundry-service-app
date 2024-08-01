@@ -14,7 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF7FD0FE)),
+      theme: ThemeData(
+        fontFamily:
+            'OverusedGrotesk', // Use the font family name you defined in pubspec.yaml
+      ),
       title: 'Laundry Service',
       home: UserState(),
     );

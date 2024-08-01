@@ -13,28 +13,59 @@ class CampusEmployeeController extends GetxController {
   RxBool creatingCollection = false.obs;
   RxInt collectionNo = 1.obs;
   var orders = <Order>[].obs;
-  var teacherOrders = <TeacherOrder>[
-    TeacherOrder(description: 'Shirt', quantity: 0),
-    TeacherOrder(description: 'Pant', quantity: 0),
-    TeacherOrder(description: 'Bedsheet', quantity: 0),
-    TeacherOrder(description: 'Towel', quantity: 0),
-  ].obs;
+  var teacherOrders = <TeacherOrder>[].obs;
 
-  void incrementQuantity(int index) {
-    teacherOrders[index].quantity++;
-    teacherOrders.refresh();
+  // void incrementQuantity(int index) {
+  //   teacherOrders[index].towels++;
+  //   teacherOrders.refresh();
+  // }
+  //
+  // void decrementQuantity(int index) {
+  //   if (teacherOrders[index].quantity > 0) {
+  //     teacherOrders[index].quantity--;
+  //     teacherOrders.refresh();
+  //   }
+  // }
+
+  // Add a new order to the list
+  void addOrder(String tagNo, int cloths, int uniforms) {
+    orders.add(Order(
+        tagNo: tagNo,
+        totalCloths: cloths,
+        totalUniforms: uniforms,
+        remarks: ''));
   }
 
-  void decrementQuantity(int index) {
-    if (teacherOrders[index].quantity > 0) {
-      teacherOrders[index].quantity--;
-      teacherOrders.refresh();
+  void addOrUpdateTeacherOrder(TeacherOrder newOrder) {
+    print('teacher ${newOrder.teacherName}');
+    final index = teacherOrders
+        .indexWhere((order) => order.teacherName == newOrder.teacherName);
+
+    if (index != -1) {
+      // Update existing order
+      teacherOrders[index] = newOrder;
+    } else {
+      // Add new order
+      teacherOrders.add(newOrder);
     }
   }
 
-  // Add a new order to the list
-  void addOrder(String tagNo, int count) {
-    orders.add(Order(tagNo: tagNo, count: count));
+  Map<String, int> calculateTotalClothesPerTeacher() {
+    Map<String, int> totals = {};
+
+    for (var order in teacherOrders) {
+      if (!totals.containsKey(order.teacherName)) {
+        totals[order.teacherName] = 0;
+      }
+
+      totals[order.teacherName] = (totals[order.teacherName] ?? 0) +
+          order.shirts +
+          order.pants +
+          order.bedsheets +
+          order.towels;
+    }
+
+    return totals;
   }
 
   Future<void> getUserId() async {
@@ -71,17 +102,29 @@ class CampusEmployeeController extends GetxController {
 
 class Order {
   String tagNo;
-  int count;
+  int totalCloths;
+  int totalUniforms;
+  String remarks = '';
 
-  Order({required this.tagNo, required this.count});
+  Order(
+      {required this.tagNo,
+      required this.totalUniforms,
+      required this.remarks,
+      required this.totalCloths});
 }
 
 class TeacherOrder {
-  String description;
-  int quantity;
+  int shirts;
+  int pants;
+  int bedsheets;
+  int towels;
+  String teacherName;
 
   TeacherOrder({
-    required this.description,
-    required this.quantity,
+    required this.teacherName,
+    required this.bedsheets,
+    required this.pants,
+    required this.shirts,
+    required this.towels,
   });
 }

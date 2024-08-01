@@ -48,7 +48,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextFormField(
                     controller: _usernameController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         fillColor: Colors.white,
                         filled: true,
                         labelText: 'Username'),
@@ -64,7 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         fillColor: Colors.white,
                         filled: true,
                         labelText: 'Password'),
@@ -80,7 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                   Obx(
                     () => loginController.loginLoading.value
                         ? const CircularProgressIndicator()
-                        : TextButton(
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue),
                             onPressed: _login,
                             child: const Text(
                               'Sign In',
