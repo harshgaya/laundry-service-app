@@ -1,45 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:laundry_service/modules/campus_employee/pages/remarks_page.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
 
-class CreateCollectionData extends StatefulWidget {
-  const CreateCollectionData({super.key});
+import '../controllers/campus_employee_controller.dart';
+
+class AddRemarksToWarehouse extends StatefulWidget {
+  const AddRemarksToWarehouse({super.key});
 
   @override
-  State<CreateCollectionData> createState() => _CreateCollectionDataState();
+  State<AddRemarksToWarehouse> createState() => _AddRemarksToWarehouseState();
 }
 
-class _CreateCollectionDataState extends State<CreateCollectionData> {
+class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
   final TextEditingController tagController = TextEditingController();
-  final TextEditingController countController = TextEditingController();
-  final totalCloths = TextEditingController();
-  final totalUniforms = TextEditingController();
   final campusEmployeeController = Get.put(CampusEmployeeController());
-  bool enterClothVisible = false;
-  final formKey = GlobalKey<FormState>();
-  final FocusNode _secondFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    tagController.addListener(() {
-      if (tagController.text.length == 3) {
-        _secondFocusNode.requestFocus();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    tagController.dispose();
-    _secondFocusNode.dispose();
-    super.dispose();
-  }
-
+  bool buttonVisible = false;
+  String? selectedRemark;
+  List<String> remarks = [
+    'Torn',
+    'Not Cleaned',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +48,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'New Collection',
+              'Add Remarks',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w700,
@@ -97,11 +79,11 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                     onChanged: (value) {
                       if (value.isEmpty) {
                         setState(() {
-                          enterClothVisible = false;
+                          buttonVisible = false;
                         });
                       } else {
                         setState(() {
-                          enterClothVisible = true;
+                          buttonVisible = true;
                         });
                       }
                     },
@@ -114,100 +96,71 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                     ),
                   ),
                 ),
-              ],
-            ),
-            Visibility(
-              visible: enterClothVisible,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Form(
-                  key: formKey,
-                  child: SizedBox(
-                    width: Get.width,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                focusNode: _secondFocusNode,
-                                controller: totalCloths,
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter total cloths';
-                                  }
-                                  return null;
-                                },
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Enter Total Cloths',
-                                  hintStyle: TextStyle(fontSize: 12),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: totalUniforms,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter total uniforms';
-                                  }
-                                  return null;
-                                },
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter Total Uniforms',
-                                  border: OutlineInputBorder(),
-                                  hintStyle: TextStyle(fontSize: 12),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                            ),
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                formKey.currentState!.save();
-                                campusEmployeeController.addOrder(
-                                    tagController.text,
-                                    int.parse(totalCloths.text),
-                                    int.parse(totalUniforms.text));
-                                campusEmployeeController.orders
-                                    .sort((a, b) => a.tagNo.compareTo(b.tagNo));
-
-                                tagController.text = '';
-                                totalCloths.text = '';
-                                totalUniforms.text = '';
-                                setState(() {});
-                              }
-                            },
-                            child: Text(
-                              'Add',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            )),
-                      ],
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    padding: EdgeInsets.zero,
+                    decoration: InputDecoration(
+                      hintText: 'Select Remark',
+                      hintStyle: TextStyle(color: Colors.black, fontSize: 13),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      filled: true,
                     ),
+                    value: selectedRemark,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedRemark = newValue;
+                      });
+                    },
+                    // dropdownColor: Colors.blue,
+                    items:
+                        remarks.map<DropdownMenuItem<String>>((String teacher) {
+                      return DropdownMenuItem<String>(
+                        value: teacher,
+                        child: Text(
+                          teacher,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Visibility(
+              visible: buttonVisible,
+              child: Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                    onPressed: () {
+                      if (selectedRemark == null) {
+                        return;
+                      }
+                      campusEmployeeController.addRemarkToWareHouse(
+                          int.parse(tagController.text), selectedRemark!);
+                      campusEmployeeController.orders
+                          .sort((a, b) => a.tagNo.compareTo(b.tagNo));
+
+                      tagController.text = '';
+                      selectedRemark = null;
+                      setState(() {});
+                    },
+                    child: Text(
+                      'Add',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
               ),
             ),
             const SizedBox(
@@ -230,6 +183,18 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                               child: Container(
                                 padding: EdgeInsets.all(8),
                                 child: Text(
+                                  'S.NO.',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: Text(
                                   'TAG NO.',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -242,7 +207,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                               child: Container(
                                 padding: EdgeInsets.all(8),
                                 child: Text(
-                                  'TOTAL CLOTHES',
+                                  'REMARKS',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.blue,
@@ -253,7 +218,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                           ],
                         ),
                         // Table rows from the orders list
-                        ...campusEmployeeController.orders
+                        ...campusEmployeeController.remarkToWarehouse
                             .asMap()
                             .entries
                             .map((order) {
@@ -263,7 +228,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                 child: Container(
                                   padding: EdgeInsets.all(8),
                                   child: Text(
-                                    order.value.tagNo,
+                                    '${order.key + 1}',
                                     style: TextStyle(
                                       fontSize: 12,
                                     ),
@@ -274,7 +239,18 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                 child: Container(
                                   padding: EdgeInsets.all(8),
                                   child: Text(
-                                    '${order.value.totalCloths + order.value.totalUniforms}',
+                                    order.value.tagNo.toString(),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    '${order.value.remarks}',
                                     style: TextStyle(
                                       fontSize: 12,
                                     ),
@@ -284,39 +260,6 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                             ],
                           );
                         }).toList(),
-                        TableRow(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: Colors.blue,
-                              )),
-                          children: [
-                            TableCell(
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  '${campusEmployeeController.orders.length}',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
@@ -335,7 +278,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
-                                Get.to(() => RemarksPage());
+                                // Get.to(() => RemarksPage());
                               },
                               child: Text('Yes')),
                           TextButton(

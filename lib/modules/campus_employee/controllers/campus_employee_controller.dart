@@ -14,18 +14,92 @@ class CampusEmployeeController extends GetxController {
   RxInt collectionNo = 1.obs;
   var orders = <Order>[].obs;
   var teacherOrders = <TeacherOrder>[].obs;
+  var warehouseRemarks = <RemarksWarehouseData>[].obs;
+  var remarkToWarehouse = <RemarkToWarehouse>[].obs;
+  var untakenClothToWareHouse = <UntakenClothToWarehouse>[
+    UntakenClothToWarehouse(tagNo: 23, totalCloths: 3, ticked: false),
+    UntakenClothToWarehouse(tagNo: 6, totalCloths: 1, ticked: false),
+    UntakenClothToWarehouse(tagNo: 7, totalCloths: 9, ticked: false),
+    UntakenClothToWarehouse(tagNo: 12, totalCloths: 2, ticked: false),
+  ].obs;
+  var campusEmployeeOrdersFromWarehouse =
+      <CampusEmployeeOrderFromWarehouseData>[
+    CampusEmployeeOrderFromWarehouseData(
+        collectionNo: 12,
+        deliveryDate: '12-05-24',
+        delivered: true,
+        tagCount: 12,
+        facultyCount: 2),
+    CampusEmployeeOrderFromWarehouseData(
+        collectionNo: 10,
+        deliveryDate: '12-06-24',
+        delivered: false,
+        tagCount: 30,
+        facultyCount: 10),
+    CampusEmployeeOrderFromWarehouseData(
+        collectionNo: 16,
+        deliveryDate: '12-08-24',
+        delivered: true,
+        tagCount: 103,
+        facultyCount: 34),
+  ].obs;
 
-  // void incrementQuantity(int index) {
-  //   teacherOrders[index].towels++;
-  //   teacherOrders.refresh();
-  // }
-  //
-  // void decrementQuantity(int index) {
-  //   if (teacherOrders[index].quantity > 0) {
-  //     teacherOrders[index].quantity--;
-  //     teacherOrders.refresh();
-  //   }
-  // }
+  var campusEmployeeStudentDaySheetCompare =
+      <CampusEmployeeStudentDaySheetCompareData>[
+    CampusEmployeeStudentDaySheetCompareData(
+        tagNo: 122, campusCount: 23, warehouseCount: 23, delivered: false),
+    CampusEmployeeStudentDaySheetCompareData(
+        tagNo: 132, campusCount: 10, warehouseCount: 10, delivered: false),
+    CampusEmployeeStudentDaySheetCompareData(
+        tagNo: 142, campusCount: 34, warehouseCount: 34, delivered: false),
+  ].obs;
+
+  var campusEmployeeFacultyDaySheetCompare =
+      <CampusEmployeeFacultyDaySheetCompareData>[
+    CampusEmployeeFacultyDaySheetCompareData(
+        facultyName: 'SRi',
+        campusCount: 23,
+        warehouseCount: 23,
+        delivered: false),
+    CampusEmployeeFacultyDaySheetCompareData(
+        facultyName: 'Raj',
+        campusCount: 10,
+        warehouseCount: 10,
+        delivered: false),
+    CampusEmployeeFacultyDaySheetCompareData(
+        facultyName: 'Gupta',
+        campusCount: 34,
+        warehouseCount: 34,
+        delivered: false),
+  ].obs;
+
+  var untakenCloths = <CollectionUntakenClothData>[
+    CollectionUntakenClothData(
+      collectionNo: 12,
+      unTakenCloths: 2,
+      tagNo: 23,
+    ),
+    CollectionUntakenClothData(
+      collectionNo: 34,
+      unTakenCloths: 5,
+      tagNo: 13,
+    ),
+    CollectionUntakenClothData(
+      collectionNo: 45,
+      unTakenCloths: 9,
+      tagNo: 2,
+    ),
+    CollectionUntakenClothData(
+      collectionNo: 78,
+      unTakenCloths: 67,
+      tagNo: 5,
+    ),
+    CollectionUntakenClothData(
+      collectionNo: 12,
+      unTakenCloths: 1,
+      tagNo: 7,
+    ),
+  ];
 
   // Add a new order to the list
   void addOrder(String tagNo, int cloths, int uniforms) {
@@ -34,6 +108,10 @@ class CampusEmployeeController extends GetxController {
         totalCloths: cloths,
         totalUniforms: uniforms,
         remarks: ''));
+  }
+
+  void addRemarkToWareHouse(int tagNo, String remarks) {
+    remarkToWarehouse.add(RemarkToWarehouse(tagNo: tagNo, remarks: remarks));
   }
 
   void addOrUpdateTeacherOrder(TeacherOrder newOrder) {
@@ -126,5 +204,94 @@ class TeacherOrder {
     required this.pants,
     required this.shirts,
     required this.towels,
+  });
+}
+
+class RemarksWarehouseData {
+  int collectionId;
+  String deliveryTime;
+  String remarks;
+
+  RemarksWarehouseData({
+    required this.collectionId,
+    required this.deliveryTime,
+    required this.remarks,
+  });
+}
+
+class RemarkToWarehouse {
+  int tagNo;
+  String remarks;
+
+  RemarkToWarehouse({
+    required this.tagNo,
+    required this.remarks,
+  });
+}
+
+class UntakenClothToWarehouse {
+  int tagNo;
+  int totalCloths;
+  bool ticked;
+
+  UntakenClothToWarehouse({
+    required this.ticked,
+    required this.tagNo,
+    required this.totalCloths,
+  });
+}
+
+class CampusEmployeeOrderFromWarehouseData {
+  int collectionNo;
+  String deliveryDate;
+  bool delivered;
+  int tagCount;
+  int facultyCount;
+
+  CampusEmployeeOrderFromWarehouseData({
+    required this.tagCount,
+    required this.facultyCount,
+    required this.collectionNo,
+    required this.deliveryDate,
+    required this.delivered,
+  });
+}
+
+class CampusEmployeeStudentDaySheetCompareData {
+  int tagNo;
+  int campusCount;
+  int warehouseCount;
+  bool delivered;
+
+  CampusEmployeeStudentDaySheetCompareData({
+    required this.tagNo,
+    required this.campusCount,
+    required this.warehouseCount,
+    required this.delivered,
+  });
+}
+
+class CampusEmployeeFacultyDaySheetCompareData {
+  String facultyName;
+  int campusCount;
+  int warehouseCount;
+  bool delivered;
+
+  CampusEmployeeFacultyDaySheetCompareData({
+    required this.facultyName,
+    required this.campusCount,
+    required this.warehouseCount,
+    required this.delivered,
+  });
+}
+
+class CollectionUntakenClothData {
+  int collectionNo;
+  int unTakenCloths;
+  int tagNo;
+  CollectionUntakenClothData({
+    required this.tagNo,
+    required this.collectionNo,
+    required this.unTakenCloths,
   });
 }

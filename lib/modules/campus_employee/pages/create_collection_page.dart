@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
+import 'package:laundry_service/modules/campus_employee/pages/campus_employee_dashboard.dart';
 import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
 
 import 'create_collection_view.dart';
@@ -35,26 +36,31 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Login Time :${DateFormat.jm().format(DateTime.now())}'),
-                Row(
-                  children: [
-                    Text(
-                      'Nima',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                InkWell(
+                  onTap: () {
+                    Get.to(() => CampusEmployeeDashboard());
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Nima',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    CircleAvatar(
-                      backgroundColor: Colors.black,
-                      child: Text(
-                        'N',
-                        style: TextStyle(color: Colors.white),
+                      const SizedBox(
+                        width: 5,
                       ),
-                    ),
-                  ],
+                      CircleAvatar(
+                        backgroundColor: Colors.black,
+                        child: Text(
+                          'N',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

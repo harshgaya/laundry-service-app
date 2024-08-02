@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/authentication/controllers/login_controller.dart';
-import 'package:laundry_service/modules/campus_employee/pages/collection_page.dart';
+import 'package:laundry_service/modules/campus_employee/pages/campus_employee_orders_from_warehouse_page.dart';
 import 'package:laundry_service/modules/campus_employee/pages/create_collection_page.dart';
 import 'package:laundry_service/modules/campus_employee/pages/remarks_warehouse.dart';
 
 import 'campus_employee_profile.dart';
+import 'employee_search_untaken_cloths_from_warehouse.dart';
 
 class CampusEmployeeDashboard extends StatefulWidget {
   const CampusEmployeeDashboard({super.key});
@@ -22,31 +23,17 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
   final _pageController = PageController(initialPage: 0);
 
   final NotchBottomBarController _controller =
-      NotchBottomBarController(index: 0);
+      NotchBottomBarController(index: 1);
 
   int maxCount = 5;
-  int _currentIndex = 0;
-
-  final List<Widget> _pages = [
-    CreateCollectionPage(),
-    Container(),
-    Container(),
-    CampusEmployeeProfile(),
-  ];
-
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> bottomBarPages = [
+      CampusEmployeeOrderFromWarehouse(),
       CreateCollectionPage(),
-      CollectionPage(),
       RemarksWarehouse(),
-      CampusEmployeeProfile(),
+      CampusEmployeeSearchUntakenClothsFromWarehouse(),
     ];
     return SafeArea(
       child: Scaffold(
@@ -81,6 +68,14 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
                 elevation: 1,
                 bottomBarItems: [
                   BottomBarItem(
+                    inActiveItem: Image.asset('assets/icons/collection.png'),
+                    activeItem: Image.asset(
+                      'assets/icons/collection.png',
+                      color: Colors.white,
+                    ),
+                    itemLabel: 'Collection',
+                  ),
+                  BottomBarItem(
                     inActiveItem: Image.asset('assets/icons/home.png'),
                     activeItem: Image.asset(
                       'assets/icons/home.png',
@@ -94,25 +89,18 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
                       'assets/icons/collection.png',
                       color: Colors.white,
                     ),
-                    itemLabel: 'Collection',
-                  ),
-                  BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/collection.png'),
-                    activeItem: Image.asset(
-                      'assets/icons/collection.png',
-                      color: Colors.white,
-                    ),
                     itemLabel: 'Remarks',
                   ),
                   BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/user.png'),
+                    inActiveItem: Image.asset('assets/icons/search.png'),
                     activeItem: Image.asset(
-                      'assets/icons/user.png',
+                      'assets/icons/search.png',
                       color: Colors.white,
                     ),
-                    itemLabel: 'Profile',
+                    itemLabel: 'Search',
                   ),
                 ],
+
                 onTap: (index) {
                   _pageController.jumpToPage(index);
                 },
