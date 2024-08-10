@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 class UntakenClothsWarehouse extends StatefulWidget {
   const UntakenClothsWarehouse({super.key});
@@ -12,6 +13,13 @@ class UntakenClothsWarehouse extends StatefulWidget {
 
 class _UntakenClothsWarehouseState extends State<UntakenClothsWarehouse> {
   final campusEmployeeController = Get.put(CampusEmployeeController());
+  String? _selectedValue;
+
+  final List<String> _filterOptions = [
+    'Collection No',
+    'Collection Date',
+    // Add more options if needed
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +54,27 @@ class _UntakenClothsWarehouseState extends State<UntakenClothsWarehouse> {
             ),
             const SizedBox(
               height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: DropdownButtonFormField<String>(
+                value: _selectedValue,
+                hint: Text('Filter by'),
+                items: _filterOptions.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedValue = newValue;
+                  });
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ),
             Obx(() => Expanded(
                   child: SingleChildScrollView(
@@ -172,45 +201,12 @@ class _UntakenClothsWarehouseState extends State<UntakenClothsWarehouse> {
               },
               child: Align(
                 alignment: Alignment.center,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.done,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Finish',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                child: RoundButtonAnimate(
+                  buttonName: 'Finish',
+                  onClick: () {},
+                  image: const Icon(
+                    Icons.done,
+                    color: Colors.white,
                   ),
                 ),
               ),

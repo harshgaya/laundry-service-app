@@ -23,15 +23,15 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
   final _pageController = PageController(initialPage: 0);
 
   final NotchBottomBarController _controller =
-      NotchBottomBarController(index: 1);
+      NotchBottomBarController(index: 0);
 
   int maxCount = 5;
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> bottomBarPages = [
-      CampusEmployeeOrderFromWarehouse(),
       CreateCollectionPage(),
+      CampusEmployeeOrderFromWarehouse(),
       RemarksWarehouse(),
       CampusEmployeeSearchUntakenClothsFromWarehouse(),
     ];
@@ -62,19 +62,9 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
                 bottomBarWidth: Get.width,
                 showShadow: true,
                 durationInMilliSeconds: 300,
-
                 itemLabelStyle: const TextStyle(fontSize: 10),
-
                 elevation: 1,
                 bottomBarItems: [
-                  BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/collection.png'),
-                    activeItem: Image.asset(
-                      'assets/icons/collection.png',
-                      color: Colors.white,
-                    ),
-                    itemLabel: 'Collection',
-                  ),
                   BottomBarItem(
                     inActiveItem: Image.asset('assets/icons/home.png'),
                     activeItem: Image.asset(
@@ -82,6 +72,14 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
                       color: Colors.white,
                     ),
                     itemLabel: 'Home',
+                  ),
+                  BottomBarItem(
+                    inActiveItem: Image.asset('assets/icons/collection.png'),
+                    activeItem: Image.asset(
+                      'assets/icons/collection.png',
+                      color: Colors.white,
+                    ),
+                    itemLabel: 'Orders',
                   ),
                   BottomBarItem(
                     inActiveItem: Image.asset('assets/icons/collection.png'),

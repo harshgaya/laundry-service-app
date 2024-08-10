@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
+import 'package:laundry_service/modules/campus_employee/pages/faculty_cloths.dart';
 import 'package:laundry_service/modules/campus_employee/pages/remarks_page.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 class CreateCollectionData extends StatefulWidget {
   const CreateCollectionData({super.key});
@@ -21,6 +23,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
   bool enterClothVisible = false;
   final formKey = GlobalKey<FormState>();
   final FocusNode _secondFocusNode = FocusNode();
+  final FocusNode _thirdFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -29,6 +32,11 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
     tagController.addListener(() {
       if (tagController.text.length == 3) {
         _secondFocusNode.requestFocus();
+      }
+    });
+    totalCloths.addListener(() {
+      if (totalCloths.text.length == 2) {
+        _thirdFocusNode.requestFocus();
       }
     });
   }
@@ -60,168 +68,189 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'New Collection',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w700,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'New Collection',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Container(
-                  height: 60,
-                  width: 50,
-                  child: Center(child: Text('SKH')),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Container(
+                    height: 60,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(child: Text('SKH')),
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: tagController,
-                    onChanged: (value) {
-                      if (value.isEmpty) {
-                        setState(() {
-                          enterClothVisible = false;
-                        });
-                      } else {
-                        setState(() {
-                          enterClothVisible = true;
-                        });
-                      }
-                    },
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      hintText: 'Search Tag No',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      hintStyle: TextStyle(fontSize: 12),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      controller: tagController,
+                      onChanged: (value) {
+                        if (value.isEmpty) {
+                          setState(() {
+                            enterClothVisible = false;
+                          });
+                        } else {
+                          setState(() {
+                            enterClothVisible = true;
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: 'Search Tag No',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        hintStyle: const TextStyle(fontSize: 12),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Visibility(
-              visible: enterClothVisible,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Form(
-                  key: formKey,
-                  child: SizedBox(
-                    width: Get.width,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                focusNode: _secondFocusNode,
-                                controller: totalCloths,
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter total cloths';
-                                  }
-                                  return null;
-                                },
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Enter Total Cloths',
-                                  hintStyle: TextStyle(fontSize: 12),
+                ],
+              ),
+              Visibility(
+                visible: enterClothVisible,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Form(
+                    key: formKey,
+                    child: SizedBox(
+                      width: Get.width,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  focusNode: _secondFocusNode,
+                                  controller: totalCloths,
+                                  keyboardType: TextInputType.number,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter total cloths';
+                                    }
+                                    return null;
+                                  },
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Enter Total Cloths',
+                                    hintStyle: TextStyle(fontSize: 12),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: totalUniforms,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Enter total uniforms';
-                                  }
-                                  return null;
-                                },
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter Total Uniforms',
-                                  border: OutlineInputBorder(),
-                                  hintStyle: TextStyle(fontSize: 12),
-                                ),
+                              const SizedBox(
+                                width: 10,
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                            ),
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                formKey.currentState!.save();
-                                campusEmployeeController.addOrder(
-                                    tagController.text,
-                                    int.parse(totalCloths.text),
-                                    int.parse(totalUniforms.text));
-                                campusEmployeeController.orders
-                                    .sort((a, b) => a.tagNo.compareTo(b.tagNo));
+                              Expanded(
+                                child: TextFormField(
+                                  focusNode: _thirdFocusNode,
+                                  controller: totalUniforms,
+                                  onFieldSubmitted: (val) {
+                                    if (formKey.currentState!.validate()) {
+                                      formKey.currentState!.save();
+                                      campusEmployeeController.addOrder(
+                                          tagController.text,
+                                          int.parse(totalCloths.text),
+                                          int.parse(totalUniforms.text));
+                                      campusEmployeeController.orders.sort(
+                                          (a, b) => a.tagNo.compareTo(b.tagNo));
+                                      campusEmployeeController.orders.refresh();
 
-                                tagController.text = '';
-                                totalCloths.text = '';
-                                totalUniforms.text = '';
-                                setState(() {});
-                              }
-                            },
-                            child: Text(
-                              'Add',
-                              style: TextStyle(
-                                color: Colors.white,
+                                      tagController.text = '';
+                                      totalCloths.text = '';
+                                      totalUniforms.text = '';
+                                      setState(() {});
+                                    }
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Enter total uniforms';
+                                    }
+                                    return null;
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter Total Uniforms',
+                                    border: OutlineInputBorder(),
+                                    hintStyle: TextStyle(fontSize: 12),
+                                  ),
+                                ),
                               ),
-                            )),
-                      ],
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                              ),
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  formKey.currentState!.save();
+                                  campusEmployeeController.addOrder(
+                                      tagController.text,
+                                      int.parse(totalCloths.text),
+                                      int.parse(totalUniforms.text));
+                                  campusEmployeeController.orders.sort(
+                                      (a, b) => a.tagNo.compareTo(b.tagNo));
+                                  campusEmployeeController.orders.refresh();
+
+                                  tagController.text = '';
+                                  totalCloths.text = '';
+                                  totalUniforms.text = '';
+                                  setState(() {});
+                                }
+                              },
+                              child: const Text(
+                                'Add',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              )),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Obx(() => Expanded(
-                  child: SingleChildScrollView(
+              const SizedBox(
+                height: 20,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Obx(() => SingleChildScrollView(
                     child: Table(
-                      border: TableBorder(
-                          horizontalInside:
-                              BorderSide(color: Colors.black, width: 0.2)),
+                      border: const TableBorder(
+                        horizontalInside:
+                            BorderSide(color: Colors.black, width: 0.2),
+                      ),
                       children: [
                         // Table header
                         TableRow(
@@ -305,10 +334,10 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                             ),
                             TableCell(
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 child: Text(
                                   '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.blue,
                                   ),
@@ -319,80 +348,30 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                         ),
                       ],
                     ),
-                  ),
-                )),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Finished Adding Cloth'),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                Get.to(() => RemarksPage());
-                              },
-                              child: Text('Yes')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Cancel')),
-                        ],
-                      );
-                    });
-              },
-              child: Align(
+                  )),
+              const SizedBox(
+                height: 50,
+              ),
+              Align(
                 alignment: Alignment.center,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.done,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Finish',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                child: RoundButtonAnimate(
+                  buttonName: 'Finish',
+                  onClick: () {
+                    Utils.showDialogPopUp(
+                        context: context,
+                        function: () {
+                          Get.to(() => FacultyCloth());
+                        },
+                        title: 'Finished Adding Cloth');
+                  },
+                  image: const Icon(
+                    Icons.done,
+                    color: Colors.white,
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
 import 'package:laundry_service/modules/campus_employee/pages/view_remarks_from_warehouse.dart';
 import 'package:laundry_service/modules/campus_employee/pages/warehouse_remarks_details.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
 
 class RemarksWarehouse extends StatefulWidget {
   const RemarksWarehouse({super.key});
@@ -83,8 +82,8 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                           ),
                           TableCell(
                             child: Container(
-                              padding: EdgeInsets.all(8),
-                              child: Text(
+                              padding: const EdgeInsets.all(8),
+                              child: const Text(
                                 'Delivery',
                                 style: TextStyle(
                                   fontSize: 16,
@@ -156,14 +155,6 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                   ),
                 ),
               )),
-          // InkWell(
-          //     onTap: () {
-          //       Get.to(() => ViewRemarksFromWarehouse());
-          //     },
-          //     child:
-          //         WhiteContainer(widget: Text('View Remarks\nFrom Warehouse'))),
-          // WhiteContainer(widget: Text('Add Remarks')),
-          // WhiteContainer(widget: Text('Untaken Cloths')),
         ],
       ),
     );

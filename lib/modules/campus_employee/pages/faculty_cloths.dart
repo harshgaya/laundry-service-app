@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundry_service/helpers/utils.dart';
+import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
+import 'package:laundry_service/modules/campus_employee/pages/campus_employee_upload_collection_image.dart';
 import 'package:laundry_service/modules/campus_employee/pages/final_count_page.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 class FacultyCloth extends StatefulWidget {
   const FacultyCloth({super.key});
@@ -461,71 +464,21 @@ class _FacultyClothState extends State<FacultyCloth> {
                       )),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('Finished Adding Faculty Cloth'),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  Get.to(() => FinalCountPage());
-                                },
-                                child: Text('Yes')),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Cancel')),
-                          ],
-                        );
-                      });
-                },
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.done,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Finish',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+              Align(
+                alignment: Alignment.center,
+                child: RoundButtonAnimate(
+                  buttonName: 'Finish',
+                  onClick: () {
+                    Utils.showDialogPopUp(
+                        context: context,
+                        function: () {
+                          Get.to(() => const FinalCountPage());
+                        },
+                        title: 'Finished Adding Faculty Cloth');
+                  },
+                  image: const Icon(
+                    Icons.done,
+                    color: Colors.white,
                   ),
                 ),
               ),

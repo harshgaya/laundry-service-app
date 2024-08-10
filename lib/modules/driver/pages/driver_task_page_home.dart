@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laundry_service/modules/driver/controllers/driver_controller.dart';
 import 'package:laundry_service/modules/driver/pages/to_do_list_view_driver.dart';
+import 'package:laundry_service/modules/driver/widgets/home_task_number_page.dart';
+import 'package:laundry_service/modules/driver/widgets/task_count_widget.dart';
+import 'package:laundry_service/modules/driver/widgets/task_tile_widget.dart';
 
 class DriverTaskPageHome extends StatefulWidget {
   const DriverTaskPageHome({super.key});
@@ -10,82 +14,149 @@ class DriverTaskPageHome extends StatefulWidget {
 }
 
 class _DriverTaskPageHomeState extends State<DriverTaskPageHome> {
-  final List<Map<String, String>> data = [
-    {"sno": "1", "college": "College A", "task": "Task A"},
-    {"sno": "2", "college": "College B", "task": "Task B"},
-    {"sno": "3", "college": "College C", "task": "Task C"},
-    {"sno": "4", "college": "College D", "task": "Task D"},
-    {"sno": "5", "college": "College E", "task": "Task E"},
-  ];
+  final driverController = Get.put(DriverController());
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView(
-        children: [
-          Table(
-            border: TableBorder.all(),
-            columnWidths: {
-              0: FlexColumnWidth(0.2),
-              1: FlexColumnWidth(0.4),
-              2: FlexColumnWidth(0.4),
-            },
-            children: [
-              TableRow(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'S.No',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'College Name',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Task',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-              ...data.map((item) {
-                return TableRow(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(item["sno"]!),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(item["college"]!),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(() => ToDoListViewDriver());
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(item["task"]!),
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        const HomeTaskNumberPage(),
+        const SizedBox(
+          height: 50,
+        ),
+        TaskTileWidget(
+          function: () {
+            Get.to(() => const ToDoListViewDriver());
+          },
+        ),
+      ],
     );
+    // return Padding(
+    //   padding: const EdgeInsets.all(8.0),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       const Text(
+    //         'To Do List',
+    //         style: TextStyle(
+    //           fontSize: 25,
+    //           fontWeight: FontWeight.w700,
+    //         ),
+    //       ),
+    //       const SizedBox(
+    //         height: 20,
+    //       ),
+    //       Expanded(
+    //         child: SingleChildScrollView(
+    //           child: Table(
+    //             border: TableBorder(
+    //                 horizontalInside:
+    //                     BorderSide(color: Colors.black, width: 0.2)),
+    //             children: [
+    //               // Table header
+    //               TableRow(
+    //                 children: [
+    //                   TableCell(
+    //                     child: Container(
+    //                       padding: EdgeInsets.all(8),
+    //                       child: Text(
+    //                         'S.NO.',
+    //                         style: TextStyle(
+    //                           fontSize: 14,
+    //                           color: Colors.blue,
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   TableCell(
+    //                     child: Container(
+    //                       padding: EdgeInsets.all(8),
+    //                       child: Text(
+    //                         'College Name',
+    //                         style: TextStyle(
+    //                           fontSize: 14,
+    //                           color: Colors.blue,
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   TableCell(
+    //                     child: Container(
+    //                       padding: EdgeInsets.all(8),
+    //                       child: Text(
+    //                         'Task',
+    //                         style: TextStyle(
+    //                           fontSize: 14,
+    //                           color: Colors.blue,
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //               // Table rows from the orders list
+    //               ...driverController.driverToDoList
+    //                   .asMap()
+    //                   .entries
+    //                   .map((order) {
+    //                 return TableRow(
+    //                   children: [
+    //                     TableCell(
+    //                       child: InkWell(
+    //                         onTap: () {
+    //                           Get.to(() => ToDoListViewDriver());
+    //                         },
+    //                         child: Container(
+    //                           padding: EdgeInsets.all(8),
+    //                           child: Text(
+    //                             '${order.key + 1}',
+    //                             style: TextStyle(
+    //                               fontSize: 12,
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     TableCell(
+    //                       child: InkWell(
+    //                         onTap: () {
+    //                           Get.to(() => ToDoListViewDriver());
+    //                         },
+    //                         child: Container(
+    //                           padding: EdgeInsets.all(8),
+    //                           child: Text(
+    //                             '${order.value.collegeName}',
+    //                             style: TextStyle(
+    //                               fontSize: 12,
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     TableCell(
+    //                       child: InkWell(
+    //                         onTap: () {
+    //                           Get.to(() => ToDoListViewDriver());
+    //                         },
+    //                         child: Container(
+    //                           padding: EdgeInsets.all(8),
+    //                           child: Text(
+    //                             '${order.value.task}',
+    //                             style: TextStyle(
+    //                               fontSize: 12,
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 );
+    //               }).toList(),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:laundry_service/modules/campus_employee/pages/faculty_cloths.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 import '../controllers/campus_employee_controller.dart';
 
@@ -323,45 +323,12 @@ class _RemarksPageState extends State<RemarksPage> {
                 },
                 child: Align(
                   alignment: Alignment.center,
-                  child: Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.done,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Finish',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                  child: RoundButtonAnimate(
+                    buttonName: 'Finish',
+                    onClick: () {},
+                    image: const Icon(
+                      Icons.done,
+                      color: Colors.white,
                     ),
                   ),
                 ),

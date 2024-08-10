@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
 import 'package:laundry_service/modules/campus_employee/pages/campus_employee_dashboard.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
+import 'package:laundry_service/modules/campus_employee/pages/campus_employee_profile.dart';
 
+import '../../widegets/round_button_animate.dart';
 import 'create_collection_view.dart';
 
 class CreateCollectionPage extends StatefulWidget {
@@ -38,7 +39,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                 Text('Login Time :${DateFormat.jm().format(DateTime.now())}'),
                 InkWell(
                   onTap: () {
-                    Get.to(() => CampusEmployeeDashboard());
+                    Get.to(() => CampusEmployeeProfile());
                   },
                   child: Row(
                     children: [
@@ -97,50 +98,15 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
             Obx(
               () => campusEmployeeController.creatingCollection.value
                   ? const CircularProgressIndicator()
-                  : InkWell(
-                      onTap: () async {
+                  : RoundButtonAnimate(
+                      buttonName: 'New Collection',
+                      onClick: () {
                         Get.to(() => const CreateCollectionView());
                       },
-                      child: Container(
-                        width: 180,
-                        height: 180,
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/collection_big.png',
-                                    height: 60,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'New Collection',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                      image: Image.asset(
+                        'assets/icons/collection_big.png',
+                        height: 60,
+                        color: Colors.white,
                       ),
                     ),
             ),

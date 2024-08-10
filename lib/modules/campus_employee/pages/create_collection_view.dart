@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
 import 'package:laundry_service/modules/campus_employee/pages/create_collection_data.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/white_container.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 class CreateCollectionView extends StatefulWidget {
   const CreateCollectionView({super.key});
@@ -119,50 +119,15 @@ class _CreateCollectionDateState extends State<CreateCollectionView> {
               ),
               Align(
                 alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () async {
+                child: RoundButtonAnimate(
+                  buttonName: 'Start Collection',
+                  onClick: () {
                     Get.to(() => const CreateCollectionData());
                   },
-                  child: Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/icons/collection_big.png',
-                                height: 60,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Create Collection',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                  image: Image.asset(
+                    'assets/icons/collection_big.png',
+                    height: 60,
+                    color: Colors.white,
                   ),
                 ),
               ),

@@ -103,11 +103,22 @@ class CampusEmployeeController extends GetxController {
 
   // Add a new order to the list
   void addOrder(String tagNo, int cloths, int uniforms) {
-    orders.add(Order(
+    // Check if the tagNo already exists in the orders list
+    int index = orders.indexWhere((order) => order.tagNo == tagNo);
+
+    if (index != -1) {
+      // Update the existing order with the new values
+      orders[index].totalCloths = cloths;
+      orders[index].totalUniforms = uniforms;
+    } else {
+      // Add a new order if tagNo doesn't exist
+      orders.add(Order(
         tagNo: tagNo,
         totalCloths: cloths,
         totalUniforms: uniforms,
-        remarks: ''));
+        remarks: '',
+      ));
+    }
   }
 
   void addRemarkToWareHouse(int tagNo, String remarks) {

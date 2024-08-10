@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:laundry_service/modules/campus_employee/pages/remarks_page.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 import '../controllers/campus_employee_controller.dart';
 
@@ -267,71 +268,16 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
             const SizedBox(
               height: 10,
             ),
-            InkWell(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Finished Adding Cloth'),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                // Get.to(() => RemarksPage());
-                              },
-                              child: Text('Yes')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Cancel')),
-                        ],
-                      );
-                    });
-              },
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.done,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Finish',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+            Align(
+              alignment: Alignment.center,
+              child: RoundButtonAnimate(
+                buttonName: 'Finish',
+                onClick: () {
+                  Navigator.of(context).pop();
+                },
+                image: const Icon(
+                  Icons.done,
+                  color: Colors.white,
                 ),
               ),
             ),
