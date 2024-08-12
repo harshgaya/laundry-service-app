@@ -39,9 +39,9 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                 Text('Login Time :${DateFormat.jm().format(DateTime.now())}'),
                 InkWell(
                   onTap: () {
-                    Get.to(() => CampusEmployeeProfile());
+                    Get.to(() => const CampusEmployeeProfile());
                   },
-                  child: Row(
+                  child: const Row(
                     children: [
                       Text(
                         'Nima',
@@ -50,7 +50,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 5,
                       ),
                       CircleAvatar(
@@ -104,7 +104,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                         Get.to(() => const CreateCollectionView());
                       },
                       image: Image.asset(
-                        'assets/icons/collection_big.png',
+                        'assets/gifs/collection.gif',
                         height: 60,
                         color: Colors.white,
                       ),

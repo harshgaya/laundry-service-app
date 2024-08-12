@@ -24,12 +24,18 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
   final formKey = GlobalKey<FormState>();
   final FocusNode _secondFocusNode = FocusNode();
   final FocusNode _thirdFocusNode = FocusNode();
+  bool finishButtonVisible = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     tagController.addListener(() {
+      if (tagController.text.isEmpty) {
+        setState(() {
+          finishButtonVisible = false;
+        });
+      }
       if (tagController.text.length == 3) {
         _secondFocusNode.requestFocus();
       }
@@ -56,7 +62,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
           onPressed: () {
             Get.back();
           },
-          icon: CircleAvatar(
+          icon: const CircleAvatar(
             backgroundColor: Colors.blue,
             child: Center(
               child: Icon(
@@ -93,7 +99,9 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Center(child: Text('SKH')),
+                    child: const Center(
+                      child: Text('SKH'),
+                    ),
                   ),
                   const SizedBox(
                     width: 10,
@@ -106,6 +114,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                       onChanged: (value) {
                         if (value.isEmpty) {
                           setState(() {
+                            finishButtonVisible = true;
                             enterClothVisible = false;
                           });
                         } else {
@@ -171,9 +180,10 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                     if (formKey.currentState!.validate()) {
                                       formKey.currentState!.save();
                                       campusEmployeeController.addOrder(
-                                          tagController.text,
+                                          int.parse(tagController.text),
                                           int.parse(totalCloths.text),
-                                          int.parse(totalUniforms.text));
+                                          int.parse(totalUniforms.text),
+                                          context);
                                       campusEmployeeController.orders.sort(
                                           (a, b) => a.tagNo.compareTo(b.tagNo));
                                       campusEmployeeController.orders.refresh();
@@ -181,6 +191,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                       tagController.text = '';
                                       totalCloths.text = '';
                                       totalUniforms.text = '';
+                                      finishButtonVisible = true;
                                       setState(() {});
                                     }
                                   },
@@ -214,9 +225,10 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
                                   campusEmployeeController.addOrder(
-                                      tagController.text,
+                                      int.parse(tagController.text),
                                       int.parse(totalCloths.text),
-                                      int.parse(totalUniforms.text));
+                                      int.parse(totalUniforms.text),
+                                      context);
                                   campusEmployeeController.orders.sort(
                                       (a, b) => a.tagNo.compareTo(b.tagNo));
                                   campusEmployeeController.orders.refresh();
@@ -224,11 +236,12 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                   tagController.text = '';
                                   totalCloths.text = '';
                                   totalUniforms.text = '';
+                                  finishButtonVisible = true;
                                   setState(() {});
                                 }
                               },
                               child: const Text(
-                                'Add',
+                                'Done',
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -245,128 +258,133 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
               const SizedBox(
                 height: 20,
               ),
-              Obx(() => SingleChildScrollView(
-                    child: Table(
-                      border: const TableBorder(
-                        horizontalInside:
-                            BorderSide(color: Colors.black, width: 0.2),
-                      ),
-                      children: [
-                        // Table header
-                        TableRow(
-                          children: [
-                            TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'TAG NO.',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'TOTAL CLOTHES',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        // Table rows from the orders list
-                        ...campusEmployeeController.orders
-                            .asMap()
-                            .entries
-                            .map((order) {
-                          return TableRow(
-                            children: [
-                              TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    order.value.tagNo,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    '${order.value.totalCloths + order.value.totalUniforms}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }).toList(),
-                        TableRow(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: Colors.blue,
-                              )),
-                          children: [
-                            TableCell(
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  '${campusEmployeeController.orders.length}',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                child: Text(
-                                  '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+              Obx(
+                () => SingleChildScrollView(
+                  child: Table(
+                    border: const TableBorder(
+                      horizontalInside:
+                          BorderSide(color: Colors.black, width: 0.2),
                     ),
-                  )),
-              const SizedBox(
-                height: 50,
+                    children: [
+                      // Table header
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              child: const Text(
+                                'TAG NO.',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              child: const Text(
+                                'TOTAL CLOTHES',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Table rows from the orders list
+                      ...campusEmployeeController.orders
+                          .asMap()
+                          .entries
+                          .map((order) {
+                        return TableRow(
+                          children: [
+                            TableCell(
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  order.value.tagNo.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  '${order.value.totalCloths + order.value.totalUniforms}',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                      TableRow(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: Colors.blue,
+                            )),
+                        children: [
+                          TableCell(
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                '${campusEmployeeController.orders.length}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: RoundButtonAnimate(
-                  buttonName: 'Finish',
-                  onClick: () {
-                    Utils.showDialogPopUp(
-                        context: context,
-                        function: () {
-                          Get.to(() => FacultyCloth());
-                        },
-                        title: 'Finished Adding Cloth');
-                  },
-                  image: const Icon(
-                    Icons.done,
-                    color: Colors.white,
+              const SizedBox(
+                height: 150,
+              ),
+              Visibility(
+                visible: finishButtonVisible,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: RoundButtonAnimate(
+                    buttonName: 'Finish',
+                    onClick: () {
+                      Utils.showDialogPopUp(
+                          context: context,
+                          function: () {
+                            Get.to(() => const FacultyCloth());
+                          },
+                          title: 'Finished Adding Cloth');
+                    },
+                    image: const Icon(
+                      Icons.done,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

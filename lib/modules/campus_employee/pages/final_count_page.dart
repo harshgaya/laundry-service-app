@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
-import 'package:laundry_service/modules/campus_employee/pages/campus_employee_dashboard.dart';
-import 'package:laundry_service/modules/campus_employee/widgets/round_button_custom.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 class FinalCountPage extends StatefulWidget {
@@ -98,18 +96,6 @@ class _FinalCountPageState extends State<FinalCountPage> {
                                     child: Container(
                                       padding: EdgeInsets.all(8),
                                       child: Text(
-                                        'S.NO.',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
                                         'Name',
                                         style: TextStyle(
                                           fontSize: 16,
@@ -144,17 +130,6 @@ class _FinalCountPageState extends State<FinalCountPage> {
 
                                 return TableRow(
                                   children: [
-                                    TableCell(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          '${order.key + 1}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                     TableCell(
                                       child: Container(
                                         padding: EdgeInsets.all(8),
@@ -196,21 +171,9 @@ class _FinalCountPageState extends State<FinalCountPage> {
                                 children: [
                                   TableCell(
                                     child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        'S.NO.',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        'Tag No.',
+                                      padding: const EdgeInsets.all(8),
+                                      child: const Text(
+                                        'Tag No',
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.blue,
@@ -255,17 +218,6 @@ class _FinalCountPageState extends State<FinalCountPage> {
                                       child: Container(
                                         padding: EdgeInsets.all(8),
                                         child: Text(
-                                          '${order.key + 1}',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TableCell(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
                                           '${order.value.tagNo}',
                                           style: TextStyle(
                                             fontSize: 12,
@@ -286,7 +238,7 @@ class _FinalCountPageState extends State<FinalCountPage> {
                                     ),
                                     TableCell(
                                       child: Container(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: Text(
                                           '${order.value.totalUniforms.toString()}',
                                           style: TextStyle(
@@ -298,6 +250,39 @@ class _FinalCountPageState extends State<FinalCountPage> {
                                   ],
                                 );
                               }).toList(),
+                              TableRow(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Colors.blue,
+                                    )),
+                                children: [
+                                  TableCell(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Text(
+                                        '${campusEmployeeController.orders.length}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Text(
+                                        '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),

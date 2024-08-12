@@ -16,7 +16,13 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
     extends State<CampusEmployeeSearchUntakenClothsFromWarehouse> {
   final campusEmployeeController = Get.put(CampusEmployeeController());
   final searchController = TextEditingController();
+  String? _selectedValue;
   List<CollectionUntakenClothData> filteredCloths = [];
+  final List<String> _filterOptions = [
+    'Collection No',
+    'Collection Date',
+    // Add more options if needed
+  ];
 
   @override
   void initState() {
@@ -61,6 +67,37 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
           ),
           Row(
             children: [
+              Text('Filter'),
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField<String>(
+                    value: _selectedValue,
+                    hint: const Text('Filter by'),
+                    items: _filterOptions.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedValue = newValue;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
               Container(
                 height: 60,
                 width: 50,
@@ -80,7 +117,7 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'Search Tag No.',
-                    prefixIcon: Image.asset('assets/icons/search.png'),
+                    prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                       borderSide: BorderSide(

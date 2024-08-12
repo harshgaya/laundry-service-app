@@ -52,11 +52,14 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
           //   ),
           // ),
           const Text(
-            'View Remarks',
+            'Remarks',
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w700,
             ),
+          ),
+          const SizedBox(
+            height: 50,
           ),
           Obx(() => Expanded(
                 child: SingleChildScrollView(
@@ -72,7 +75,7 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                             child: Container(
                               padding: EdgeInsets.all(8),
                               child: Text(
-                                'Collection Id',
+                                'Id',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.blue,
@@ -130,22 +133,31 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                               ),
                             ),
                             TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  '${order.value.deliveryTime}',
-                                  style: TextStyle(
-                                    fontSize: 12,
+                              child: InkWell(
+                                onTap: () {
+                                  Get.to(() => WarehouseRemarksDetails());
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    '${order.value.deliveryTime}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: !order.value.remarks.isEmpty
-                                    ? Icon(Icons.done)
-                                    : SizedBox(),
+                              child: InkWell(
+                                onTap: () {
+                                  Get.to(() => WarehouseRemarksDetails());
+                                },
+                                child: Container(
+                                  child: !order.value.remarks.isEmpty
+                                      ? Icon(Icons.done)
+                                      : SizedBox(),
+                                ),
                               ),
                             ),
                           ],

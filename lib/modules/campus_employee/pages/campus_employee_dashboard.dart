@@ -79,12 +79,12 @@ class _CampusEmployeeDashboardState extends State<CampusEmployeeDashboard> {
                       'assets/icons/collection.png',
                       color: Colors.white,
                     ),
-                    itemLabel: 'Orders',
+                    itemLabel: 'History',
                   ),
                   BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/collection.png'),
+                    inActiveItem: Image.asset('assets/icons/remarks.png'),
                     activeItem: Image.asset(
-                      'assets/icons/collection.png',
+                      'assets/icons/remarks.png',
                       color: Colors.white,
                     ),
                     itemLabel: 'Remarks',

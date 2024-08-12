@@ -13,13 +13,7 @@ class UntakenClothsWarehouse extends StatefulWidget {
 
 class _UntakenClothsWarehouseState extends State<UntakenClothsWarehouse> {
   final campusEmployeeController = Get.put(CampusEmployeeController());
-  String? _selectedValue;
 
-  final List<String> _filterOptions = [
-    'Collection No',
-    'Collection Date',
-    // Add more options if needed
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,27 +48,6 @@ class _UntakenClothsWarehouseState extends State<UntakenClothsWarehouse> {
             ),
             const SizedBox(
               height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DropdownButtonFormField<String>(
-                value: _selectedValue,
-                hint: Text('Filter by'),
-                items: _filterOptions.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedValue = newValue;
-                  });
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-              ),
             ),
             Obx(() => Expanded(
                   child: SingleChildScrollView(

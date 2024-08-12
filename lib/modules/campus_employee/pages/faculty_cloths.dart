@@ -109,18 +109,6 @@ class _FacultyClothState extends State<FacultyCloth> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
-                            'S.No',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
                             'Description',
                             style: TextStyle(
                               fontSize: 16,
@@ -145,17 +133,6 @@ class _FacultyClothState extends State<FacultyCloth> {
                   ),
                   TableRow(
                     children: [
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '1',
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
                       TableCell(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -220,17 +197,6 @@ class _FacultyClothState extends State<FacultyCloth> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            '1',
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
                             'Pant',
                             style: const TextStyle(
                               fontSize: 12,
@@ -291,17 +257,6 @@ class _FacultyClothState extends State<FacultyCloth> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            '1',
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
                             'Towel',
                             style: const TextStyle(
                               fontSize: 12,
@@ -358,17 +313,6 @@ class _FacultyClothState extends State<FacultyCloth> {
                   ),
                   TableRow(
                     children: [
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            '1',
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
                       TableCell(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/campus_employee/pages/create_collection_view.dart';
 import 'package:laundry_service/network/url_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,14 +104,17 @@ class CampusEmployeeController extends GetxController {
   ];
 
   // Add a new order to the list
-  void addOrder(String tagNo, int cloths, int uniforms) {
-    // Check if the tagNo already exists in the orders list
+  void addOrder(int tagNo, int cloths, int uniforms, BuildContext context) {
     int index = orders.indexWhere((order) => order.tagNo == tagNo);
 
     if (index != -1) {
-      // Update the existing order with the new values
-      orders[index].totalCloths = cloths;
-      orders[index].totalUniforms = uniforms;
+      Utils.showDialogPopUp(
+          context: context,
+          function: () {
+            orders[index].totalCloths = cloths;
+            orders[index].totalUniforms = uniforms;
+          },
+          title: 'Tag No $tagNo is already added? do you want to replace?');
     } else {
       // Add a new order if tagNo doesn't exist
       orders.add(Order(
@@ -118,6 +123,7 @@ class CampusEmployeeController extends GetxController {
         totalUniforms: uniforms,
         remarks: '',
       ));
+      orders.sort((a, b) => a.tagNo.compareTo(b.tagNo));
     }
   }
 
@@ -190,7 +196,7 @@ class CampusEmployeeController extends GetxController {
 }
 
 class Order {
-  String tagNo;
+  int tagNo;
   int totalCloths;
   int totalUniforms;
   String remarks = '';

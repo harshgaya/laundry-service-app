@@ -236,7 +236,7 @@ class _WashingRemarksPageState extends State<WashingRemarksPage> {
                                   child: Container(
                                     padding: EdgeInsets.all(8),
                                     child: Text(
-                                      order.value.tagNo,
+                                      order.value.tagNo.toString(),
                                       style: TextStyle(
                                         fontSize: 12,
                                       ),

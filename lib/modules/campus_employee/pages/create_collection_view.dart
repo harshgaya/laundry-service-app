@@ -125,7 +125,7 @@ class _CreateCollectionDateState extends State<CreateCollectionView> {
                     Get.to(() => const CreateCollectionData());
                   },
                   image: Image.asset(
-                    'assets/icons/collection_big.png',
+                    'assets/gifs/collection.gif',
                     height: 60,
                     color: Colors.white,
                   ),
