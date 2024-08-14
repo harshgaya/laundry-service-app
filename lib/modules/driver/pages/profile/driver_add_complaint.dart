@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundry_service/modules/driver/pages/profile/driver_add_vehicle_complain.dart';
 import 'dart:io';
+
+import 'driver_add_college_complain.dart';
 
 class DriverAddComplaint extends StatefulWidget {
   const DriverAddComplaint({super.key});
@@ -60,121 +63,78 @@ class _DriverAddComplaintState extends State<DriverAddComplaint> {
                 const SizedBox(
                   height: 50,
                 ),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
-                    hintText: 'Select College',
-                    hintStyle: const TextStyle(color: Colors.white),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    filled: true,
-                    fillColor: Colors.blue,
-                  ),
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return 'Please select college';
-                    }
-                    return null;
+                InkWell(
+                  onTap: () {
+                    Get.to(() => DriverAddCollegeComplain());
                   },
-                  value: selectedCollege,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedCollege = newValue;
-                    });
-                  },
-                  dropdownColor: Colors.blue,
-                  items: collegeNames
-                      .map<DropdownMenuItem<String>>((String teacher) {
-                    return DropdownMenuItem<String>(
-                      value: teacher,
-                      child: Text(
-                        teacher,
-                        style: const TextStyle(color: Colors.white),
+                  child: Container(
+                    width: Get.width,
+                    height: 150,
+                    decoration: BoxDecoration(
+                        color: Colors.brown,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'College Complain',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Image.asset(
+                            'assets/images/warehouse.png',
+                            height: 80,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
                       ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  maxLines: 3,
-                  controller: complainTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Complain', // Optional label text
-                  ),
-                  validator: (value) {
-                    // The condition should check if the value is empty
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a complaint';
-                    }
-                    return null; // Return null if the value passes validation
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                      }
-                    },
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Vehicle Complain',
-                  style: GoogleFonts.roboto(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  maxLines: 3,
-                  controller: complainTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Complain', // Optional label text
-                  ),
-                  validator: (value) {
-                    // The condition should check if the value is empty
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a complaint';
-                    }
-                    return null; // Return null if the value passes validation
+                InkWell(
+                  onTap: () {
+                    Get.to(() => DriverAddVehicleComplain());
                   },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                      }
-                    },
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(color: Colors.white),
+                  child: Container(
+                    width: Get.width,
+                    height: 150,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Vehicle Complain',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Image.asset(
+                            'assets/icons/maintenance.png',
+                            height: 80,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

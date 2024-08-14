@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundry_service/modules/segregation/page/profile/seg_profile.dart';
 import 'package:laundry_service/modules/segregation/page/seg_assign_to_driver.dart';
+import 'package:laundry_service/modules/segregation/page/seg_driver_add.dart';
 import 'package:laundry_service/modules/segregation/page/seg_history.dart';
 import 'package:laundry_service/modules/segregation/page/seg_todo_list.dart';
 
@@ -28,7 +29,7 @@ class _SegDashboardState extends State<SegDashboard> {
     final List<Widget> bottomBarPages = [
       SegToDoList(),
       SegHistory(),
-      SegAssignToDriver(),
+      SegDriverAdd(),
       SegProfile(),
     ];
     return SafeArea(

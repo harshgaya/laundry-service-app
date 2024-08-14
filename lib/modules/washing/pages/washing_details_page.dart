@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/washing/pages/start_washing_page.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 class WashingDetailsPage extends StatefulWidget {
   const WashingDetailsPage({super.key});
@@ -12,6 +13,8 @@ class WashingDetailsPage extends StatefulWidget {
 }
 
 class _WashingDetailsPageState extends State<WashingDetailsPage> {
+  String? selectedMachine;
+  List<String> machines = ['Machine 1', 'Machine 2', 'Machine 3', 'Machine 4'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,11 +126,37 @@ class _WashingDetailsPageState extends State<WashingDetailsPage> {
                     fontSize: 20,
                   ),
                 ),
-                Text(
-                  '1',
-                  style: GoogleFonts.roboto(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      hintText: 'Select',
+                      hintStyle: TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      filled: true,
+                      fillColor: Colors.blue,
+                    ),
+                    value: selectedMachine,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedMachine = newValue;
+                      });
+                    },
+                    dropdownColor: Colors.blue,
+                    items: machines
+                        .map<DropdownMenuItem<String>>((String teacher) {
+                      return DropdownMenuItem<String>(
+                        value: teacher,
+                        child: Text(
+                          teacher,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ],
@@ -135,52 +164,18 @@ class _WashingDetailsPageState extends State<WashingDetailsPage> {
             const SizedBox(
               height: 100,
             ),
+            Spacer(),
             Align(
               alignment: Alignment.center,
-              child: InkWell(
-                onTap: () async {
+              child: RoundButtonAnimate(
+                buttonName: 'Start Washing',
+                onClick: () {
                   Get.to(() => const StartWashingPage());
                 },
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icons/washing.png',
-                              height: 60,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Start Washing',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                image: Image.asset(
+                  'assets/icons/washing.png',
+                  height: 30,
+                  color: Colors.white,
                 ),
               ),
             ),

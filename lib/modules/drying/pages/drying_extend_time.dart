@@ -50,6 +50,22 @@ class _DryingExtendTimePageState extends State<DryingExtendTimePage> {
               height: 50,
             ),
             SelectTileWidget(
+              title: 'Send To Dryer',
+              image: 'assets/icons/dryer.png',
+              color: Colors.blue,
+              function: () {
+                Utils.showDialogPopUp(
+                    context: context,
+                    function: () {
+                      Get.offAll(() => const UserState());
+                    },
+                    title: "Send to Segregation");
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SelectTileWidget(
               title: 'Send To Segregation',
               image: 'assets/icons/segregation.png',
               color: Colors.blue,

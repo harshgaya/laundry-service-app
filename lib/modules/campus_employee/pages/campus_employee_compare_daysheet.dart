@@ -152,49 +152,57 @@ class _CampusEmployeeCompareDaysheetState
                             TableRow(
                               children: [
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'TAG NO.',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'TAG NO.',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Campus',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Campus'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Warehouse',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Warehouse'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Delivered',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'DELIEVERED',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -210,50 +218,58 @@ class _CampusEmployeeCompareDaysheetState
                               return TableRow(
                                 children: [
                                   TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        order.value.tagNo.toString(),
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          order.value.tagNo.toString(),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.campusCount}',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          '${order.value.campusCount}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.warehouseCount}',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          '${order.value.warehouseCount}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Checkbox(
-                                      value: order.value.delivered,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          order.value.delivered =
-                                              value ?? false;
-                                          campusEmployeeController
-                                              .campusEmployeeOrdersFromWarehouse
-                                              .refresh();
-                                        });
-                                      },
+                                    child: Center(
+                                      child: Checkbox(
+                                        value: order.value.delivered,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            order.value.delivered =
+                                                value ?? false;
+                                            campusEmployeeController
+                                                .campusEmployeeOrdersFromWarehouse
+                                                .refresh();
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -274,49 +290,57 @@ class _CampusEmployeeCompareDaysheetState
                             TableRow(
                               children: [
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Faculty Name',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Name'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Campus',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Campus'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Warehouse',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Warehouse'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Delivered',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Delivered'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -332,50 +356,58 @@ class _CampusEmployeeCompareDaysheetState
                               return TableRow(
                                 children: [
                                   TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        order.value.facultyName.toString(),
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          order.value.facultyName.toString(),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.campusCount}',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          '${order.value.campusCount}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.warehouseCount}',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          '${order.value.warehouseCount}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Checkbox(
-                                      value: order.value.delivered,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          order.value.delivered =
-                                              value ?? false;
-                                          campusEmployeeController
-                                              .campusEmployeeOrdersFromWarehouse
-                                              .refresh();
-                                        });
-                                      },
+                                    child: Center(
+                                      child: Checkbox(
+                                        value: order.value.delivered,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            order.value.delivered =
+                                                value ?? false;
+                                            campusEmployeeController
+                                                .campusEmployeeOrdersFromWarehouse
+                                                .refresh();
+                                          });
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ],

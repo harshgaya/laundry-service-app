@@ -23,23 +23,6 @@ class _WashingRemarksPageState extends State<WashingRemarksPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: CircleAvatar(
-              backgroundColor: Colors.blue,
-              child: Center(
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: Colors.white,
-                  size: 16,
-                ),
-              ),
-            ),
-          ),
-        ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -176,37 +159,43 @@ class _WashingRemarksPageState extends State<WashingRemarksPage> {
                           TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'S.NO.',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'S.NO.',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Tag No.',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Tag No.'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Remarks',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Remarks',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -222,34 +211,40 @@ class _WashingRemarksPageState extends State<WashingRemarksPage> {
                             return TableRow(
                               children: [
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      '${order.key + 1}',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        '${order.key + 1}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      order.value.tagNo.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        order.value.tagNo.toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      '${order.value.remarks}',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        '${order.value.remarks}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -260,25 +255,29 @@ class _WashingRemarksPageState extends State<WashingRemarksPage> {
                           TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Tag Count: ${campusEmployeeController.orders.length}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Tag Count: ${campusEmployeeController.orders.length}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Total Cloths: ${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Total Cloths: ${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -298,73 +297,73 @@ class _WashingRemarksPageState extends State<WashingRemarksPage> {
               const SizedBox(
                 height: 10,
               ),
-              InkWell(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('Finished Adding Remarks'),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Yes')),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Cancel')),
-                          ],
-                        );
-                      });
-                },
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.done,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Finish',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     showDialog(
+              //         context: context,
+              //         builder: (context) {
+              //           return AlertDialog(
+              //             title: Text('Finished Adding Remarks'),
+              //             actions: [
+              //               TextButton(
+              //                   onPressed: () {
+              //                     Navigator.of(context).pop();
+              //                   },
+              //                   child: Text('Yes')),
+              //               TextButton(
+              //                   onPressed: () {
+              //                     Navigator.of(context).pop();
+              //                   },
+              //                   child: Text('Cancel')),
+              //             ],
+              //           );
+              //         });
+              //   },
+              //   child: Align(
+              //     alignment: Alignment.center,
+              //     child: Container(
+              //       width: 180,
+              //       height: 180,
+              //       decoration: BoxDecoration(
+              //         color: Colors.blue.shade50,
+              //         shape: BoxShape.circle,
+              //       ),
+              //       child: Center(
+              //         child: Container(
+              //           width: 150,
+              //           height: 150,
+              //           decoration: BoxDecoration(
+              //             color: Colors.blue,
+              //             shape: BoxShape.circle,
+              //           ),
+              //           child: Center(
+              //             child: Column(
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               children: [
+              //                 Icon(
+              //                   Icons.done,
+              //                   color: Colors.white,
+              //                   size: 30,
+              //                 ),
+              //                 SizedBox(
+              //                   height: 10,
+              //                 ),
+              //                 Text(
+              //                   'Finish',
+              //                   style: TextStyle(
+              //                     color: Colors.white,
+              //                     fontWeight: FontWeight.bold,
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

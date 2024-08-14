@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/drying/pages/start_drying_page.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 class DryingToDoDetails extends StatefulWidget {
   const DryingToDoDetails({super.key});
@@ -135,51 +136,22 @@ class _DryingToDoDetailsState extends State<DryingToDoDetails> {
             const SizedBox(
               height: 100,
             ),
+            Spacer(),
             Align(
               alignment: Alignment.center,
               child: InkWell(
                 onTap: () async {
                   Get.to(() => const StartDryingPage());
                 },
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icons/washing.png',
-                              height: 60,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Start Drying',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                child: RoundButtonAnimate(
+                  buttonName: 'Start Drying',
+                  onClick: () {
+                    Get.to(() => const StartDryingPage());
+                  },
+                  image: Image.asset(
+                    'assets/icons/washing.png',
+                    height: 30,
+                    color: Colors.white,
                   ),
                 ),
               ),

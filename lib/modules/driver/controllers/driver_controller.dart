@@ -13,7 +13,10 @@ class DriverController extends GetxController {
     DriverCollectionHistoryModel(
         collectionId: '5', time: '12-08-14', isDelivered: false, totalItems: 5),
     DriverCollectionHistoryModel(
-        collectionId: '13', time: '10-08-14', isDelivered: true, totalItems: 5),
+        collectionId: '13',
+        time: '10-08-14',
+        isDelivered: false,
+        totalItems: 5),
   ].obs;
 
   addToBagList({required String bagNo}) {

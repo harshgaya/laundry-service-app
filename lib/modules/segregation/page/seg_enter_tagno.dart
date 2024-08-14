@@ -9,6 +9,7 @@ import 'package:laundry_service/modules/campus_employee/pages/view_remarks_from_
 import 'package:laundry_service/modules/segregation/controler/seg_controller.dart';
 
 import '../../campus_employee/widgets/round_button_custom.dart';
+import '../../widegets/round_button_animate.dart';
 
 class SegEnterTagNo extends StatefulWidget {
   const SegEnterTagNo({super.key});
@@ -295,37 +296,43 @@ class _SegEnterTagNoState extends State<SegEnterTagNo> {
                             TableRow(
                               children: [
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'TAG NO.',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'TAG NO.',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Campus Count',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Campus Count'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      'Your Count',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.blue,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        'Your Count'.toUpperCase(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.blue,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -337,34 +344,40 @@ class _SegEnterTagNoState extends State<SegEnterTagNo> {
                               return TableRow(
                                 children: [
                                   TableCell(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        order.value.tagNo.toString(),
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          order.value.tagNo.toString(),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.no}',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          '${order.value.no}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   TableCell(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.total}',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          '${order.value.total}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -379,17 +392,23 @@ class _SegEnterTagNoState extends State<SegEnterTagNo> {
                 const SizedBox(
                   height: 10,
                 ),
-                RoundButtonCustom(
-                    title: 'Done',
-                    image: 'assets/icons/tick.png',
-                    function: () {
-                      Utils.showDialogPopUp(
-                          context: context,
-                          function: () {
-                            Get.offAll(() => UserState());
-                          },
-                          title: 'Done?');
-                    }),
+                Align(
+                  alignment: Alignment.center,
+                  child: RoundButtonAnimate(
+                      buttonName: 'Done',
+                      onClick: () {
+                        Utils.showDialogPopUp(
+                            context: context,
+                            function: () {
+                              Get.offAll(() => UserState());
+                            },
+                            title: 'Done?');
+                      },
+                      image: Icon(
+                        Icons.done,
+                        color: Colors.white,
+                      )),
+                )
               ],
             ),
           ),

@@ -7,7 +7,7 @@ import 'package:laundry_service/modules/campus_employee/pages/campus_employee_or
 import 'package:laundry_service/modules/campus_employee/pages/create_collection_page.dart';
 import 'package:laundry_service/modules/campus_employee/pages/remarks_warehouse.dart';
 
-import 'campus_employee_profile.dart';
+import 'profile/campus_employee_profile.dart';
 import 'employee_search_untaken_cloths_from_warehouse.dart';
 
 class CampusEmployeeDashboard extends StatefulWidget {

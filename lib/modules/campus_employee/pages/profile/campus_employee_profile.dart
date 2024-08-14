@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/authentication/controllers/login_controller.dart';
 
-import '../widgets/profile_tile.dart';
+import '../../widgets/profile_tile.dart';
+import 'dart:io';
 
 class CampusEmployeeProfile extends StatefulWidget {
   const CampusEmployeeProfile({super.key});
@@ -14,6 +16,7 @@ class CampusEmployeeProfile extends StatefulWidget {
 
 class _CampusEmployeeProfileState extends State<CampusEmployeeProfile> {
   final loginController = Get.put(LoginController());
+  File? profileImage;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,14 +27,39 @@ class _CampusEmployeeProfileState extends State<CampusEmployeeProfile> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const CircleAvatar(
-                backgroundColor: Colors.blue,
-                radius: 50,
-                child: Icon(
-                  Icons.person,
-                  size: 60,
-                  color: Colors.white,
-                ),
+              Stack(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    radius: 50,
+                    child: profileImage == null
+                        ? Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.white,
+                          )
+                        : ClipOval(
+                            child: Image.file(
+                              profileImage!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                  ),
+                  Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: InkWell(
+                        onTap: () async {
+                          profileImage = await Utils.captureImage();
+                          setState(() {});
+                        },
+                        child: CircleAvatar(
+                          child: Icon(Icons.edit),
+                        ),
+                      ))
+                ],
               ),
               const SizedBox(
                 height: 10,
@@ -46,12 +74,12 @@ class _CampusEmployeeProfileState extends State<CampusEmployeeProfile> {
                 height: 50,
               ),
               ProfileWidget(
-                title: 'Name',
+                title: 'Nima',
                 icon: Icons.person,
                 function: () {},
               ),
               ProfileWidget(
-                title: 'Mobile',
+                title: '8096574675',
                 icon: Icons.mobile_screen_share_sharp,
                 function: () {},
               ),

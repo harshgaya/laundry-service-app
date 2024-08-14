@@ -15,6 +15,8 @@ class CreateCollectionView extends StatefulWidget {
 
 class _CreateCollectionDateState extends State<CreateCollectionView> {
   final campuseEmployeeController = Get.put(CampusEmployeeController());
+  String? selectedCollege;
+  List<String> machines = ['Campus 1', 'Campus 2', 'Campus 3', 'Campus 4'];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,11 +63,37 @@ class _CreateCollectionDateState extends State<CreateCollectionView> {
                       fontSize: 20,
                     ),
                   ),
-                  Text(
-                    'Sri Chaitnaya',
-                    style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        hintText: 'Select',
+                        hintStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        filled: true,
+                        fillColor: Colors.blue,
+                      ),
+                      value: selectedCollege,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCollege = newValue;
+                        });
+                      },
+                      dropdownColor: Colors.blue,
+                      items: machines
+                          .map<DropdownMenuItem<String>>((String teacher) {
+                        return DropdownMenuItem<String>(
+                          value: teacher,
+                          child: Text(
+                            teacher,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],

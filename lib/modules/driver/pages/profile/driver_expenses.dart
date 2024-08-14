@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 import 'dart:io';
 
 import '../../../../helpers/utils.dart';
@@ -20,6 +21,7 @@ class _DriverExpensedState extends State<DriverExpensed> {
   List<String> expenses = ['Fuel', 'Air', 'Punchure', 'Other'];
   final formKey = GlobalKey<FormState>();
   File? _image;
+  final dialogTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +65,42 @@ class _DriverExpensedState extends State<DriverExpensed> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<String>(
+                      onChanged: (String? newValue) {
+                        if (newValue == 'Other') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Enter Expense Name'),
+                                content: TextFormField(
+                                  controller: dialogTextController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Expense',
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back(); // Close the dialog
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {});
+
+                                      Get.back(); // Close the dialog
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          setState(() {});
+                        }
+                      },
                       decoration: InputDecoration(
                         hintText: 'Select Expense',
                         hintStyle: const TextStyle(color: Colors.white),
@@ -79,11 +117,6 @@ class _DriverExpensedState extends State<DriverExpensed> {
                         return null;
                       },
                       value: selectedExpense,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedExpense = newValue;
-                        });
-                      },
                       dropdownColor: Colors.blue,
                       items: expenses
                           .map<DropdownMenuItem<String>>((String teacher) {
@@ -164,45 +197,14 @@ class _DriverExpensedState extends State<DriverExpensed> {
                 },
                 child: Align(
                   alignment: Alignment.center,
-                  child: Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.done,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Submit',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                  child: RoundButtonAnimate(
+                    buttonName: 'done',
+                    onClick: () {
+                      Get.back();
+                    },
+                    image: Icon(
+                      Icons.done,
+                      color: Colors.white,
                     ),
                   ),
                 ),

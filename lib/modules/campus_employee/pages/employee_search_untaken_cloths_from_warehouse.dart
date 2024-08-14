@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
 import 'package:laundry_service/modules/campus_employee/pages/campus_employee_compare_daysheet.dart';
 
+import 'filter_page_campus_employee/filter_page_campus_employee.dart';
+
 class CampusEmployeeSearchUntakenClothsFromWarehouse extends StatefulWidget {
   const CampusEmployeeSearchUntakenClothsFromWarehouse({super.key});
 
@@ -18,11 +20,7 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
   final searchController = TextEditingController();
   String? _selectedValue;
   List<CollectionUntakenClothData> filteredCloths = [];
-  final List<String> _filterOptions = [
-    'Collection No',
-    'Collection Date',
-    // Add more options if needed
-  ];
+  bool filterVisibility = false;
 
   @override
   void initState() {
@@ -35,10 +33,12 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
     final searchText = searchController.text.toLowerCase();
     if (searchText.isEmpty) {
       setState(() {
+        filterVisibility = false;
         filteredCloths = [];
       });
     } else {
       setState(() {
+        filterVisibility = true;
         filteredCloths = campusEmployeeController.untakenCloths.where((cloth) {
           return cloth.tagNo.toString().toLowerCase().contains(searchText);
         }).toList();
@@ -64,37 +64,6 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
           ),
           const SizedBox(
             height: 20,
-          ),
-          Row(
-            children: [
-              Text('Filter'),
-              const SizedBox(
-                width: 20,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedValue,
-                    hint: const Text('Filter by'),
-                    items: _filterOptions.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        _selectedValue = newValue;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
           Row(
             children: [
@@ -144,6 +113,45 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
               ),
             ],
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          Visibility(
+              visible: filterVisibility,
+              child: InkWell(
+                onTap: () async {
+                  final result = await Get.to(() => FilterWidget());
+
+                  if (result != null && result.isNotEmpty) {
+                    filteredCloths = [];
+                    setState(() {});
+                    filteredCloths =
+                        campusEmployeeController.untakenCloths.where((cloth) {
+                      final collectionNoString = cloth.collectionNo;
+                      return result.contains(collectionNoString);
+                    }).toList();
+                    print('filter cloth ${filteredCloths.length}');
+                    setState(() {});
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.compare_arrows),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text('Filter'),
+                    ],
+                  ),
+                ),
+              )),
           const SizedBox(
             height: 10,
           ),

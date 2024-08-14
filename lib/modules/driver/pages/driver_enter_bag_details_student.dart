@@ -10,7 +10,7 @@ import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/driver/controllers/driver_controller.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
-import '../../campus_employee/pages/campus_employee_profile.dart';
+import '../../campus_employee/pages/profile/campus_employee_profile.dart';
 
 class DriverEnterBagDetailsStudents extends StatefulWidget {
   const DriverEnterBagDetailsStudents({super.key});
@@ -169,25 +169,29 @@ class _DriverEnterBagDetailsStudentsState
                         TableRow(
                           children: [
                             TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'Campus Code',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
+                              child: Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'Campus Code'.toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blue,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'Bag No',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
+                              child: Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'Bag No'.toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blue,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -202,23 +206,27 @@ class _DriverEnterBagDetailsStudentsState
                           return TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    order.value.campusId,
-                                    style: TextStyle(
-                                      fontSize: 12,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      order.value.campusId,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    '${order.value.bagNo}',
-                                    style: TextStyle(
-                                      fontSize: 12,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      '${order.value.bagNo}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -253,8 +261,9 @@ class _DriverEnterBagDetailsStudentsState
             RoundButtonAnimate(
               buttonName: 'Finish',
               onClick: () {
-                driverController.bagList.value = [];
-                Get.offAll(() => UserState());
+                //driverController.bagList.value = [];
+                // Get.offAll(() => UserState());
+                Get.back();
               },
               image: const Icon(
                 Icons.done,

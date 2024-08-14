@@ -1,8 +1,11 @@
+import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FaceCamera.initialize();
   runApp(const MyApp());
 }
 

@@ -182,13 +182,15 @@ class _DriverEnterOtherClothsState extends State<DriverEnterOtherCloths> {
                           TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Cloth Type',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Cloth Type'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -197,9 +199,9 @@ class _DriverEnterOtherClothsState extends State<DriverEnterOtherCloths> {
                                 child: Container(
                                   padding: EdgeInsets.all(8),
                                   child: Text(
-                                    'Total Piece',
+                                    'Total Piece'.toUpperCase(),
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       color: Colors.blue,
                                     ),
                                   ),
@@ -215,23 +217,27 @@ class _DriverEnterOtherClothsState extends State<DriverEnterOtherCloths> {
                             return TableRow(
                               children: [
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      order.value.type,
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        order.value.type,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      '${order.value.noOfPiece}',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        '${order.value.noOfPiece}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -274,8 +280,9 @@ class _DriverEnterOtherClothsState extends State<DriverEnterOtherCloths> {
                     Utils.showDialogPopUp(
                         context: context,
                         function: () {
-                          driverController.otherClothList.value = [];
-                          Get.offAll(() => UserState());
+                          // driverController.otherClothList.value = [];
+                          // Get.offAll(() => UserState());
+                          Get.back();
                         },
                         title: 'Finished Adding Other cloths');
                   },

@@ -186,25 +186,29 @@ class _DriverEnterBagDetailsFacultyState
                           TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Name',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Name',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Bag No',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Bag No',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -219,23 +223,27 @@ class _DriverEnterBagDetailsFacultyState
                             return TableRow(
                               children: [
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      order.value.teacherName,
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        order.value.teacherName,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      '${order.value.bagNo}',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        '${order.value.bagNo}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -275,11 +283,15 @@ class _DriverEnterBagDetailsFacultyState
                 child: RoundButtonAnimate(
                   buttonName: 'Finish',
                   onClick: () {
+                    if (_image == null) {
+                      Utils.showScaffoldMessageI(
+                          context: context, title: 'Please upload image');
+                      return;
+                    }
                     Utils.showDialogPopUp(
                         context: context,
                         function: () {
-                          driverController.teacherBagNoList.value = [];
-                          Get.offAll(() => UserState());
+                          Get.back();
                         },
                         title: 'Finished Adding Bags');
                   },

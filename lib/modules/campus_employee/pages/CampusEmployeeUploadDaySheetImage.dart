@@ -4,6 +4,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:laundry_service/modules/authentication/pages/user_state.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 import '../../../helpers/utils.dart';
 import 'final_count_page.dart';
@@ -138,58 +140,22 @@ class _CampusEmployeeUploadDaySheetImageState
               height: 10,
             ),
             const Spacer(),
-            InkWell(
-              onTap: () {
-                if (listOfImages.isEmpty) {
-                  Utils.showScaffoldMessageI(
-                      context: context,
-                      title: 'Please upload day sheet image.');
-                } else {
-                  Get.to(() => FinalCountPage());
-                }
-              },
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.done,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Finish',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+            Align(
+              alignment: Alignment.center,
+              child: RoundButtonAnimate(
+                buttonName: 'To Done',
+                onClick: () {
+                  if (listOfImages.isEmpty) {
+                    Utils.showScaffoldMessageI(
+                        context: context,
+                        title: 'Please upload day sheet image.');
+                  } else {
+                    Get.to(() => UserState());
+                  }
+                },
+                image: Icon(
+                  Icons.done,
+                  color: Colors.white,
                 ),
               ),
             )

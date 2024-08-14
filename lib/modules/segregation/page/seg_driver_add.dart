@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
-import 'package:laundry_service/modules/campus_employee/pages/view_remarks_from_warehouse.dart';
-import 'package:laundry_service/modules/campus_employee/pages/warehouse_remarks_details.dart';
+import 'package:laundry_service/modules/segregation/page/seg_assign_to_driver.dart';
 
 import '../../driver/widgets/task_count_widget.dart';
-import '../../driver/widgets/task_tile_widget.dart';
-import 'campus_employee_add_remarks.dart';
 
-class RemarksWarehouse extends StatefulWidget {
-  const RemarksWarehouse({super.key});
+class SegDriverAdd extends StatefulWidget {
+  const SegDriverAdd({super.key});
 
   @override
-  State<RemarksWarehouse> createState() => _RemarksWarehouseState();
+  State<SegDriverAdd> createState() => _SegDriverAddState();
 }
 
-class _RemarksWarehouseState extends State<RemarksWarehouse> {
+class _SegDriverAddState extends State<SegDriverAdd> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Stack(
           clipBehavior: Clip.none,
@@ -37,7 +31,7 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                   children: [
                     const Center(
                       child: Text(
-                        'Remarks',
+                        'Segregation History',
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.white,
@@ -73,8 +67,8 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TaskCountWidget(title: 'Delievered', count: '200'),
-                      TaskCountWidget(title: 'Pending', count: '81'),
+                      TaskCountWidget(title: 'Overdue', count: '200'),
+                      TaskCountWidget(title: 'To Do', count: '81'),
                       TaskCountWidget(title: 'Open', count: '5'),
                       TaskCountWidget(title: 'Overdue', count: '50'),
                     ],
@@ -89,7 +83,7 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
         ),
         InkWell(
           onTap: () {
-            Get.to(() => CampusEmployeeAddRemarks());
+            Get.to(() => SegAssignToDriver());
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -134,11 +128,11 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                             const Row(
                               children: [
                                 Icon(
-                                  Icons.access_time_filled,
+                                  Icons.access_time_rounded,
                                   color: Colors.grey,
                                 ),
                                 Text(
-                                  '23-08-24',
+                                  '22-08-2024',
                                   style: TextStyle(
                                     color: Colors.grey,
                                   ),
@@ -157,7 +151,7 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                const Text('Pending'),
+                                const Text('Segregation Done'),
                               ],
                             )
                           ],

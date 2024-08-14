@@ -174,37 +174,43 @@ class _DryingRemarksState extends State<DryingRemarks> {
                           TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'S.NO.',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'S.NO.',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Tag No.',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Tag No.',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Remarks',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Remarks',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -220,34 +226,40 @@ class _DryingRemarksState extends State<DryingRemarks> {
                             return TableRow(
                               children: [
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      '${order.key + 1}',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        '${order.key + 1}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      order.value.tagNo.toString(),
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        order.value.tagNo.toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text(
-                                      '${order.value.remarks}',
-                                      style: TextStyle(
-                                        fontSize: 12,
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        '${order.value.remarks}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -258,25 +270,29 @@ class _DryingRemarksState extends State<DryingRemarks> {
                           TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Tag Count: ${campusEmployeeController.orders.length}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Tag Count: ${campusEmployeeController.orders.length}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'Total Cloths: ${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.blue,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Total Cloths: ${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                 ),

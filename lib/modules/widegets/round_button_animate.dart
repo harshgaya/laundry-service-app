@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:forked_slider_button/forked_slider_button.dart';
 
 class RoundButtonAnimate extends StatefulWidget {
   final String buttonName;
@@ -43,56 +44,72 @@ class _RoundButtonAnimateState extends State<RoundButtonAnimate>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onClick,
-      child: SizedBox(
-        width: 180,
-        height: 180,
-        child: AnimatedBuilder(
-          animation: _animation,
-          builder: (context, child) {
-            return Center(
-              child: Container(
-                width: _animation.value,
-                height: _animation.value,
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade200,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: const BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          widget.image,
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            widget.buttonName,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+    return SliderButton(
+      action: () async {
+        widget.onClick();
+        return true;
+      },
+      dismissible: false,
+      buttonColor: Colors.blue,
+      label: Text(
+        "Slide to ${widget.buttonName}",
+        style: TextStyle(
+            color: Color(0xff4a4a4a),
+            fontWeight: FontWeight.w500,
+            fontSize: 17),
       ),
+      icon: widget.image,
     );
+    // return GestureDetector(
+    //   onTap: widget.onClick,
+    //   child: SizedBox(
+    //     width: 180,
+    //     height: 180,
+    //     child: AnimatedBuilder(
+    //       animation: _animation,
+    //       builder: (context, child) {
+    //         return Center(
+    //           child: Container(
+    //             width: _animation.value,
+    //             height: _animation.value,
+    //             decoration: BoxDecoration(
+    //               color: Colors.blue.shade200,
+    //               shape: BoxShape.circle,
+    //             ),
+    //             child: Center(
+    //               child: Container(
+    //                 width: 150,
+    //                 height: 150,
+    //                 decoration: const BoxDecoration(
+    //                   color: Colors.blue,
+    //                   shape: BoxShape.circle,
+    //                 ),
+    //                 child: Center(
+    //                   child: Column(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     crossAxisAlignment: CrossAxisAlignment.center,
+    //                     children: [
+    //                       widget.image,
+    //                       const SizedBox(
+    //                         height: 10,
+    //                       ),
+    //                       Text(
+    //                         widget.buttonName,
+    //                         style: const TextStyle(
+    //                           color: Colors.white,
+    //                           fontWeight: FontWeight.bold,
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 }

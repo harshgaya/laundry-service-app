@@ -2,7 +2,7 @@ import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:laundry_service/modules/campus_employee/pages/campus_employee_profile.dart';
+import 'package:laundry_service/modules/campus_employee/pages/profile/campus_employee_profile.dart';
 import 'package:laundry_service/modules/driver/pages/driver_collection_history.dart';
 import 'package:laundry_service/modules/driver/pages/profile/driver_profile.dart';
 import 'package:laundry_service/modules/driver/pages/driver_task_page_home.dart';

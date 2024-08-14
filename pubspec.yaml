@@ -25,6 +25,9 @@ dependencies:
   path_provider: ^2.1.4
   share_plus: ^7.2.2
   image_picker: ^1.0.8
+#  slider_button: ^2.1.0
+  forked_slider_button: ^2.0.2
+  face_camera: ^0.1.2
 flutter_native_splash:
   color: "#485BC4"
   image: assets/images/splash.png

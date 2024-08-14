@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
 import 'package:laundry_service/modules/campus_employee/pages/campus_employee_dashboard.dart';
-import 'package:laundry_service/modules/campus_employee/pages/campus_employee_profile.dart';
+import 'package:laundry_service/modules/campus_employee/pages/profile/campus_employee_profile.dart';
 
 import '../../widegets/round_button_animate.dart';
 import 'create_collection_view.dart';

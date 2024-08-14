@@ -217,37 +217,43 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
                         TableRow(
                           children: [
                             TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'S.NO.',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
+                              child: Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'S.NO.',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blue,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'TAG NO.',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
+                              child: Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'TAG NO.',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blue,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             TableCell(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'REMARKS',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
+                              child: Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(
+                                    'REMARKS',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blue,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -262,34 +268,40 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
                           return TableRow(
                             children: [
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    '${order.key + 1}',
-                                    style: TextStyle(
-                                      fontSize: 12,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      '${order.key + 1}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    order.value.tagNo.toString(),
-                                    style: TextStyle(
-                                      fontSize: 12,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      order.value.tagNo.toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                               TableCell(
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    '${order.value.remarks}',
-                                    style: TextStyle(
-                                      fontSize: 12,
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      '${order.value.remarks}',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -303,21 +315,18 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
               const SizedBox(
                 height: 50,
               ),
-              Align(
-                alignment: Alignment.center,
-                child: RoundButtonAnimate(
-                  buttonName: 'Finish',
-                  onClick: () {
-                    Navigator.of(context).pop();
-                  },
-                  image: const Icon(
-                    Icons.done,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
             ],
           ),
+        ),
+      ),
+      bottomSheet: RoundButtonAnimate(
+        buttonName: 'Finish',
+        onClick: () {
+          Navigator.of(context).pop();
+        },
+        image: const Icon(
+          Icons.done,
+          color: Colors.white,
         ),
       ),
     );

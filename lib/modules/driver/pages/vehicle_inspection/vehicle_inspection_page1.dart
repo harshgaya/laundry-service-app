@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/driver/pages/vehicle_inspection/driver_vehicle_inspection_odometer.dart';
 
-import '../../../campus_employee/pages/campus_employee_profile.dart';
+import '../../../campus_employee/pages/profile/campus_employee_profile.dart';
 
 class VehicleInspectionPage1 extends StatefulWidget {
   const VehicleInspectionPage1({super.key});

@@ -22,9 +22,9 @@ class WashingController extends GetxController {
         timerStarted.value = true;
         timerLeft.value--;
       } else {
-        Utils.showScaffoldMessageI(
-            context: context,
-            title: 'Cleaning done! please take pic of machine');
+        // Utils.showScaffoldMessageI(
+        //     context: context,
+        //     title: 'Cleaning done! please take pic of machine');
         timerStarted.value = false;
         timer.cancel();
       }

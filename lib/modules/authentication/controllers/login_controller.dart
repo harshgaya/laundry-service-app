@@ -10,10 +10,12 @@ import 'package:laundry_service/modules/driver/pages/vehicle_inspection/vehicle_
 import 'package:laundry_service/modules/drying/pages/drying_dashboard.dart';
 import 'package:laundry_service/modules/segregation/page/seg_dashboard.dart';
 import 'package:laundry_service/modules/washing/pages/select_washing_machine_page.dart';
+import 'package:laundry_service/modules/washing/pages/washing_dashboard.dart';
 import 'package:laundry_service/network/url_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../network/network_api_services.dart';
+import '../../campus_employee/pages/profile/campus_employee_selfie_image.dart';
 
 class LoginController extends GetxController {
   final _apiServices = NetworkApiServices();
@@ -62,11 +64,11 @@ class LoginController extends GetxController {
     if (userType == null) {
       Get.offAll(() => LoginPage());
     } else if (userType == 'Campus Employee') {
-      Get.offAll(() => const CampusEmployeeDashboard());
+      Get.offAll(() => const CampusEmployeeSelfieImage());
     } else if (userType == 'Driver') {
       Get.offAll(() => const DriverDashboard());
     } else if (userType == 'Washing') {
-      Get.offAll(() => const SelectWashingMachinePage());
+      Get.offAll(() => const WashingDashboard());
     } else if (userType == 'Drying') {
       Get.offAll(() => const DryingDashboard());
     } else if (userType == 'Segregation') {

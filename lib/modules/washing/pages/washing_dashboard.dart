@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laundry_service/modules/washing/pages/profile/washing_profile.dart';
 import 'package:laundry_service/modules/washing/pages/todo_list_washing.dart';
+import 'package:laundry_service/modules/washing/pages/washing_add_remarks.dart';
 import 'package:laundry_service/modules/washing/pages/washing_history_page.dart';
 import 'package:laundry_service/modules/washing/pages/washing_remarks_page.dart';
+
+import '../../campus_employee/pages/remarks_warehouse.dart';
 
 class WashingDashboard extends StatefulWidget {
   const WashingDashboard({super.key});
@@ -24,7 +27,7 @@ class _WashingDashboardState extends State<WashingDashboard> {
     final List<Widget> bottomBarPages = [
       const ToDoListWashing(),
       const WashingHistoryPage(),
-      const WashingRemarksPage(),
+      const WashingAddRemarks(),
       const WashingProfile(),
     ];
     return SafeArea(
@@ -76,9 +79,9 @@ class _WashingDashboardState extends State<WashingDashboard> {
                     itemLabel: 'Collection',
                   ),
                   BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/collection.png'),
+                    inActiveItem: Image.asset('assets/icons/remarks.png'),
                     activeItem: Image.asset(
-                      'assets/icons/collection.png',
+                      'assets/icons/remarks.png',
                       color: Colors.white,
                     ),
                     itemLabel: 'Remarks',

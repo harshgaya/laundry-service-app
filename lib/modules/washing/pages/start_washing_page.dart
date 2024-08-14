@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/washing/controllers/washing_controller.dart';
+import 'package:laundry_service/modules/washing/pages/washing_dashboard.dart';
+import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
+import '../../../helpers/utils.dart';
 import '../../authentication/pages/user_state.dart';
 
 class StartWashingPage extends StatefulWidget {
@@ -15,8 +18,18 @@ class StartWashingPage extends StatefulWidget {
 }
 
 class _StartWashingPageState extends State<StartWashingPage> {
-  final timerValueController = TextEditingController();
+  final hoursController = TextEditingController();
+  final minutesController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    hoursController.dispose();
+    minutesController.dispose();
+    super.dispose();
+  }
+
   final washingController = Get.put(WashingController());
 
   @override
@@ -150,55 +163,143 @@ class _StartWashingPageState extends State<StartWashingPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      controller: timerValueController,
+                      controller: hoursController,
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: const InputDecoration(
-                          hintText: 'Enter timer',
-                          border: OutlineInputBorder()),
+                        hintText: 'Hours',
+                        border: OutlineInputBorder(),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter timer';
+                          // Allow empty hours
+                          return null;
+                        } else if (int.tryParse(value) == null) {
+                          return 'Enter valid hours';
                         }
                         return null;
                       },
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: Obx(() {
-                      return ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue),
-                        onPressed: washingController.isTimerRunning.value
-                            ? washingController.stopTimer
-                            : () {
-                                if (formKey.currentState!.validate()) {
-                                  formKey.currentState!.save();
-
-                                  washingController.washingTime.value =
-                                      int.parse(timerValueController.text);
-
-                                  washingController.startTimerWashing(
-                                      context: context);
-                                  timerValueController.clear();
-                                }
-                              },
-                        child: Text(
-                          washingController.isTimerRunning.value
-                              ? 'Stop Timer'
-                              : 'Start Timer',
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      );
-                    }),
+                    child: TextFormField(
+                      controller: minutesController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: const InputDecoration(
+                        hintText: 'Minutes',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (hoursController.text.isEmpty &&
+                            (value == null || value.isEmpty)) {
+                          return 'Enter minutes';
+                        } else if (value != null &&
+                            int.tryParse(value) == null) {
+                          return 'Enter valid minutes';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
+                  const SizedBox(height: 10),
+
+                  // Expanded(
+                  //   child: TextFormField(
+                  //     controller: timerValueController,
+                  //     keyboardType: TextInputType.number,
+                  //     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  //     decoration: const InputDecoration(
+                  //         hintText: 'Enter timer',
+                  //         border: OutlineInputBorder()),
+                  //     validator: (value) {
+                  //       if (value == null || value.isEmpty) {
+                  //         return 'Please enter timer';
+                  //       }
+                  //       return null;
+                  //     },
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
+                  // Expanded(
+                  //   child: Obx(() {
+                  //     return ElevatedButton(
+                  //       style: ElevatedButton.styleFrom(
+                  //           backgroundColor: Colors.blue),
+                  //       onPressed: washingController.isTimerRunning.value
+                  //           ? washingController.stopTimer
+                  //           : () {
+                  //               if (formKey.currentState!.validate()) {
+                  //                 formKey.currentState!.save();
+                  //
+                  //                 washingController.washingTime.value =
+                  //                     int.parse(timerValueController.text);
+                  //
+                  //                 washingController.startTimerWashing(
+                  //                     context: context);
+                  //                 timerValueController.clear();
+                  //               }
+                  //             },
+                  //       child: Text(
+                  //         washingController.isTimerRunning.value
+                  //             ? 'Stop Timer'
+                  //             : 'Start Timer',
+                  //         style: const TextStyle(
+                  //           color: Colors.white,
+                  //         ),
+                  //       ),
+                  //     );
+                  //   }),
+                  // ),
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Obx(() {
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  onPressed: washingController.isTimerRunning.value
+                      ? washingController.stopTimer
+                      : () {
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+
+                            int hours = hoursController.text.isEmpty
+                                ? 0
+                                : int.parse(hoursController.text);
+                            int minutes = int.parse(minutesController.text);
+
+                            if (hours == 0 && minutes == 0) {
+                              Utils.showScaffoldMessageI(
+                                  context: context,
+                                  title: 'Please enter valid time');
+                              return;
+                            }
+
+                            washingController.washingTime.value =
+                                (hours * 60 * 60) + (minutes * 60);
+
+                            washingController.startTimerWashing(
+                                context: context);
+                            hoursController.clear();
+                            minutesController.clear();
+                          }
+                        },
+                  child: Text(
+                    washingController.isTimerRunning.value
+                        ? 'Stop Timer'
+                        : 'Start Timer',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                );
+              }),
             ),
             const SizedBox(
               height: 20,
@@ -217,70 +318,35 @@ class _StartWashingPageState extends State<StartWashingPage> {
             const SizedBox(
               height: 20,
             ),
-            InkWell(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Send to Drying?'),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
+            Align(
+              alignment: Alignment.center,
+              child: RoundButtonAnimate(
+                buttonName: 'To Drying',
+                onClick: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Send to Drying?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
 
-                                Get.offAll(() => const UserState());
-                                // Get.to(() => RemarksPage());
-                              },
-                              child: Text('Yes')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Cancel')),
-                        ],
-                      );
-                    });
-              },
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset('assets/icons/drying.png'),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Send To Drying',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                                  Get.offAll(() => const WashingDashboard());
+                                  // Get.to(() => RemarksPage());
+                                },
+                                child: Text('Yes')),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Cancel')),
                           ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                        );
+                      });
+                },
+                image: Image.asset('assets/icons/drying.png'),
               ),
             ),
           ],

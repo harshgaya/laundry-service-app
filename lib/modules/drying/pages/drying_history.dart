@@ -41,37 +41,43 @@ class _DryingHistoryState extends State<DryingHistory> {
                     TableRow(
                       children: [
                         TableCell(
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              'Collection Id',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
+                          child: Center(
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                'Collection Id'.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.blue,
+                                ),
                               ),
                             ),
                           ),
                         ),
                         TableCell(
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              'Time',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
+                          child: Center(
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                'Time'.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.blue,
+                                ),
                               ),
                             ),
                           ),
                         ),
                         TableCell(
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              'Dried',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
+                          child: Center(
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                'Dried'.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.blue,
+                                ),
                               ),
                             ),
                           ),
@@ -86,30 +92,34 @@ class _DryingHistoryState extends State<DryingHistory> {
                       return TableRow(
                         children: [
                           TableCell(
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                order.value.collectionId,
-                                style: TextStyle(
-                                  fontSize: 12,
+                            child: Center(
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  order.value.collectionId,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           TableCell(
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              child: Text(
-                                '${order.value.time}',
-                                style: TextStyle(
-                                  fontSize: 12,
+                            child: Center(
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: Text(
+                                  '${order.value.time}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           TableCell(
                             child: order.value.isDelivered
-                                ? Icon(Icons.done)
+                                ? Center(child: Icon(Icons.done))
                                 : SizedBox(),
                           ),
                         ],

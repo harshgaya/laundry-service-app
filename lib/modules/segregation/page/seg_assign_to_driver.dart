@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/campus_employee/widgets/drop_down_widget.dart';
 import '../../campus_employee/widgets/round_button_custom.dart';
+import '../../widegets/round_button_animate.dart';
 
 class SegAssignToDriver extends StatefulWidget {
   const SegAssignToDriver({super.key});
@@ -22,141 +23,170 @@ class _SegAssignToDriverState extends State<SegAssignToDriver> {
   String? selectedDriver;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Assign to Driver',
-            style: GoogleFonts.roboto(
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: Center(
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.white,
+                size: 16,
+              ),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Campus Name',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Assign to Driver',
+              style: GoogleFonts.roboto(
+                fontSize: 30,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Campus Name',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  'Sri Chaitnaya',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Date',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  '${DateFormat('dd-MM-yyyy').format(DateTime.now())}',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Collection No',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  '1',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Assigned To Zone',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  '5',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Row(
+              children: [
+                const Text('Select Driver'),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: DropDownWidget(
+                      hintText: 'Assign Driver',
+                      selectedText: selectedDriver,
+                      listOfString: drivers,
+                      onChanged: (val) {
+                        setState(() {
+                          selectedDriver = val;
+                        });
+                      }),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Spacer(),
+            Align(
+              alignment: Alignment.center,
+              child: RoundButtonAnimate(
+                buttonName: 'Assign to Driver',
+                onClick: () {
+                  if (selectedDriver != null) {
+                    Get.offAll(() => UserState());
+                  }
+                },
+                image: Icon(
+                  Icons.done,
+                  color: Colors.white,
                 ),
               ),
-              Text(
-                'Sri Chaitnaya',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Date',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                ),
-              ),
-              Text(
-                '${DateFormat('dd-MM-yyyy').format(DateTime.now())}',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Collection No',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                ),
-              ),
-              Text(
-                '1',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Assigned To Zone',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                ),
-              ),
-              Text(
-                '5',
-                style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            children: [
-              const Text('Select Driver'),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: DropDownWidget(
-                    hintText: 'Assign Driver',
-                    selectedText: selectedDriver,
-                    listOfString: drivers,
-                    onChanged: (val) {
-                      setState(() {
-                        selectedDriver = val;
-                      });
-                    }),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          RoundButtonCustom(
-            title: 'Assign to Driver',
-            image: 'assets/icons/tick.png',
-            function: () {
-              if (selectedDriver != null) {
-                Get.offAll(() => UserState());
-              }
-            },
-          )
-        ],
+            ),
+            const SizedBox(
+              height: 90,
+            ),
+          ],
+        ),
       ),
     );
   }
