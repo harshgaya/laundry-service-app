@@ -64,7 +64,7 @@ class LoginController extends GetxController {
     if (userType == null) {
       Get.offAll(() => LoginPage());
     } else if (userType == 'Campus Employee') {
-      Get.offAll(() => const CampusEmployeeSelfieImage());
+      Get.offAll(() => const CampusEmployeeDashboard());
     } else if (userType == 'Driver') {
       Get.offAll(() => const DriverDashboard());
     } else if (userType == 'Washing') {

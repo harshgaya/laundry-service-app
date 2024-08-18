@@ -56,29 +56,30 @@ class _FinalCountPageState extends State<FinalCountPage> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                    onPressed: () {
-                      setState(() {
-                        studentDaySheetSelected = !studentDaySheetSelected;
-                        facultyDaySheetSelected = !facultyDaySheetSelected;
-                      });
-                    },
-                    child: Text(
-                      facultyDaySheetSelected
-                          ? 'Student Day Sheet'
-                          : 'Faculty Day Sheet',
-                      style: TextStyle(
-                        color: Colors.white,
+              if (campusEmployeeController.teacherOrders.isNotEmpty)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue),
+                      onPressed: () {
+                        setState(() {
+                          studentDaySheetSelected = !studentDaySheetSelected;
+                          facultyDaySheetSelected = !facultyDaySheetSelected;
+                        });
+                      },
+                      child: Text(
+                        facultyDaySheetSelected
+                            ? 'Student Day Sheet'
+                            : 'Faculty Day Sheet',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               const SizedBox(
                 height: 20,
               ),
@@ -297,7 +298,7 @@ class _FinalCountPageState extends State<FinalCountPage> {
                                       child: Container(
                                         padding: const EdgeInsets.all(8),
                                         child: Text(
-                                          '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
+                                          '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths)}',
                                           style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.blue,
@@ -311,7 +312,7 @@ class _FinalCountPageState extends State<FinalCountPage> {
                                       child: Container(
                                         padding: const EdgeInsets.all(8),
                                         child: Text(
-                                          '',
+                                          '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalUniforms)}',
                                           style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.blue,

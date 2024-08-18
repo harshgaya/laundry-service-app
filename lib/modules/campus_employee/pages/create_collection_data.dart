@@ -27,6 +27,8 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
   final FocusNode _firstFocusNode = FocusNode();
   bool finishButtonVisible = false;
   bool doneButtonVisible = true;
+  bool tagNoVisible = true;
+  bool cancelButtonVisible = false;
 
   @override
   void initState() {
@@ -34,8 +36,13 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
     super.initState();
     tagController.addListener(() {
       if (tagController.text.isEmpty) {}
-      if (tagController.text.length == 3) {
-        _secondFocusNode.requestFocus();
+      if (tagController.text.length == 3 || tagController.text.length == 4) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (tagController.text.length == 3 ||
+              tagController.text.length == 4) {
+            _secondFocusNode.requestFocus();
+          }
+        });
       }
     });
     totalCloths.addListener(() {
@@ -88,50 +95,55 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                children: [
-                  Container(
-                    height: 60,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Center(
-                      child: Text('SKH'),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      focusNode: _firstFocusNode,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      controller: tagController,
-                      onChanged: (value) {
-                        if (value.isEmpty) {
-                          setState(() {
-                            enterClothVisible = false;
-                          });
-                        } else {
-                          setState(() {
-                            enterClothVisible = true;
-                          });
-                        }
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search),
-                        hintText: 'Search Tag No',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        hintStyle: const TextStyle(fontSize: 12),
+              Visibility(
+                visible: tagNoVisible,
+                child: Row(
+                  children: [
+                    Container(
+                      height: 60,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Center(
+                        child: Text('SKH'),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _firstFocusNode,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        controller: tagController,
+                        onChanged: (value) {
+                          if (value.isEmpty) {
+                            setState(() {
+                              enterClothVisible = false;
+                            });
+                          } else {
+                            setState(() {
+                              enterClothVisible = true;
+                            });
+                          }
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          hintText: 'Search Tag No',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          hintStyle: const TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Visibility(
                 visible: enterClothVisible,
@@ -150,6 +162,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                               Expanded(
                                 child: TextFormField(
                                   focusNode: _secondFocusNode,
+                                  maxLength: 2,
                                   controller: totalCloths,
                                   keyboardType: TextInputType.number,
                                   validator: (value) {
@@ -162,6 +175,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                     FilteringTextInputFormatter.digitsOnly
                                   ],
                                   decoration: const InputDecoration(
+                                    counterText: '',
                                     border: OutlineInputBorder(),
                                     hintText: 'Enter Total Cloths',
                                     hintStyle: TextStyle(fontSize: 12),
@@ -175,6 +189,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                 child: TextFormField(
                                   focusNode: _thirdFocusNode,
                                   controller: totalUniforms,
+                                  maxLength: 2,
                                   onFieldSubmitted: (val) {
                                     if (formKey.currentState!.validate()) {
                                       formKey.currentState!.save();
@@ -207,6 +222,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                   ],
                                   decoration: const InputDecoration(
                                     hintText: 'Enter Total Uniforms',
+                                    counterText: '',
                                     border: OutlineInputBorder(),
                                     hintStyle: TextStyle(fontSize: 12),
                                   ),
@@ -254,9 +270,23 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                           TableCell(
                             child: Center(
                               child: Container(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 child: const Text(
-                                  'TOTAL CLOTHES',
+                                  'REGULAR CLOTHES',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                child: const Text(
+                                  'UNIFORMS',
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.blue,
@@ -277,7 +307,7 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                             TableCell(
                               child: Center(
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   child: Text(
                                     order.value.tagNo.toString(),
                                     style: const TextStyle(
@@ -292,7 +322,20 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                                 child: Container(
                                   padding: const EdgeInsets.all(8),
                                   child: Text(
-                                    '${order.value.totalCloths + order.value.totalUniforms}',
+                                    '${order.value.totalCloths}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Center(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    '${order.value.totalUniforms}',
                                     style: const TextStyle(
                                       fontSize: 16,
                                     ),
@@ -329,7 +372,21 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 child: Text(
-                                  '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths + order.totalUniforms)}',
+                                  '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalCloths)}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                child: Text(
+                                  '${campusEmployeeController.orders.fold(0, (sum, order) => sum + order.totalUniforms)}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.blue,
@@ -348,6 +405,31 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                 height: 10,
               ),
               Visibility(
+                visible: cancelButtonVisible,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          finishButtonVisible = false;
+                          doneButtonVisible = true;
+                          tagNoVisible = true;
+                          enterClothVisible = true;
+                          cancelButtonVisible = false;
+                        });
+                      },
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )),
+                ),
+              ),
+              Visibility(
                 visible: doneButtonVisible,
                 child: Align(
                   alignment: Alignment.center,
@@ -359,6 +441,9 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                         setState(() {
                           finishButtonVisible = true;
                           doneButtonVisible = false;
+                          tagNoVisible = false;
+                          enterClothVisible = false;
+                          cancelButtonVisible = true;
                         });
                       },
                       child: const Text(
@@ -372,28 +457,25 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
               const SizedBox(
                 height: 20,
               ),
-              Visibility(
-                visible: finishButtonVisible,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: RoundButtonAnimate(
-                    buttonName: 'Finish',
-                    onClick: () {
-                      Utils.showDialogPopUp(
-                          context: context,
-                          function: () {
-                            Get.to(() => const FacultyCloth());
-                          },
-                          title: 'Finished Adding Cloth');
-                    },
-                    image: const Icon(
-                      Icons.done,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
             ],
+          ),
+        ),
+      ),
+      bottomSheet: Visibility(
+        visible: finishButtonVisible,
+        child: RoundButtonAnimate(
+          buttonName: 'Finish',
+          onClick: () {
+            Utils.showDialogPopUp(
+                context: context,
+                function: () {
+                  Get.to(() => const FacultyCloth());
+                },
+                title: 'Finished Adding Cloth');
+          },
+          image: const Icon(
+            Icons.done,
+            color: Colors.white,
           ),
         ),
       ),

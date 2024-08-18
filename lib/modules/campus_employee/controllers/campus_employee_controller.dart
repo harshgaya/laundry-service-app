@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/campus_employee/pages/create_collection_view.dart';
@@ -108,11 +110,82 @@ class CampusEmployeeController extends GetxController {
     int index = orders.indexWhere((order) => order.tagNo == tagNo);
 
     if (index != -1) {
+      final tagController = TextEditingController();
+      tagController.text = tagNo.toString();
+      final totalClothController = TextEditingController();
+      totalClothController.text = cloths.toString();
+      final totalUniformController = TextEditingController();
+      totalUniformController.text = uniforms.toString();
       Utils.showDialogPopUp(
           context: context,
           function: () {
-            orders[index].totalCloths = cloths;
-            orders[index].totalUniforms = uniforms;
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextFormField(
+                            controller: tagController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            decoration:
+                                const InputDecoration(label: Text('Tag No')),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: totalClothController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            decoration: const InputDecoration(
+                                label: Text('Regular Cloth')),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: totalUniformController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            decoration:
+                                const InputDecoration(label: Text('Uniforms')),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue),
+                              onPressed: () {
+                                orders[index].tagNo =
+                                    int.parse(tagController.text);
+                                orders[index].totalCloths =
+                                    int.parse(totalClothController.text);
+                                orders[index].totalUniforms =
+                                    int.parse(totalUniformController.text);
+                                orders.refresh();
+                                Get.back();
+                              },
+                              child: const Text(
+                                'Replace',
+                                style: TextStyle(color: Colors.white),
+                              ))
+                        ],
+                      ),
+                    ),
+                  );
+                });
           },
           title: 'Tag No $tagNo is already added? do you want to replace?');
     } else {
@@ -153,11 +226,8 @@ class CampusEmployeeController extends GetxController {
         totals[order.teacherName] = 0;
       }
 
-      totals[order.teacherName] = (totals[order.teacherName] ?? 0) +
-          order.shirts +
-          order.pants +
-          order.bedsheets +
-          order.towels;
+      totals[order.teacherName] =
+          (totals[order.teacherName] ?? 0) + order.totalCloths;
     }
 
     return totals;
@@ -209,18 +279,12 @@ class Order {
 }
 
 class TeacherOrder {
-  int shirts;
-  int pants;
-  int bedsheets;
-  int towels;
+  int totalCloths;
   String teacherName;
 
   TeacherOrder({
     required this.teacherName,
-    required this.bedsheets,
-    required this.pants,
-    required this.shirts,
-    required this.towels,
+    required this.totalCloths,
   });
 }
 

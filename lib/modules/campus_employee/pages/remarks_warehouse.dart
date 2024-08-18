@@ -89,7 +89,8 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
         ),
         InkWell(
           onTap: () {
-            Get.to(() => CampusEmployeeAddRemarks());
+            //Get.to(() => CampusEmployeeAddRemarks());
+            Get.to(() => WarehouseRemarksDetails());
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

@@ -11,12 +11,21 @@ class WashingController extends GetxController {
   final washingTime = 0.obs;
   RxBool timerStarted = false.obs;
   RxBool isTimerRunning = false.obs;
+  RxString machine1ImageBeforeWash = ''.obs;
+  RxString machine2ImageBeforeWash = ''.obs;
+  RxString machine3ImageBeforeWash = ''.obs;
+  RxString machine1ImageAfterWash = ''.obs;
+  RxString machine2ImageAfterWash = ''.obs;
+  RxString machine3ImageAfterWash = ''.obs;
   List<WashingTask> washingTasks = <WashingTask>[
     WashingTask(collectionNo: 3, campusName: 'DAV'),
     WashingTask(collectionNo: 22, campusName: 'DPS'),
   ].obs;
 
-  void startTimer({required BuildContext context}) {
+  void startTimer({
+    required BuildContext context,
+    required VoidCallback onCompleted,
+  }) {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timerLeft.value > 0) {
         timerStarted.value = true;
@@ -27,6 +36,7 @@ class WashingController extends GetxController {
         //     title: 'Cleaning done! please take pic of machine');
         timerStarted.value = false;
         timer.cancel();
+        onCompleted();
       }
     });
   }
