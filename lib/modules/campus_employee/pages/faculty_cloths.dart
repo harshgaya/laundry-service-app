@@ -66,7 +66,7 @@ class _FacultyClothState extends State<FacultyCloth> {
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   hintText: 'Select Faculty',
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: const TextStyle(color: Colors.white),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),

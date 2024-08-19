@@ -10,6 +10,11 @@ class SegController extends GetxController {
     SearchTagModel(tagNo: 14, no: 3),
     SearchTagModel(tagNo: 10, no: 8),
   ].obs;
+
+  RxList<SegRemarks> remarks = <SegRemarks>[
+    SegRemarks(remarks: 'Missing', tagNo: 142),
+    SegRemarks(remarks: 'Not cleaned', tagNo: 122),
+  ].obs;
 }
 
 class DryingTask {
@@ -23,4 +28,10 @@ class SearchTagModel {
   int no;
   int total;
   SearchTagModel({required this.tagNo, required this.no, this.total = 0});
+}
+
+class SegRemarks {
+  int tagNo;
+  String remarks;
+  SegRemarks({required this.remarks, required this.tagNo});
 }

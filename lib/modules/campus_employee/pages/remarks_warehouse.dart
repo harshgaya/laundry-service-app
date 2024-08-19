@@ -31,11 +31,11 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
               decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    const Center(
+                    Center(
                       child: Text(
                         'Remarks',
                         style: TextStyle(

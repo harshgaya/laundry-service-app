@@ -78,17 +78,17 @@ class _DryingExtendTimePageState extends State<DryingExtendTimePage> {
                     title: "Send to Segregation");
               },
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            SelectTileWidget(
-              title: 'Extend Time',
-              image: 'assets/icons/timer.png',
-              color: Colors.blue,
-              function: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // SelectTileWidget(
+            //   title: 'Extend Time',
+            //   image: 'assets/icons/timer.png',
+            //   color: Colors.blue,
+            //   function: () {
+            //     Navigator.of(context).pop();
+            //   },
+            // ),
           ],
         ),
       ),

@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/drying/pages/start_drying_page.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
+import '../../washing/pages/day_sheet_data.dart';
+
 class DryingToDoDetails extends StatefulWidget {
   const DryingToDoDetails({super.key});
 
@@ -38,12 +40,29 @@ class _DryingToDoDetailsState extends State<DryingToDoDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'TO DO\nTask',
-              style: GoogleFonts.roboto(
-                fontSize: 40,
-                fontWeight: FontWeight.w900,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'TO DO\nTask',
+                  style: GoogleFonts.roboto(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  onPressed: () {
+                    Get.to(() => DaySheetData());
+                  },
+                  child: Text(
+                    'Day Sheet',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 50,

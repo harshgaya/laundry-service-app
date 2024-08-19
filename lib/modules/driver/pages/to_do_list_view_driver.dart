@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/driver/pages/pickup_drop_select_student_or_faculty.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
+import '../../washing/pages/day_sheet_data.dart';
+
 class ToDoListViewDriver extends StatefulWidget {
   const ToDoListViewDriver({super.key});
 
@@ -38,12 +40,29 @@ class _ToDoListViewDriverState extends State<ToDoListViewDriver> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'TO DO\nTask',
-              style: GoogleFonts.roboto(
-                fontSize: 40,
-                fontWeight: FontWeight.w900,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'TO DO\nTask',
+                  style: GoogleFonts.roboto(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  onPressed: () {
+                    Get.to(() => DaySheetData());
+                  },
+                  child: Text(
+                    'Day Sheet',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 50,
@@ -104,6 +123,50 @@ class _ToDoListViewDriverState extends State<ToDoListViewDriver> {
                 ),
                 Text(
                   '1',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Tag Count',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  '23',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Faculty Count',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  '12',
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,

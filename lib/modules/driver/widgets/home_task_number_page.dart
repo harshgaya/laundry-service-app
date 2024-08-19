@@ -23,46 +23,46 @@ class HomeTaskNumberPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Login Time :${DateFormat.jm().format(DateTime.now())}',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(() => DriverProfile());
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            'Nima',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          CircleAvatar(
-                            backgroundColor: Colors.black,
-                            child: Text(
-                              'N',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       'Login Time :${DateFormat.jm().format(DateTime.now())}',
+                //       style: TextStyle(
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //     InkWell(
+                //       onTap: () {
+                //         Get.to(() => DriverProfile());
+                //       },
+                //       child: Row(
+                //         children: [
+                //           Text(
+                //             'Nima',
+                //             style: TextStyle(
+                //               fontSize: 18,
+                //               color: Colors.white,
+                //               fontWeight: FontWeight.bold,
+                //             ),
+                //           ),
+                //           const SizedBox(
+                //             width: 5,
+                //           ),
+                //           CircleAvatar(
+                //             backgroundColor: Colors.black,
+                //             child: Text(
+                //               'N',
+                //               style: TextStyle(
+                //                 color: Colors.white,
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 const Center(
                   child: Text(
                     'To Do List',

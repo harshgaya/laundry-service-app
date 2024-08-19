@@ -8,6 +8,7 @@ import 'package:laundry_service/modules/segregation/page/seg_enter_tagno.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 import '../../campus_employee/widgets/drop_down_widget.dart';
+import '../../washing/pages/day_sheet_data.dart';
 
 class SegToDoDetails extends StatefulWidget {
   const SegToDoDetails({super.key});
@@ -56,12 +57,29 @@ class _SegToDoDetailsState extends State<SegToDoDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'TO DO\nTask',
-              style: GoogleFonts.roboto(
-                fontSize: 40,
-                fontWeight: FontWeight.w900,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'TO DO\nTask',
+                  style: GoogleFonts.roboto(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  onPressed: () {
+                    Get.to(() => DaySheetData());
+                  },
+                  child: Text(
+                    'Day Sheet',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 50,
@@ -136,14 +154,14 @@ class _SegToDoDetailsState extends State<SegToDoDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Assigned To Zone',
+                  'Total Tag Count',
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
                   ),
                 ),
                 Text(
-                  '5',
+                  '23',
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,
@@ -154,17 +172,61 @@ class _SegToDoDetailsState extends State<SegToDoDetails> {
             const SizedBox(
               height: 20,
             ),
-            DropDownWidget(
-              hintText: 'Assign To Table',
-              selectedText: selectedTable,
-              listOfString: tables,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedTable = newValue;
-                  // You can reset or modify other variables here if needed
-                });
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Faculty Count',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  '12',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'Assigned To Zone',
+            //       style: GoogleFonts.roboto(
+            //         fontWeight: FontWeight.w700,
+            //         fontSize: 20,
+            //       ),
+            //     ),
+            //     Text(
+            //       '5',
+            //       style: GoogleFonts.roboto(
+            //         fontWeight: FontWeight.w400,
+            //         fontSize: 20,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // DropDownWidget(
+            //   hintText: 'Assign To Table',
+            //   selectedText: selectedTable,
+            //   listOfString: tables,
+            //   onChanged: (newValue) {
+            //     setState(() {
+            //       selectedTable = newValue;
+            //       // You can reset or modify other variables here if needed
+            //     });
+            //   },
+            // ),
             const SizedBox(
               height: 10,
             ),
@@ -183,20 +245,23 @@ class _SegToDoDetailsState extends State<SegToDoDetails> {
             Align(
               alignment: Alignment.center,
               child: RoundButtonAnimate(
-                  buttonName: 'Done',
-                  onClick: () {
-                    if (selectedTable == null) {
-                      Utils.showScaffoldMessageI(
-                          context: context, title: 'Please select table');
-                    } else {
-                      Get.to(() => const SegEnterTagNo());
-                    }
-                  },
-                  image: Icon(
-                    Icons.done,
-                    color: Colors.white,
-                  )),
-            )
+                buttonName: 'Done',
+                onClick: () {
+                  if (selectedRange == null) {
+                    Utils.showScaffoldMessageI(
+                        context: context, title: 'Please select range');
+                  } else {
+                    Get.to(() => SegEnterTagNo(
+                          selectedRange: selectedRange!,
+                        ));
+                  }
+                },
+                image: Icon(
+                  Icons.done,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ],
         ),
       ),

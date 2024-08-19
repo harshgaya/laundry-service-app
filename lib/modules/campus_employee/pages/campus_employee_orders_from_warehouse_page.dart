@@ -26,6 +26,9 @@ class _CampusEmployeeOrderFromWarehouseState
   bool? deliveryStatus;
   int? studentTagCount;
   int? facultyTagCount;
+  DateTime? startDate;
+  DateTime? endDate;
+  bool showDate = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -95,6 +98,34 @@ class _CampusEmployeeOrderFromWarehouseState
         ),
         const SizedBox(
           height: 50,
+        ),
+        InkWell(
+          onTap: () {
+            _selectDateRange(context);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.compare_arrows),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text('Filter By Date'),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
         ),
         TaskTileWidget(
           function: () {
@@ -1614,5 +1645,48 @@ class _CampusEmployeeOrderFromWarehouseState
         ),
       ],
     );
+  }
+
+  Widget _buildDateRangeSelector() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                onPressed: () {
+                  _selectDateRange(context);
+                },
+                child: Text(
+                  'Select Date Range',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        if (startDate != null && endDate != null)
+          Text(
+            'Selected Date Range: ${DateFormat.yMMMd().format(startDate!)} - ${DateFormat.yMMMd().format(endDate!)}',
+            style: TextStyle(fontSize: 16),
+          ),
+      ],
+    );
+  }
+
+  Future<void> _selectDateRange(BuildContext context) async {
+    DateTimeRange? picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null) {
+      setState(() {
+        startDate = picked.start;
+        endDate = picked.end;
+      });
+    }
   }
 }

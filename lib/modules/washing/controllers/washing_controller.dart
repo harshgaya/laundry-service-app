@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:laundry_service/helpers/utils.dart';
 
+import '../../campus_employee/controllers/campus_employee_controller.dart';
+
 class WashingController extends GetxController {
   Timer? timer;
   Timer? washingTimer;
@@ -17,10 +19,26 @@ class WashingController extends GetxController {
   RxString machine1ImageAfterWash = ''.obs;
   RxString machine2ImageAfterWash = ''.obs;
   RxString machine3ImageAfterWash = ''.obs;
+  RxList<RemarkDataWashing> washingRemarks = <RemarkDataWashing>[].obs;
   List<WashingTask> washingTasks = <WashingTask>[
     WashingTask(collectionNo: 3, campusName: 'DAV'),
     WashingTask(collectionNo: 22, campusName: 'DPS'),
   ].obs;
+
+  ///day sheet
+  var orders = <Order>[
+    Order(tagNo: 453, totalUniforms: 4, remarks: '', totalCloths: 2),
+    Order(tagNo: 124, totalUniforms: 14, remarks: '', totalCloths: 5),
+    Order(tagNo: 126, totalUniforms: 1, remarks: '', totalCloths: 6),
+    Order(tagNo: 122, totalUniforms: 21, remarks: '', totalCloths: 16),
+  ].obs;
+  var teacherOrders = <TeacherOrder>[
+    TeacherOrder(teacherName: 'Mr. Raju', totalCloths: 12),
+    TeacherOrder(teacherName: 'Mr. Mamth', totalCloths: 22),
+    TeacherOrder(teacherName: 'Mr. Suresh', totalCloths: 2),
+  ].obs;
+
+  ///day sheet
 
   void startTimer({
     required BuildContext context,
@@ -83,4 +101,10 @@ class WashingTask {
   int collectionNo;
   String campusName;
   WashingTask({required this.collectionNo, required this.campusName});
+}
+
+class RemarkDataWashing {
+  int tagNo;
+  String remarks;
+  RemarkDataWashing({required this.tagNo, required this.remarks});
 }

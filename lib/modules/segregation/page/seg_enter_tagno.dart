@@ -12,7 +12,8 @@ import '../../campus_employee/widgets/round_button_custom.dart';
 import '../../widegets/round_button_animate.dart';
 
 class SegEnterTagNo extends StatefulWidget {
-  const SegEnterTagNo({super.key});
+  final String selectedRange;
+  const SegEnterTagNo({super.key, required this.selectedRange});
 
   @override
   State<SegEnterTagNo> createState() => _SegEnterTagNoState();
@@ -86,14 +87,14 @@ class _SegEnterTagNoState extends State<SegEnterTagNo> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Campus Name',
+                      'Range',
                       style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
                       ),
                     ),
                     Text(
-                      'Sri Chaitnaya',
+                      widget.selectedRange,
                       style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
@@ -101,72 +102,72 @@ class _SegEnterTagNoState extends State<SegEnterTagNo> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Date',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      '${DateFormat('dd-MM-yyyy').format(DateTime.now())}',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Collection No',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      '1',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Assigned To Zone',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      '5',
-                      style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       'Date',
+                //       style: GoogleFonts.roboto(
+                //         fontWeight: FontWeight.w700,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //     Text(
+                //       '${DateFormat('dd-MM-yyyy').format(DateTime.now())}',
+                //       style: GoogleFonts.roboto(
+                //         fontWeight: FontWeight.w400,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       'Collection No',
+                //       style: GoogleFonts.roboto(
+                //         fontWeight: FontWeight.w700,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //     Text(
+                //       '1',
+                //       style: GoogleFonts.roboto(
+                //         fontWeight: FontWeight.w400,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text(
+                //       'Assigned To Zone',
+                //       style: GoogleFonts.roboto(
+                //         fontWeight: FontWeight.w700,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //     Text(
+                //       '5',
+                //       style: GoogleFonts.roboto(
+                //         fontWeight: FontWeight.w400,
+                //         fontSize: 20,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(
                   height: 50,
                 ),

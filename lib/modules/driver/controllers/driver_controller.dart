@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:laundry_service/helpers/utils.dart';
 
 class DriverController extends GetxController {
   var bagList = <DriverBagData>[].obs;
@@ -19,8 +21,14 @@ class DriverController extends GetxController {
         totalItems: 5),
   ].obs;
 
-  addToBagList({required String bagNo}) {
-    bagList.add(DriverBagData(campusId: 'SKH', bagNo: bagNo));
+  addToBagList({required String bagNo, required BuildContext context}) {
+    int index = bagList.indexWhere((order) => order.bagNo == bagNo);
+    if (index != -1) {
+      Utils.showScaffoldMessageI(
+          context: context, title: 'This bag No already added');
+    } else {
+      bagList.add(DriverBagData(campusId: 'SKH', bagNo: bagNo));
+    }
   }
 
   void addOrUpdateTeacherOrder(TeacherBagData newOrder) {

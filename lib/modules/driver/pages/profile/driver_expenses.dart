@@ -143,11 +143,10 @@ class _DriverExpensedState extends State<DriverExpensed> {
                         labelText: 'Amount', // Optional label text
                       ),
                       validator: (value) {
-                        // The condition should check if the value is empty
                         if (value == null || value.isEmpty) {
                           return 'Please enter your expense';
                         }
-                        return null; // Return null if the value passes validation
+                        return null;
                       },
                     ),
                   ),

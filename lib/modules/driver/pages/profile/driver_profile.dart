@@ -58,20 +58,20 @@ class _DriverProfileState extends State<DriverProfile> {
                 icon: Icons.keyboard,
                 function: () {},
               ),
-              ProfileWidget(
-                title: 'Complaints',
-                icon: Icons.support_agent,
-                function: () {
-                  Get.to(() => const DriverAddComplaint());
-                },
-              ),
-              ProfileWidget(
-                title: 'Expenses',
-                icon: Icons.currency_rupee,
-                function: () {
-                  Get.to(() => DriverExpensed());
-                },
-              ),
+              // ProfileWidget(
+              //   title: 'Complaints',
+              //   icon: Icons.support_agent,
+              //   function: () {
+              //     Get.to(() => const DriverAddComplaint());
+              //   },
+              // ),
+              // ProfileWidget(
+              //   title: 'Expenses',
+              //   icon: Icons.currency_rupee,
+              //   function: () {
+              //     Get.to(() => DriverExpensed());
+              //   },
+              // ),
               ProfileWidget(
                 title: 'Logout',
                 icon: Icons.logout,

@@ -5,6 +5,7 @@ import 'package:laundry_service/modules/drying/pages/drying_history.dart';
 import 'package:laundry_service/modules/drying/pages/drying_todo_list.dart';
 import 'package:laundry_service/modules/drying/pages/profile/drying_profile.dart';
 import '../../authentication/controllers/login_controller.dart';
+import 'drying_history_page.dart';
 
 class DryingDashboard extends StatefulWidget {
   const DryingDashboard({super.key});
@@ -26,7 +27,8 @@ class _DryingDashboardState extends State<DryingDashboard> {
   Widget build(BuildContext context) {
     final List<Widget> bottomBarPages = [
       DryingToDoPage(),
-      DryingHistory(),
+      //DryingHistory(),
+      DryingHistoryPage(),
       DryingProfile(),
     ];
     return SafeArea(

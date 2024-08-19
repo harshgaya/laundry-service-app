@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:laundry_service/modules/washing/pages/day_sheet_data.dart';
 import 'package:laundry_service/modules/washing/pages/start_washing_page.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
@@ -40,12 +41,29 @@ class _WashingDetailsPageState extends State<WashingDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'TO DO\nTask',
-              style: GoogleFonts.roboto(
-                fontSize: 40,
-                fontWeight: FontWeight.w900,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'TO DO\nTask',
+                  style: GoogleFonts.roboto(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  onPressed: () {
+                    Get.to(() => DaySheetData());
+                  },
+                  child: Text(
+                    'Day Sheet',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 50,
@@ -120,51 +138,95 @@ class _WashingDetailsPageState extends State<WashingDetailsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Assigned To Machine',
+                  'Total Tag Count',
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      hintText: 'Select',
-                      hintStyle: TextStyle(color: Colors.white),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      filled: true,
-                      fillColor: Colors.blue,
-                    ),
-                    value: selectedMachine,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedMachine = newValue;
-                      });
-                    },
-                    dropdownColor: Colors.blue,
-                    items: machines
-                        .map<DropdownMenuItem<String>>((String teacher) {
-                      return DropdownMenuItem<String>(
-                        value: teacher,
-                        child: Text(
-                          teacher,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      );
-                    }).toList(),
+                Text(
+                  '120',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
                   ),
                 ),
               ],
             ),
             const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Faculty Count',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  '16',
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       'Assigned To Machine',
+            //       style: GoogleFonts.roboto(
+            //         fontWeight: FontWeight.w700,
+            //         fontSize: 20,
+            //       ),
+            //     ),
+            //     const SizedBox(
+            //       width: 10,
+            //     ),
+            //     Expanded(
+            //       child: DropdownButtonFormField<String>(
+            //         decoration: InputDecoration(
+            //           hintText: 'Select',
+            //           hintStyle: TextStyle(color: Colors.white),
+            //           border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(12.0),
+            //           ),
+            //           filled: true,
+            //           fillColor: Colors.blue,
+            //         ),
+            //         value: selectedMachine,
+            //         onChanged: (String? newValue) {
+            //           setState(() {
+            //             selectedMachine = newValue;
+            //           });
+            //         },
+            //         dropdownColor: Colors.blue,
+            //         items: machines
+            //             .map<DropdownMenuItem<String>>((String teacher) {
+            //           return DropdownMenuItem<String>(
+            //             value: teacher,
+            //             child: Text(
+            //               teacher,
+            //               style: TextStyle(color: Colors.white),
+            //             ),
+            //           );
+            //         }).toList(),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            const SizedBox(
               height: 100,
             ),
-            Spacer(),
+            const Spacer(),
             Align(
               alignment: Alignment.center,
               child: RoundButtonAnimate(

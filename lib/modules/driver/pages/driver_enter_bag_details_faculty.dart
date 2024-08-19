@@ -22,23 +22,25 @@ class _DriverEnterBagDetailsFacultyState
     extends State<DriverEnterBagDetailsFaculty> {
   final driverController = Get.put(DriverController());
   final bagNoController = TextEditingController();
+  final dialogTextController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String? selectedTeacher;
   List<String> teacherNames = [
     'Mr. Smith',
     'Ms. Johnson',
     'Mrs. Brown',
-    'Mr. White'
+    'Mr. White',
+    'Other'
   ];
+  List<File> listOfImages = [];
 
-  File? _image;
   final ImagePicker _picker = ImagePicker();
   Future<void> _captureImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        listOfImages.add(File(pickedFile.path));
       });
     } else {
       print('No image selected.');
@@ -108,6 +110,38 @@ class _DriverEnterBagDetailsFacultyState
                         setState(() {
                           selectedTeacher = newValue;
                         });
+                        if (newValue == 'Other') {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Enter Faculty Name'),
+                                content: TextFormField(
+                                  controller: dialogTextController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Name',
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back(); // Close the dialog
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {});
+
+                                      Get.back(); // Close the dialog
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                       dropdownColor: Colors.blue,
                       items: teacherNames
@@ -158,13 +192,25 @@ class _DriverEnterBagDetailsFacultyState
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        driverController.addOrUpdateTeacherOrder(TeacherBagData(
-                            teacherName: selectedTeacher!,
-                            bagNo: bagNoController.text));
-                        setState(() {
-                          selectedTeacher = null;
-                          bagNoController.text = '';
-                        });
+                        if (selectedTeacher == 'Other') {
+                          driverController.addOrUpdateTeacherOrder(
+                              TeacherBagData(
+                                  teacherName: dialogTextController.text,
+                                  bagNo: bagNoController.text));
+                          setState(() {
+                            selectedTeacher = null;
+                            bagNoController.text = '';
+                          });
+                        } else {
+                          driverController.addOrUpdateTeacherOrder(
+                              TeacherBagData(
+                                  teacherName: selectedTeacher!,
+                                  bagNo: bagNoController.text));
+                          setState(() {
+                            selectedTeacher = null;
+                            bagNoController.text = '';
+                          });
+                        }
                       }
                     },
                     child: Text(
@@ -258,34 +304,65 @@ class _DriverEnterBagDetailsFacultyState
               const SizedBox(
                 height: 20,
               ),
-              _image == null
-                  ? InkWell(
-                      onTap: _captureImage,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 100,
-                        ),
-                      ),
-                    )
-                  : InkWell(
-                      onTap: _captureImage,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Image.file(
-                          _image!,
-                          height: 100,
-                        ),
-                      )),
+              if (listOfImages.isNotEmpty)
+                SizedBox(
+                  height: 130,
+                  width: Get.width - 20,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: listOfImages.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Stack(
+                            children: [
+                              Image.file(
+                                listOfImages[index],
+                                height: 120,
+                              ),
+                              Positioned(
+                                  right: 10,
+                                  top: 10,
+                                  child: InkWell(
+                                    onTap: () {
+                                      listOfImages.removeAt(index);
+                                      setState(() {});
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 15,
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              InkWell(
+                onTap: _captureImage,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.camera_alt,
+                    size: 100,
+                  ),
+                ),
+              ),
               Align(
                 alignment: Alignment.center,
                 child: RoundButtonAnimate(
                   buttonName: 'Finish',
                   onClick: () {
-                    if (_image == null) {
+                    if (listOfImages.isEmpty ||
+                        listOfImages.length <
+                            driverController.teacherBagNoList.length) {
                       Utils.showScaffoldMessageI(
-                          context: context, title: 'Please upload image');
+                          context: context,
+                          title: 'Please upload all faculty image');
                       return;
                     }
                     Utils.showDialogPopUp(
