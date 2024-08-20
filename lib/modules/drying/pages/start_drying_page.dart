@@ -25,6 +25,9 @@ class _StartDryingPageState extends State<StartDryingPage> {
   final hoursController = TextEditingController();
   final minutesController = TextEditingController();
   bool timerStarted = false;
+  bool? timerStopped;
+  String? startTime;
+  String? stopTime;
   @override
   void dispose() {
     hoursController.dispose();
@@ -40,9 +43,9 @@ class _StartDryingPageState extends State<StartDryingPage> {
           onPressed: () {
             Get.back();
           },
-          icon: CircleAvatar(
+          icon: const CircleAvatar(
             backgroundColor: Colors.blue,
-            child: const Center(
+            child: Center(
               child: Icon(
                 Icons.arrow_back_ios_new,
                 color: Colors.white,
@@ -152,254 +155,57 @@ class _StartDryingPageState extends State<StartDryingPage> {
                 ),
               ],
             ),
+            if (startTime != null)
+              const SizedBox(
+                height: 20,
+              ),
+            if (startTime != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Timer started at',
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Text(
+                    '$startTime',
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+            if (stopTime != null)
+              const SizedBox(
+                height: 20,
+              ),
+            if (stopTime != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Timer stopped at',
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Text(
+                    '$stopTime',
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
             const SizedBox(
               height: 50,
             ),
-            // Form(
-            //   key: formKey,
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: [
-            //       Expanded(
-            //         child: TextFormField(
-            //           controller: timerValueController,
-            //           keyboardType: TextInputType.number,
-            //           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            //           decoration: const InputDecoration(
-            //               hintText: 'Enter timer',
-            //               border: OutlineInputBorder()),
-            //           validator: (value) {
-            //             if (value == null || value.isEmpty) {
-            //               return 'Please enter timer';
-            //             }
-            //             return null;
-            //           },
-            //         ),
-            //       ),
-            //       const SizedBox(
-            //         width: 10,
-            //       ),
-            //       Expanded(
-            //         child: Obx(() {
-            //           return ElevatedButton(
-            //             style: ElevatedButton.styleFrom(
-            //                 backgroundColor: Colors.blue),
-            //             onPressed: dryingController.isTimerRunning.value
-            //                 ? dryingController.stopTimer
-            //                 : () {
-            //                     if (formKey.currentState!.validate()) {
-            //                       formKey.currentState!.save();
-            //
-            //                       dryingController.washingTime.value =
-            //                           int.parse(timerValueController.text);
-            //
-            //                       dryingController.startTimerWashing(
-            //                           context: context);
-            //                       timerValueController.clear();
-            //                     }
-            //                   },
-            //             child: Text(
-            //               dryingController.isTimerRunning.value
-            //                   ? 'Stop Timer'
-            //                   : 'Start Timer',
-            //               style: const TextStyle(
-            //                 color: Colors.white,
-            //               ),
-            //             ),
-            //           );
-            //         }),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Obx(() => dryingController.isTimerRunning.value
-            //       ? Text('Drying since')
-            //       : SizedBox()),
-            // ),
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Obx(() {
-            //     final minutes = dryingController.washingTime.value ~/ 60;
-            //     final seconds = dryingController.washingTime.value % 60;
-            //     return Text(
-            //       '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-            //       style: const TextStyle(fontSize: 48),
-            //     );
-            //   }),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-
-            // Form(
-            //   key: formKey,
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: [
-            //       Expanded(
-            //         child: TextFormField(
-            //           controller: hoursController,
-            //           keyboardType: TextInputType.number,
-            //           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            //           decoration: const InputDecoration(
-            //             hintText: 'Hours',
-            //             border: OutlineInputBorder(),
-            //           ),
-            //           validator: (value) {
-            //             if (value == null || value.isEmpty) {
-            //               // Allow empty hours
-            //               return null;
-            //             } else if (int.tryParse(value) == null) {
-            //               return 'Enter valid hours';
-            //             }
-            //             return null;
-            //           },
-            //         ),
-            //       ),
-            //       const SizedBox(width: 10),
-            //       Expanded(
-            //         child: TextFormField(
-            //           controller: minutesController,
-            //           keyboardType: TextInputType.number,
-            //           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            //           decoration: const InputDecoration(
-            //             hintText: 'Minutes',
-            //             border: OutlineInputBorder(),
-            //           ),
-            //           validator: (value) {
-            //             if (hoursController.text.isEmpty &&
-            //                 (value == null || value.isEmpty)) {
-            //               return 'Enter minutes';
-            //             } else if (value != null &&
-            //                 int.tryParse(value) == null) {
-            //               return 'Enter valid minutes';
-            //             }
-            //             return null;
-            //           },
-            //         ),
-            //       ),
-            //       const SizedBox(height: 10),
-            //
-            //       // Expanded(
-            //       //   child: TextFormField(
-            //       //     controller: timerValueController,
-            //       //     keyboardType: TextInputType.number,
-            //       //     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            //       //     decoration: const InputDecoration(
-            //       //         hintText: 'Enter timer',
-            //       //         border: OutlineInputBorder()),
-            //       //     validator: (value) {
-            //       //       if (value == null || value.isEmpty) {
-            //       //         return 'Please enter timer';
-            //       //       }
-            //       //       return null;
-            //       //     },
-            //       //   ),
-            //       // ),
-            //       // const SizedBox(
-            //       //   width: 10,
-            //       // ),
-            //       // Expanded(
-            //       //   child: Obx(() {
-            //       //     return ElevatedButton(
-            //       //       style: ElevatedButton.styleFrom(
-            //       //           backgroundColor: Colors.blue),
-            //       //       onPressed: washingController.isTimerRunning.value
-            //       //           ? washingController.stopTimer
-            //       //           : () {
-            //       //               if (formKey.currentState!.validate()) {
-            //       //                 formKey.currentState!.save();
-            //       //
-            //       //                 washingController.washingTime.value =
-            //       //                     int.parse(timerValueController.text);
-            //       //
-            //       //                 washingController.startTimerWashing(
-            //       //                     context: context);
-            //       //                 timerValueController.clear();
-            //       //               }
-            //       //             },
-            //       //       child: Text(
-            //       //         washingController.isTimerRunning.value
-            //       //             ? 'Stop Timer'
-            //       //             : 'Start Timer',
-            //       //         style: const TextStyle(
-            //       //           color: Colors.white,
-            //       //         ),
-            //       //       ),
-            //       //     );
-            //       //   }),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Obx(() {
-            //     return ElevatedButton(
-            //       style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-            //       onPressed: dryingController.isTimerRunning.value
-            //           ? dryingController.stopTimer
-            //           : () {
-            //               if (formKey.currentState!.validate()) {
-            //                 formKey.currentState!.save();
-            //
-            //                 int hours = hoursController.text.isEmpty
-            //                     ? 0
-            //                     : int.parse(hoursController.text);
-            //                 int minutes = int.parse(minutesController.text);
-            //
-            //                 if (hours == 0 && minutes == 0) {
-            //                   Utils.showScaffoldMessageI(
-            //                       context: context,
-            //                       title: 'Please enter valid time');
-            //                   return;
-            //                 }
-            //
-            //                 dryingController.washingTime.value =
-            //                     (hours * 60 * 60) + (minutes * 60);
-            //
-            //                 dryingController.startTimerWashing(
-            //                     context: context);
-            //                 hoursController.clear();
-            //                 minutesController.clear();
-            //               }
-            //             },
-            //       child: Text(
-            //         dryingController.isTimerRunning.value
-            //             ? 'Stop Timer'
-            //             : 'Start Timer',
-            //         style: const TextStyle(color: Colors.white),
-            //       ),
-            //     );
-            //   }),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Obx(() {
-            //     final minutes = dryingController.washingTime.value ~/ 60;
-            //     final seconds = dryingController.washingTime.value % 60;
-            //     return Text(
-            //       '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-            //       style: const TextStyle(fontSize: 48),
-            //     );
-            //   }),
-            // ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
             if (!timerStarted)
               Align(
                 alignment: Alignment.center,
@@ -409,6 +215,9 @@ class _StartDryingPageState extends State<StartDryingPage> {
                     onPressed: () {
                       setState(() {
                         timerStarted = true;
+                        timerStopped = false;
+                        startTime = DateFormat('dd-MM-yyyy HH:mm')
+                            .format(DateTime.now());
                       });
                     },
                     child: Text(
@@ -418,13 +227,19 @@ class _StartDryingPageState extends State<StartDryingPage> {
                       ),
                     )),
               ),
-            if (timerStarted)
+            if (timerStopped == false)
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        timerStopped = true;
+                        stopTime = DateFormat('dd-MM-yyyy HH:mm')
+                            .format(DateTime.now());
+                      });
+                    },
                     child: Text(
                       'Stop Timer',
                       style: TextStyle(
@@ -435,7 +250,7 @@ class _StartDryingPageState extends State<StartDryingPage> {
             const SizedBox(
               height: 20,
             ),
-            if (timerStarted)
+            if (timerStopped == false)
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
@@ -452,19 +267,20 @@ class _StartDryingPageState extends State<StartDryingPage> {
                     )),
               ),
             Spacer(),
-            Align(
-                alignment: Alignment.center,
-                child: RoundButtonAnimate(
-                    buttonName: 'Send To Drying',
-                    onClick: () {
-                      Utils.showDialogPopUp(
-                          context: context,
-                          function: () {
-                            Get.to(() => const DryingExtendTimePage());
-                          },
-                          title: 'Done?');
-                    },
-                    image: Image.asset('assets/icons/drying.png'))),
+            if (timerStopped == true)
+              Align(
+                  alignment: Alignment.center,
+                  child: RoundButtonAnimate(
+                      buttonName: 'Drying',
+                      onClick: () {
+                        Utils.showDialogPopUp(
+                            context: context,
+                            function: () {
+                              Get.to(() => const DryingExtendTimePage());
+                            },
+                            title: 'Done?');
+                      },
+                      image: Image.asset('assets/icons/drying.png'))),
           ],
         ),
       ),

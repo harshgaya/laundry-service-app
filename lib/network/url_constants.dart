@@ -1,7 +1,6 @@
 class UrlConstants {
-  static String kUriPrefix = 'https://adtip.page.link';
 //stagging
-  static const BASE_URL = "http://157.173.222.81:9000/api/";
+  static const BASE_URL = "http://13.233.145.19:3001/api/";
 
   ///authentication
   static const login = '${BASE_URL}getUserByIdAndPassword';
