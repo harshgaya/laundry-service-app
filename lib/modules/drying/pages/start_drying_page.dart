@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/drying/controllers/drying_controller.dart';
+import 'package:laundry_service/modules/drying/pages/select_dry_area.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 import '../../authentication/pages/user_state.dart';

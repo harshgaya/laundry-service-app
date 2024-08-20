@@ -5,6 +5,7 @@ import 'package:laundry_service/modules/drying/pages/drying_history.dart';
 import 'package:laundry_service/modules/drying/pages/drying_todo_list.dart';
 import 'package:laundry_service/modules/drying/pages/profile/drying_profile.dart';
 import '../../authentication/controllers/login_controller.dart';
+import 'dry_area_all.dart';
 import 'drying_history_page.dart';
 
 class DryingDashboard extends StatefulWidget {
@@ -21,7 +22,7 @@ class _DryingDashboardState extends State<DryingDashboard> {
   final NotchBottomBarController _controller =
       NotchBottomBarController(index: 0);
 
-  int maxCount = 3;
+  int maxCount = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class _DryingDashboardState extends State<DryingDashboard> {
       DryingToDoPage(),
       //DryingHistory(),
       DryingHistoryPage(),
+      DryAreaAll(),
       DryingProfile(),
     ];
     return SafeArea(
@@ -78,6 +80,14 @@ class _DryingDashboardState extends State<DryingDashboard> {
                       color: Colors.white,
                     ),
                     itemLabel: 'Collection',
+                  ),
+                  BottomBarItem(
+                    inActiveItem: Image.asset('assets/icons/plot.png'),
+                    activeItem: Image.asset(
+                      'assets/icons/plot.png',
+                      color: Colors.white,
+                    ),
+                    itemLabel: 'Dry Area',
                   ),
                   BottomBarItem(
                     inActiveItem: Image.asset('assets/icons/user.png'),

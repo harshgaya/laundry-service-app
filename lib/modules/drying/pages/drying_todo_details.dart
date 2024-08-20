@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:laundry_service/modules/drying/pages/select_dry_area.dart';
 import 'package:laundry_service/modules/drying/pages/start_drying_page.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
@@ -158,20 +159,16 @@ class _DryingToDoDetailsState extends State<DryingToDoDetails> {
             Spacer(),
             Align(
               alignment: Alignment.center,
-              child: InkWell(
-                onTap: () async {
-                  Get.to(() => const StartDryingPage());
+              child: RoundButtonAnimate(
+                buttonName: 'Start Drying',
+                onClick: () {
+                  // Get.to(() => const StartDryingPage());
+                  Get.to(() => const SelectDryArea());
                 },
-                child: RoundButtonAnimate(
-                  buttonName: 'Start Drying',
-                  onClick: () {
-                    Get.to(() => const StartDryingPage());
-                  },
-                  image: Image.asset(
-                    'assets/icons/washing.png',
-                    height: 30,
-                    color: Colors.white,
-                  ),
+                image: Image.asset(
+                  'assets/icons/washing.png',
+                  height: 30,
+                  color: Colors.white,
                 ),
               ),
             ),
