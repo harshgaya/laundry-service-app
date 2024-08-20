@@ -16,6 +16,9 @@ class _SelectDryAreaState extends State<SelectDryArea> {
   int totalUnits = 90;
   int unitsPerCell = 10;
   late List<int> filledUnits;
+  List<String> dryArea = ['Dry Area 1', 'Dry Area 2', 'Dry Area 3'];
+  String selectedDryArea = 'Dry Area 1';
+  int rows = 9;
 
   @override
   void initState() {
@@ -74,6 +77,55 @@ class _SelectDryAreaState extends State<SelectDryArea> {
               const SizedBox(
                 height: 20,
               ),
+              DropdownButtonFormField<String>(
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedDryArea = newValue!;
+                    int index = dryArea.indexOf(newValue);
+
+                    if (index == 0) {
+                      rows = 9;
+                    } else if (index == 1) {
+                      rows = 9;
+                    } else if (index == 2) {
+                      rows = 12;
+                    } else if (index == 3) {
+                      rows = 5;
+                    } else {
+                      rows = 5;
+                    }
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Dry Area',
+                  hintStyle: const TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.blue,
+                ),
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return 'Please select dry area';
+                  }
+                  return null;
+                },
+                value: selectedDryArea,
+                dropdownColor: Colors.blue,
+                items: dryArea.map<DropdownMenuItem<String>>((String dryArea) {
+                  return DropdownMenuItem<String>(
+                    value: dryArea,
+                    child: Text(
+                      dryArea,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -98,12 +150,12 @@ class _SelectDryAreaState extends State<SelectDryArea> {
               ),
               Expanded(
                 child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 12,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: rows,
                     crossAxisSpacing: 2.0,
                     mainAxisSpacing: 2.0,
                   ),
-                  itemCount: 60, // 9 * 9 = 81 cells
+                  itemCount: rows * 5,
                   itemBuilder: (context, index) {
                     double fillFraction = filledUnits[index] / unitsPerCell;
 
@@ -129,8 +181,8 @@ class _SelectDryAreaState extends State<SelectDryArea> {
               Row(
                 children: [
                   Container(
-                    height: 10,
-                    width: 10,
+                    height: 20,
+                    width: 20,
                     decoration: BoxDecoration(
                       color: Colors.blue,
                     ),

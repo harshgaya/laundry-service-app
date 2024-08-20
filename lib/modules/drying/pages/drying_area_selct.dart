@@ -10,9 +10,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int totalUnits = 90; // Total units to be distributed among cells
-  int unitsPerCell = 40; // Maximum units each cell can hold
-  late List<int> filledUnits; // Track how many units each cell has filled
+  int totalUnits = 90;
+  int unitsPerCell = 40;
+  late List<int> filledUnits;
 
   @override
   void initState() {
