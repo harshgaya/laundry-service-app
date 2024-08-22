@@ -50,13 +50,13 @@ class _DryingProfileState extends State<DryingProfile> {
                 icon: Icons.person,
                 function: () {},
               ),
-              ProfileWidget(
-                title: 'Remarks',
-                icon: Icons.edit,
-                function: () {
-                  Get.to(() => DryingRemarks());
-                },
-              ),
+              // ProfileWidget(
+              //   title: 'Remarks',
+              //   icon: Icons.edit,
+              //   function: () {
+              //     Get.to(() => DryingRemarks());
+              //   },
+              // ),
               ProfileWidget(
                 title: 'Attendance',
                 icon: Icons.keyboard,

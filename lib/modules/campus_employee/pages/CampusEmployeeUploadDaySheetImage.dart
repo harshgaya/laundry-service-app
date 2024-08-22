@@ -8,6 +8,7 @@ import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
 import '../../../helpers/utils.dart';
+import '../controllers/campus_employee_controller.dart';
 import 'final_count_page.dart';
 
 class CampusEmployeeUploadDaySheetImage extends StatefulWidget {
@@ -20,8 +21,8 @@ class CampusEmployeeUploadDaySheetImage extends StatefulWidget {
 
 class _CampusEmployeeUploadDaySheetImageState
     extends State<CampusEmployeeUploadDaySheetImage> {
-  @override
   final ImagePicker _picker = ImagePicker();
+  final campusEmployeeController = Get.put(CampusEmployeeController());
 
   Future<void> _captureImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
@@ -72,7 +73,7 @@ class _CampusEmployeeUploadDaySheetImageState
             const SizedBox(
               height: 50,
             ),
-            Align(
+            const Align(
               alignment: Alignment.center,
               child: Text(
                 'Upload Photo Of the\n Day Sheet',
@@ -88,7 +89,7 @@ class _CampusEmployeeUploadDaySheetImageState
             ),
             InkWell(
               onTap: _captureImage,
-              child: Align(
+              child: const Align(
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.camera_alt,
@@ -144,13 +145,14 @@ class _CampusEmployeeUploadDaySheetImageState
               alignment: Alignment.center,
               child: RoundButtonAnimate(
                 buttonName: 'To Done',
-                onClick: () {
+                onClick: () async {
                   if (listOfImages.isEmpty) {
                     Utils.showScaffoldMessageI(
                         context: context,
                         title: 'Please upload day sheet image.');
                   } else {
-                    Get.to(() => UserState());
+                    await campusEmployeeController.uploadDaySheet(
+                        files: listOfImages, context: context);
                   }
                 },
                 image: Icon(

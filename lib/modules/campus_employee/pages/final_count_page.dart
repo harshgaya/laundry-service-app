@@ -48,7 +48,7 @@ class _FinalCountPageState extends State<FinalCountPage> {
                     ? 'Student Delivery\nDay Sheet'
                     : 'Faculty Delivery\nDay Sheet',
                 textAlign: TextAlign.start,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w700,
                 ),
@@ -334,26 +334,7 @@ class _FinalCountPageState extends State<FinalCountPage> {
                 child: RoundButtonAnimate(
                   buttonName: 'Done',
                   onClick: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Alert'),
-                            content: Text('Uploaded to sri chaityana school'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    campusEmployeeController
-                                        .teacherOrders.value = [];
-                                    campusEmployeeController.orders.value = [];
-                                    Get.to(() =>
-                                        CampusEmployeeUploadDaySheetImage());
-                                  },
-                                  child: const Text('Ok')),
-                            ],
-                          );
-                        });
+                    Get.to(() => const CampusEmployeeUploadDaySheetImage());
                   },
                   image: const Icon(
                     Icons.done,

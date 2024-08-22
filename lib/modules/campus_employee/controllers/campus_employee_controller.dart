@@ -3,18 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:laundry_service/helpers/utils.dart';
+import 'package:laundry_service/modules/campus_employee/models/college_campus_model.dart';
+import 'package:laundry_service/modules/campus_employee/models/faculty_model.dart';
 import 'package:laundry_service/modules/campus_employee/pages/create_collection_view.dart';
 import 'package:laundry_service/network/url_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../helpers/constatnts/sharedprefs.dart';
 import '../../../network/network_api_services.dart';
+import 'dart:io';
+
+import '../../authentication/pages/user_state.dart';
 
 class CampusEmployeeController extends GetxController {
   RxString userId = ''.obs;
+  RxString userName = ''.obs;
   RxString collegeName = 'Shri Chaitnaya'.obs;
   final _apiServices = NetworkApiServices();
   RxBool creatingCollection = false.obs;
+
+  ///
+  Rx<CollegeCampusModel?> collegeCampus = Rx<CollegeCampusModel?>(null);
+  RxInt latestCollectionId = 0.obs;
+  RxString selectedCampus = ''.obs;
+  RxString selectedTag = ''.obs;
+  RxString selectedCampusId = ''.obs;
+  RxList<Faculty> facultyList = <Faculty>[].obs;
+
+  ///
+
   RxInt collectionNo = 1.obs;
   var orders = <Order>[].obs;
   var teacherOrders = <TeacherOrder>[].obs;
@@ -263,6 +280,99 @@ class CampusEmployeeController extends GetxController {
       creatingCollection.value = false;
     }
   }
+
+  Future<void> getCollege() async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String? userId = sharedPreferences.getString(SharedPreferenceKey.UserId);
+      var response =
+          await _apiServices.getApi('${UrlConstants.getCampus}/$userId');
+      CollegeCampusModel collegeCampusModel =
+          CollegeCampusModel.fromJson(response);
+      collegeCampus.value = collegeCampusModel;
+    } catch (e) {
+      print('error $e');
+    }
+  }
+
+  Future<void> getLatestCollectionId() async {
+    try {
+      var response =
+          await _apiServices.getApi(UrlConstants.getLatestCollectionId);
+      latestCollectionId.value = response['latest_collection_id'];
+    } catch (e) {
+      print('error $e');
+    }
+  }
+
+  Future<bool> searchTag({required String tag}) async {
+    try {
+      var data = {
+        "tag_number": "${selectedTag.value}$tag",
+        "campus_uid": selectedCampusId.value,
+      };
+      var response = await _apiServices.postApi(data, UrlConstants.searchTag);
+      return true;
+    } catch (e) {
+      print('error $e');
+      return false;
+    }
+  }
+
+  Future<void> getFacultyList() async {
+    try {
+      var response = await _apiServices
+          .getApi('${UrlConstants.getFacultyList}/${selectedCampusId.value}');
+      FacultyListModel facultyListModel = FacultyListModel.fromJson(response);
+      facultyList.addAll(facultyListModel.data);
+    } catch (e) {}
+  }
+
+  Future<void> getUserName() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? name = sharedPreferences.getString(SharedPreferenceKey.name);
+    userName.value = name ?? '';
+  }
+
+  Future<void> uploadDaySheet(
+      {required List<File> files, required BuildContext context}) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String? userId = sharedPreferences.getString(SharedPreferenceKey.UserId);
+
+      var data = {
+        "campus_uid": selectedCampusId.value,
+        "supervisor_uid": userId ?? '',
+        "total_cloths": orders.fold(0, (sum, order) => sum + order.totalCloths),
+        "total_uniforms":
+            orders.fold(0, (sum, order) => sum + order.totalUniforms),
+        "student_day_sheet": orders.map((order) => order.toJson()).toList(),
+        "faculty_day_sheet":
+            teacherOrders.map((element) => element.toJson()).toList(),
+        "daily_image_sheet":
+            files.map((e) => Utils.encodeFileToBase64(e)).toList()
+      };
+
+      var response =
+          await _apiServices.postApi(data, UrlConstants.uploadDaySheet);
+      orders.value = [];
+      facultyList.value = [];
+      Get.to(() => const UserState());
+      Utils.showDialogPopUp(
+          context: context, function: () {}, title: 'Collection uploaded!');
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getUserName();
+  }
 }
 
 class Order {
@@ -270,12 +380,23 @@ class Order {
   int totalCloths;
   int totalUniforms;
   String remarks = '';
+  int? missing = 0;
+  int? extra = 0;
 
   Order(
       {required this.tagNo,
+      this.missing,
+      this.extra,
       required this.totalUniforms,
       required this.remarks,
       required this.totalCloths});
+  Map<String, dynamic> toJson() {
+    return {
+      'tag_number': tagNo.toString(),
+      'campus_regular_cloths': totalCloths,
+      'campus_regular_uniforms': totalUniforms,
+    };
+  }
 }
 
 class TeacherOrder {
@@ -286,6 +407,9 @@ class TeacherOrder {
     required this.teacherName,
     required this.totalCloths,
   });
+  Map<String, dynamic> toJson() {
+    return {'faculty_name': teacherName, 'total_clth': totalCloths.toString()};
+  }
 }
 
 class RemarksWarehouseData {

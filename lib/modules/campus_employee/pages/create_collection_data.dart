@@ -30,21 +30,23 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
   bool tagNoVisible = true;
   bool cancelButtonVisible = false;
 
+  final campuseEmployeeController = Get.put(CampusEmployeeController());
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    tagController.addListener(() {
-      if (tagController.text.isEmpty) {}
-      if (tagController.text.length == 3 || tagController.text.length == 4) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (tagController.text.length == 3 ||
-              tagController.text.length == 4) {
-            _secondFocusNode.requestFocus();
-          }
-        });
-      }
-    });
+    // tagController.addListener(() {
+    //   if (tagController.text.isEmpty) {}
+    //   if (tagController.text.length == 3 || tagController.text.length == 4) {
+    //     Future.delayed(const Duration(milliseconds: 500), () {
+    //       if (tagController.text.length == 3 ||
+    //           tagController.text.length == 4) {
+    //         _secondFocusNode.requestFocus();
+    //       }
+    //     });
+    //   }
+    // });
     totalCloths.addListener(() {
       if (totalCloths.text.length == 2) {
         _thirdFocusNode.requestFocus();
@@ -106,8 +108,9 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                         border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Center(
-                        child: Text('SKH'),
+                      child: Center(
+                        child: Obx(() =>
+                            Text(campuseEmployeeController.selectedTag.value)),
                       ),
                     ),
                     const SizedBox(
@@ -121,15 +124,19 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         controller: tagController,
-                        onChanged: (value) {
+                        onChanged: (value) async {
                           if (value.isEmpty) {
                             setState(() {
                               enterClothVisible = false;
                             });
                           } else {
-                            setState(() {
-                              enterClothVisible = true;
-                            });
+                            bool tagExist = await campuseEmployeeController
+                                .searchTag(tag: value);
+                            if (tagExist) {
+                              setState(() {
+                                enterClothVisible = true;
+                              });
+                            }
                           }
                         },
                         decoration: InputDecoration(

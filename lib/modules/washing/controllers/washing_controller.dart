@@ -27,10 +27,34 @@ class WashingController extends GetxController {
 
   ///day sheet
   var orders = <Order>[
-    Order(tagNo: 453, totalUniforms: 4, remarks: '', totalCloths: 2),
-    Order(tagNo: 124, totalUniforms: 14, remarks: '', totalCloths: 5),
-    Order(tagNo: 126, totalUniforms: 1, remarks: '', totalCloths: 6),
-    Order(tagNo: 122, totalUniforms: 21, remarks: '', totalCloths: 16),
+    Order(
+        tagNo: 453,
+        totalUniforms: 4,
+        remarks: '',
+        totalCloths: 2,
+        missing: 1,
+        extra: 0),
+    Order(
+        tagNo: 124,
+        totalUniforms: 14,
+        remarks: '',
+        totalCloths: 5,
+        missing: 3,
+        extra: 0),
+    Order(
+        tagNo: 126,
+        totalUniforms: 1,
+        remarks: '',
+        totalCloths: 6,
+        missing: 2,
+        extra: 0),
+    Order(
+        tagNo: 122,
+        totalUniforms: 21,
+        remarks: '',
+        totalCloths: 16,
+        missing: 1,
+        extra: 0),
   ].obs;
   var teacherOrders = <TeacherOrder>[
     TeacherOrder(teacherName: 'Mr. Raju', totalCloths: 12),

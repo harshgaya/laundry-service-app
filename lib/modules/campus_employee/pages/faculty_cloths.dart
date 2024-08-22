@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:laundry_service/helpers/utils.dart';
 import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
+import 'package:laundry_service/modules/campus_employee/models/faculty_model.dart';
 import 'package:laundry_service/modules/campus_employee/pages/campus_employee_upload_collection_image.dart';
 import 'package:laundry_service/modules/campus_employee/pages/final_count_page.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
@@ -20,12 +21,14 @@ class _FacultyClothState extends State<FacultyCloth> {
   final clothController = TextEditingController();
   String? selectedTeacher;
   final formKey = GlobalKey<FormState>();
-  List<String> teacherNames = [
-    'Mr. Smith',
-    'Ms. Johnson',
-    'Mrs. Brown',
-    'Mr. White'
-  ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    campusEmployeeController.getFacultyList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,34 +66,34 @@ class _FacultyClothState extends State<FacultyCloth> {
               const SizedBox(
                 height: 20,
               ),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  hintText: 'Select Faculty',
-                  hintStyle: const TextStyle(color: Colors.white),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  filled: true,
-                  fillColor: Colors.blue,
-                ),
-                value: selectedTeacher,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedTeacher = newValue;
-                  });
-                },
-                dropdownColor: Colors.blue,
-                items: teacherNames
-                    .map<DropdownMenuItem<String>>((String teacher) {
-                  return DropdownMenuItem<String>(
-                    value: teacher,
-                    child: Text(
-                      teacher,
-                      style: TextStyle(color: Colors.white),
+              Obx(() => DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      hintText: 'Select Faculty',
+                      hintStyle: const TextStyle(color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      filled: true,
+                      fillColor: Colors.blue,
                     ),
-                  );
-                }).toList(),
-              ),
+                    value: selectedTeacher,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedTeacher = newValue;
+                      });
+                    },
+                    dropdownColor: Colors.blue,
+                    items: campusEmployeeController.facultyList
+                        .map<DropdownMenuItem<String>>((Faculty teacher) {
+                      return DropdownMenuItem<String>(
+                        value: teacher.name,
+                        child: Text(
+                          teacher.name,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList(),
+                  )),
               const SizedBox(
                 height: 20,
               ),

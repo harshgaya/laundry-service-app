@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -46,5 +48,10 @@ class Utils {
             ],
           );
         });
+  }
+
+  static String encodeFileToBase64(File file) {
+    List<int> fileBytes = file.readAsBytesSync();
+    return base64Encode(fileBytes);
   }
 }

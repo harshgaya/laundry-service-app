@@ -24,6 +24,8 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
     // TODO: implement initState
     super.initState();
     campusEmployeeController.getUserId();
+    campusEmployeeController.getCollege();
+    campusEmployeeController.getLatestCollectionId();
   }
 
   @override
@@ -41,25 +43,31 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                   onTap: () {
                     Get.to(() => const CampusEmployeeProfile());
                   },
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Text(
-                        'Nima',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      Obx(
+                        () => Text(
+                          campusEmployeeController.userName.value,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
-                      CircleAvatar(
-                        backgroundColor: Colors.black,
-                        child: Text(
-                          'N',
-                          style: TextStyle(color: Colors.white),
+                      Obx(
+                        () => CircleAvatar(
+                          backgroundColor: Colors.black,
+                          child: Text(
+                            campusEmployeeController.userName.value.isEmpty
+                                ? ''
+                                : campusEmployeeController.userName.value[0],
+                            style: const TextStyle(color: Colors.white),
+                          ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -82,7 +90,9 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                     height: 5,
                   ),
                   Text(
-                    campusEmployeeController.collegeName.value.toUpperCase(),
+                    campusEmployeeController
+                            .collegeCampus.value?.data[0].college.name ??
+                        '',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.roboto(
                       fontWeight: FontWeight.w400,

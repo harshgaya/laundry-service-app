@@ -130,10 +130,10 @@ class _DaySheetDataState extends State<DaySheetData> {
                                     TableCell(
                                       child: Center(
                                         child: Container(
-                                          padding: EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(8),
                                           child: Text(
                                             order.value.teacherName,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 16,
                                             ),
                                           ),
@@ -165,10 +165,10 @@ class _DaySheetDataState extends State<DaySheetData> {
                         child: SingleChildScrollView(
                           child: Table(
                             border: const TableBorder(
-                                horizontalInside: BorderSide(
-                                    color: Colors.black, width: 0.2)),
+                              horizontalInside:
+                                  BorderSide(color: Colors.black, width: 0.2),
+                            ),
                             children: [
-                              // Table header
                               TableRow(
                                 children: [
                                   TableCell(
@@ -205,6 +205,34 @@ class _DaySheetDataState extends State<DaySheetData> {
                                         padding: EdgeInsets.all(8),
                                         child: Text(
                                           'Uniforms',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          'Missing',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: Center(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          'Extra',
                                           style: TextStyle(
                                             fontSize: 18,
                                             color: Colors.blue,
@@ -261,6 +289,32 @@ class _DaySheetDataState extends State<DaySheetData> {
                                         ),
                                       ),
                                     ),
+                                    TableCell(
+                                      child: Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Text(
+                                            '${order.value.missing.toString()}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Text(
+                                            '${order.value.extra.toString()}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 );
                               }).toList(),
@@ -305,6 +359,34 @@ class _DaySheetDataState extends State<DaySheetData> {
                                         padding: const EdgeInsets.all(8),
                                         child: Text(
                                           '${washingController.orders.fold(0, (sum, order) => sum + order.totalUniforms)}',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          '${washingController.orders.fold(0, (sum, order) => sum + order.missing!)}',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          '${washingController.orders.fold(0, (sum, order) => sum + order.extra!)}',
                                           style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.blue,

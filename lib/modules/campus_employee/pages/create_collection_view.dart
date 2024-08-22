@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry_service/modules/campus_employee/controllers/campus_employee_controller.dart';
+import 'package:laundry_service/modules/campus_employee/models/college_campus_model.dart';
 import 'package:laundry_service/modules/campus_employee/pages/create_collection_data.dart';
 import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 
@@ -15,8 +16,7 @@ class CreateCollectionView extends StatefulWidget {
 
 class _CreateCollectionDateState extends State<CreateCollectionView> {
   final campuseEmployeeController = Get.put(CampusEmployeeController());
-  String? selectedCollege;
-  List<String> machines = ['Campus 1', 'Campus 2', 'Campus 3', 'Campus 4'];
+  String? selectedCampus;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,36 +66,48 @@ class _CreateCollectionDateState extends State<CreateCollectionView> {
                   const SizedBox(
                     width: 10,
                   ),
-                  Expanded(
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        hintText: 'Select',
-                        hintStyle: TextStyle(color: Colors.white),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        filled: true,
-                        fillColor: Colors.blue,
-                      ),
-                      value: selectedCollege,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedCollege = newValue;
-                        });
-                      },
-                      dropdownColor: Colors.blue,
-                      items: machines
-                          .map<DropdownMenuItem<String>>((String teacher) {
-                        return DropdownMenuItem<String>(
-                          value: teacher,
-                          child: Text(
-                            teacher,
-                            style: TextStyle(color: Colors.white),
+                  Obx(() => Expanded(
+                        child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            hintText: 'Select',
+                            hintStyle: const TextStyle(color: Colors.white),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            filled: true,
+                            fillColor: Colors.blue,
                           ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
+                          value: selectedCampus,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedCampus = newValue;
+                            });
+                            final campus = campuseEmployeeController
+                                .collegeCampus.value?.data[0].campuses
+                                .firstWhere(
+                              (campus) => campus.name == selectedCampus,
+                            );
+                            campuseEmployeeController.selectedCampus.value =
+                                newValue!;
+                            campuseEmployeeController.selectedTag.value =
+                                campus!.tagName;
+                            campuseEmployeeController.selectedCampusId.value =
+                                campus.uid;
+                          },
+                          dropdownColor: Colors.blue,
+                          items: campuseEmployeeController
+                              .collegeCampus.value?.data[0].campuses
+                              .map<DropdownMenuItem<String>>((Campus campus) {
+                            return DropdownMenuItem<String>(
+                              value: campus.name,
+                              child: Text(
+                                campus.name,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      )),
                 ],
               ),
               const SizedBox(
@@ -133,13 +145,15 @@ class _CreateCollectionDateState extends State<CreateCollectionView> {
                       fontSize: 20,
                     ),
                   ),
-                  Text(
-                    '1',
-                    style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
+                  Obx(
+                    () => Text(
+                      campuseEmployeeController.latestCollectionId.toString(),
+                      style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
               const SizedBox(

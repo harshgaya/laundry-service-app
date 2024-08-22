@@ -28,11 +28,13 @@ class LoginController extends GetxController {
       loginLoading.value = true;
       var data = {"email": id, "password": password};
       var response = await _apiServices.postApi(data, UrlConstants.login);
-      if (response['data'].isNotEmpty) {
+      print('response $response');
+      if (response['data']['uid'] != null) {
         await saveSharedPref(
-            userId: response['data'][0]['_id'],
-            userType: response['data'][0]['userType'],
-            college: response['data'][0]['collegeName']);
+            userId: response['data']['uid'],
+            userType: response['data']['employee_type'],
+            college: '',
+            name: response['data']['name']);
         Get.offAll(() => const UserState());
       } else {
         Utils.showScaffoldMessageI(
@@ -40,18 +42,22 @@ class LoginController extends GetxController {
       }
       loginLoading.value = false;
     } catch (e) {
+      Utils.showScaffoldMessageI(
+          context: context, title: "User & password don't match");
       loginLoading.value = false;
     }
   }
 
-  Future<void> saveSharedPref(
-      {required String userId,
-      required String userType,
-      required String college}) async {
+  Future<void> saveSharedPref({
+    required String userId,
+    required String userType,
+    required String college,
+    required String name,
+  }) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString(SharedPreferenceKey.UserId, userId);
     await sharedPreferences.setString(SharedPreferenceKey.userType, userType);
-    await sharedPreferences.setString(SharedPreferenceKey.collegeName, college);
+    await sharedPreferences.setString(SharedPreferenceKey.name, name);
   }
 
   Future<void> checkUserPrefs() async {
@@ -63,7 +69,7 @@ class LoginController extends GetxController {
         sharedPreferences.getString(SharedPreferenceKey.userType);
     if (userType == null) {
       Get.offAll(() => LoginPage());
-    } else if (userType == 'Campus Employee') {
+    } else if (userType == 'Campus_Employee') {
       Get.offAll(() => const CampusEmployeeDashboard());
     } else if (userType == 'Driver') {
       Get.offAll(() => const DriverDashboard());
@@ -81,6 +87,7 @@ class LoginController extends GetxController {
     await sharedPreferences.remove(SharedPreferenceKey.UserId);
     await sharedPreferences.remove(SharedPreferenceKey.userType);
     await sharedPreferences.remove(SharedPreferenceKey.collegeName);
+    await sharedPreferences.remove(SharedPreferenceKey.name);
     Get.offAll(() => const UserState());
   }
 }
