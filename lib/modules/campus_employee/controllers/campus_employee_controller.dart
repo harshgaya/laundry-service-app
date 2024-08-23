@@ -14,6 +14,7 @@ import '../../../network/network_api_services.dart';
 import 'dart:io';
 
 import '../../authentication/pages/user_state.dart';
+import '../models/day_sheet_history.dart';
 
 class CampusEmployeeController extends GetxController {
   RxString userId = ''.obs;
@@ -29,6 +30,8 @@ class CampusEmployeeController extends GetxController {
   RxString selectedTag = ''.obs;
   RxString selectedCampusId = ''.obs;
   RxList<Faculty> facultyList = <Faculty>[].obs;
+  Rx<EmployeeCollections?> employeeCollection = Rx<EmployeeCollections?>(null);
+  RxBool loadingEmployeeCollectionHistory = false.obs;
 
   ///
 
@@ -68,11 +71,11 @@ class CampusEmployeeController extends GetxController {
   var campusEmployeeStudentDaySheetCompare =
       <CampusEmployeeStudentDaySheetCompareData>[
     CampusEmployeeStudentDaySheetCompareData(
-        tagNo: 122, campusCount: 23, warehouseCount: 23, delivered: false),
+        tagNo: '122', campusCount: 23, warehouseCount: 23, delivered: false),
     CampusEmployeeStudentDaySheetCompareData(
-        tagNo: 132, campusCount: 10, warehouseCount: 10, delivered: false),
+        tagNo: '132', campusCount: 10, warehouseCount: 10, delivered: false),
     CampusEmployeeStudentDaySheetCompareData(
-        tagNo: 142, campusCount: 34, warehouseCount: 34, delivered: false),
+        tagNo: '142', campusCount: 34, warehouseCount: 34, delivered: false),
   ].obs;
 
   var campusEmployeeFacultyDaySheetCompare =
@@ -296,6 +299,25 @@ class CampusEmployeeController extends GetxController {
     }
   }
 
+  Future<void> getEmployeeCollectionHistory() async {
+    try {
+      loadingEmployeeCollectionHistory.value = true;
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String? userId = sharedPreferences.getString(SharedPreferenceKey.UserId);
+      var response = await _apiServices
+          .getApi('${UrlConstants.getEmployeeCollectionHistory}/$userId/');
+
+      EmployeeCollections employeeCollections =
+          EmployeeCollections.fromJson(response);
+      employeeCollection.value = employeeCollections;
+      loadingEmployeeCollectionHistory.value = false;
+    } catch (e) {
+      loadingEmployeeCollectionHistory.value = false;
+      print('error $e');
+    }
+  }
+
   Future<void> getLatestCollectionId() async {
     try {
       var response =
@@ -463,7 +485,7 @@ class CampusEmployeeOrderFromWarehouseData {
 }
 
 class CampusEmployeeStudentDaySheetCompareData {
-  int tagNo;
+  String tagNo;
   int campusCount;
   int warehouseCount;
   bool delivered;

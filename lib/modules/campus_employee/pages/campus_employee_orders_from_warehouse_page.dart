@@ -29,6 +29,14 @@ class _CampusEmployeeOrderFromWarehouseState
   DateTime? startDate;
   DateTime? endDate;
   bool showDate = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    campusEmployeeController.getEmployeeCollectionHistory();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -106,16 +114,16 @@ class _CampusEmployeeOrderFromWarehouseState
           child: Padding(
             padding: const EdgeInsets.only(left: 8),
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.compare_arrows),
-                  const SizedBox(
+                  SizedBox(
                     width: 10,
                   ),
                   Text('Filter By Date'),
@@ -127,1519 +135,386 @@ class _CampusEmployeeOrderFromWarehouseState
         const SizedBox(
           height: 10,
         ),
-        TaskTileWidget(
-          function: () {
-            setState(() {
-              id = 1;
-              dateCreated = '22-12-2024';
-              deliveryStatus = true;
-              studentTagCount = 10;
-              facultyTagCount = 5;
-            });
-            showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return SizedBox(
-                    height: 500,
-                    width: Get.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Collection Details',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Table(
-                                border: TableBorder(
-                                    horizontalInside: BorderSide(
-                                        color: Colors.black, width: 0.2)),
-                                children: [
-                                  // Table header
-                                  TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              'Name'.toUpperCase(),
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.blue,
+        Obx(() => campusEmployeeController
+                .loadingEmployeeCollectionHistory.value
+            ? const CircularProgressIndicator()
+            : campusEmployeeController.employeeCollection.value == null
+                ? const SizedBox()
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: campusEmployeeController
+                          .employeeCollection.value?.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return TaskTileWidget(
+                          color1: Colors.red,
+                          title1: 'Asset',
+                          title2: 'In progress',
+                          title3:
+                              'Collection No-${campusEmployeeController.employeeCollection.value?.data[index].id}',
+                          title4: 'Sri Chaitnya',
+                          icon: Icons.bookmark,
+                          color2: Colors.green,
+                          function: () {
+                            List<CampusEmployeeStudentDaySheetCompareData>
+                                studentData = campusEmployeeController
+                                    .employeeCollection
+                                    .value!
+                                    .data[index]
+                                    .studentDaySheet
+                                    .map((e) =>
+                                        CampusEmployeeStudentDaySheetCompareData(
+                                            tagNo: e.tagNumber,
+                                            campusCount: (e.campusUniforms +
+                                                e.campusRegularCloths),
+                                            warehouseCount:
+                                                (e.wareHouseRegularCloths +
+                                                    e.wareHouseUniform),
+                                            delivered: e.delivered))
+                                    .toList();
+                            List<CampusEmployeeFacultyDaySheetCompareData>
+                                facultyData = campusEmployeeController
+                                    .employeeCollection
+                                    .value!
+                                    .data[index]
+                                    .facultyDaySheet
+                                    .map((e) =>
+                                        CampusEmployeeFacultyDaySheetCompareData(
+                                            facultyName: "",
+                                            campusCount: e.regularCloths,
+                                            warehouseCount:
+                                                e.wareHouseRegularCloths,
+                                            delivered: e.delivered))
+                                    .toList();
+
+                            setState(() {
+                              id = campusEmployeeController
+                                  .employeeCollection.value?.data[index].id;
+                              dateCreated = DateFormat('dd-MM-yyyy hh:mm a')
+                                  .format(DateTime.parse(
+                                      campusEmployeeController
+                                          .employeeCollection
+                                          .value!
+                                          .data[index]
+                                          .studentDaySheet[0]
+                                          .createdAt))
+                                  .toString();
+                              deliveryStatus = campusEmployeeController
+                                  .employeeCollection
+                                  .value
+                                  ?.data[index]
+                                  .studentDaySheet[0]
+                                  .delivered;
+                              studentTagCount = campusEmployeeController
+                                      .employeeCollection
+                                      .value
+                                      ?.data[index]
+                                      .studentDaySheet
+                                      .fold(0, (previousValue, element) {
+                                    return (previousValue ?? 0) +
+                                        (element.campusRegularCloths) +
+                                        (element.campusUniforms);
+                                  }) ??
+                                  0;
+                              facultyTagCount = campusEmployeeController
+                                  .employeeCollection
+                                  .value
+                                  ?.data[index]
+                                  .facultyDaySheet
+                                  .fold(0, (previousValue, element) {
+                                return previousValue! + (element.regularCloths);
+                              });
+                            });
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return SizedBox(
+                                    height: 500,
+                                    width: Get.width,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Collection Details',
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Expanded(
+                                            child: SingleChildScrollView(
+                                              child: Table(
+                                                border: const TableBorder(
+                                                    horizontalInside:
+                                                        BorderSide(
+                                                            color: Colors.black,
+                                                            width: 0.2)),
+                                                children: [
+                                                  TableRow(
+                                                    children: [
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Text(
+                                                              'Name'
+                                                                  .toUpperCase(),
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 18,
+                                                                color:
+                                                                    Colors.blue,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: const Text(
+                                                              'Value',
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                color:
+                                                                    Colors.blue,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  // Table rows from the orders list
+                                                  TableRow(
+                                                    children: [
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: const Text(
+                                                              'ID',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Text(
+                                                              '$id',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  TableRow(
+                                                    children: [
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: const Text(
+                                                              'Created Date',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Text(
+                                                              '$dateCreated',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  TableRow(
+                                                    children: [
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: const Text(
+                                                              'Delivery Status',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8),
+                                                              child: deliveryStatus ==
+                                                                      true
+                                                                  ? const Text(
+                                                                      'Done')
+                                                                  : const Text(
+                                                                      'Pending')),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  TableRow(
+                                                    children: [
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: const Text(
+                                                              'Student Tag Count',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Text(
+                                                              '$studentTagCount',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  TableRow(
+                                                    children: [
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: const Text(
+                                                              'Faculty Count',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      TableCell(
+                                                        child: Center(
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Text(
+                                                              '$facultyTagCount',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              'Value',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.blue,
-                                              ),
-                                            ),
+                                          const SizedBox(
+                                            height: 10,
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Table rows from the orders list
-                                  TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              'ID',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.blue,
+                                                ),
+                                                onPressed: () {
+                                                  if (deliveryStatus == true) {
+                                                    Get.to(() =>
+                                                        CampusEmployeeCompareDaysheet(
+                                                          campusEmployeeStudentDaySheetCompareData:
+                                                              studentData,
+                                                          campusEmployeeFacultyDaySheetCompareData:
+                                                              facultyData,
+                                                        ));
+                                                  } else {
+                                                    Get.to(() =>
+                                                        const CampusEmployeePendingDeliveryCollectionDetails());
+                                                  }
+                                                },
+                                                child: Text(
+                                                  deliveryStatus == true
+                                                      ? 'Next'
+                                                      : 'Check',
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                )),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              '${id}',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              'Created Date',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              '${dateCreated}',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              'Delivery Status',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                              padding: EdgeInsets.all(8),
-                                              child: deliveryStatus == true
-                                                  ? Text('Done')
-                                                  : Text('Pending')),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              'Student Tag Count',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              '${studentTagCount}',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              'Faculty Count',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: Center(
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                              '${facultyTagCount}',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                ),
-                                onPressed: () {
-                                  if (deliveryStatus == true) {
-                                    Get.to(
-                                        () => CampusEmployeeCompareDaysheet());
-                                  } else {
-                                    Get.to(() =>
-                                        CampusEmployeePendingDeliveryCollectionDetails());
-                                  }
-                                },
-                                child: Text(
-                                  deliveryStatus == true ? 'Next' : 'Check',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                )),
-                          ),
-                        ],
-                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                        );
+                      },
                     ),
-                  );
-                });
-          },
-        ),
-        // Obx(() => Expanded(
-        //       child: SingleChildScrollView(
-        //         child: Table(
-        //           border: TableBorder(
-        //               horizontalInside:
-        //                   BorderSide(color: Colors.black, width: 0.2)),
-        //           children: [
-        //             // Table header
-        //             TableRow(
-        //               children: [
-        //                 TableCell(
-        //                   child: Container(
-        //                     padding: EdgeInsets.all(8),
-        //                     child: Text(
-        //                       'Id',
-        //                       style: TextStyle(
-        //                         fontSize: 16,
-        //                         color: Colors.blue,
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ),
-        //                 TableCell(
-        //                   child: Container(
-        //                     padding: EdgeInsets.all(8),
-        //                     child: Text(
-        //                       'Delivery',
-        //                       style: TextStyle(
-        //                         fontSize: 16,
-        //                         color: Colors.blue,
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ),
-        //                 TableCell(
-        //                   child: Container(
-        //                     padding: EdgeInsets.all(8),
-        //                     child: Text(
-        //                       'Delivered',
-        //                       style: TextStyle(
-        //                         fontSize: 16,
-        //                         color: Colors.blue,
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ],
-        //             ),
-        //             // Table rows from the orders list
-        //             ...campusEmployeeController
-        //                 .campusEmployeeOrdersFromWarehouse
-        //                 .asMap()
-        //                 .entries
-        //                 .map((order) {
-        //               return TableRow(
-        //                 children: [
-        //                   TableCell(
-        //                     child: InkWell(
-        //                       onTap: () {
-        //                         setState(() {
-        //                           id = order.value.collectionNo;
-        //                           dateCreated = order.value.deliveryDate;
-        //                           deliveryStatus = order.value.delivered;
-        //                           studentTagCount = order.value.tagCount;
-        //                           facultyTagCount = order.value.facultyCount;
-        //                         });
-        //                         showModalBottomSheet(
-        //                             context: context,
-        //                             builder: (context) {
-        //                               return SizedBox(
-        //                                 height: 500,
-        //                                 width: Get.width,
-        //                                 child: Padding(
-        //                                   padding: const EdgeInsets.all(8.0),
-        //                                   child: Column(
-        //                                     crossAxisAlignment:
-        //                                         CrossAxisAlignment.start,
-        //                                     children: [
-        //                                       const Text(
-        //                                         'Collection Details',
-        //                                         style: TextStyle(
-        //                                           fontSize: 25,
-        //                                           fontWeight: FontWeight.w700,
-        //                                         ),
-        //                                       ),
-        //                                       const SizedBox(
-        //                                         height: 20,
-        //                                       ),
-        //                                       Expanded(
-        //                                         child: SingleChildScrollView(
-        //                                           child: Table(
-        //                                             border: TableBorder(
-        //                                                 horizontalInside:
-        //                                                     BorderSide(
-        //                                                         color: Colors
-        //                                                             .black,
-        //                                                         width: 0.2)),
-        //                                             children: [
-        //                                               // Table header
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Name',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 16,
-        //                                                           color: Colors
-        //                                                               .blue,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Value',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 16,
-        //                                                           color: Colors
-        //                                                               .blue,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               // Table rows from the orders list
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'ID',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${id}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Created Date',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${dateCreated}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Delivery Status',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                         padding:
-        //                                                             EdgeInsets
-        //                                                                 .all(8),
-        //                                                         child: deliveryStatus ==
-        //                                                                 true
-        //                                                             ? Text(
-        //                                                                 'Done')
-        //                                                             : Text(
-        //                                                                 'Pending')),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Student Tag Count',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${studentTagCount}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Faculty Count',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${facultyTagCount}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                             ],
-        //                                           ),
-        //                                         ),
-        //                                       ),
-        //                                       const SizedBox(
-        //                                         height: 10,
-        //                                       ),
-        //                                       Align(
-        //                                         alignment: Alignment.center,
-        //                                         child: ElevatedButton(
-        //                                             style: ElevatedButton
-        //                                                 .styleFrom(
-        //                                               backgroundColor:
-        //                                                   Colors.blue,
-        //                                             ),
-        //                                             onPressed: () {
-        //                                               if (deliveryStatus ==
-        //                                                   true) {
-        //                                                 Get.to(() =>
-        //                                                     CampusEmployeeCompareDaysheet());
-        //                                               } else {
-        //                                                 Get.to(() =>
-        //                                                     CampusEmployeePendingDeliveryCollectionDetails());
-        //                                               }
-        //                                             },
-        //                                             child: Text(
-        //                                               deliveryStatus == true
-        //                                                   ? 'Next'
-        //                                                   : 'Check',
-        //                                               style: TextStyle(
-        //                                                 color: Colors.white,
-        //                                               ),
-        //                                             )),
-        //                                       ),
-        //                                     ],
-        //                                   ),
-        //                                 ),
-        //                               );
-        //                             });
-        //                       },
-        //                       child: Container(
-        //                         padding: EdgeInsets.all(8),
-        //                         child: Text(
-        //                           order.value.collectionNo.toString(),
-        //                           style: TextStyle(
-        //                             fontSize: 12,
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ),
-        //                   TableCell(
-        //                     child: InkWell(
-        //                       onTap: () {
-        //                         setState(() {
-        //                           id = order.value.collectionNo;
-        //                           dateCreated = order.value.deliveryDate;
-        //                           deliveryStatus = order.value.delivered;
-        //                           studentTagCount = order.value.tagCount;
-        //                           facultyTagCount = order.value.facultyCount;
-        //                         });
-        //                         showModalBottomSheet(
-        //                             context: context,
-        //                             builder: (context) {
-        //                               return SizedBox(
-        //                                 height: 500,
-        //                                 width: Get.width,
-        //                                 child: Padding(
-        //                                   padding: const EdgeInsets.all(8.0),
-        //                                   child: Column(
-        //                                     crossAxisAlignment:
-        //                                         CrossAxisAlignment.start,
-        //                                     children: [
-        //                                       const Text(
-        //                                         'Collection Details',
-        //                                         style: TextStyle(
-        //                                           fontSize: 25,
-        //                                           fontWeight: FontWeight.w700,
-        //                                         ),
-        //                                       ),
-        //                                       const SizedBox(
-        //                                         height: 20,
-        //                                       ),
-        //                                       Expanded(
-        //                                         child: SingleChildScrollView(
-        //                                           child: Table(
-        //                                             border: TableBorder(
-        //                                                 horizontalInside:
-        //                                                     BorderSide(
-        //                                                         color: Colors
-        //                                                             .black,
-        //                                                         width: 0.2)),
-        //                                             children: [
-        //                                               // Table header
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Name',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 16,
-        //                                                           color: Colors
-        //                                                               .blue,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Value',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 16,
-        //                                                           color: Colors
-        //                                                               .blue,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               // Table rows from the orders list
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'ID',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${id}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Created Date',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${dateCreated}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Delivery Status',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                         padding:
-        //                                                             EdgeInsets
-        //                                                                 .all(8),
-        //                                                         child: deliveryStatus ==
-        //                                                                 true
-        //                                                             ? Text(
-        //                                                                 'Done')
-        //                                                             : Text(
-        //                                                                 'Pending')),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Student Tag Count',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${studentTagCount}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                               TableRow(
-        //                                                 children: [
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         'Faculty Count',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                   TableCell(
-        //                                                     child: Container(
-        //                                                       padding:
-        //                                                           EdgeInsets
-        //                                                               .all(8),
-        //                                                       child: Text(
-        //                                                         '${facultyTagCount}',
-        //                                                         style:
-        //                                                             TextStyle(
-        //                                                           fontSize: 12,
-        //                                                         ),
-        //                                                       ),
-        //                                                     ),
-        //                                                   ),
-        //                                                 ],
-        //                                               ),
-        //                                             ],
-        //                                           ),
-        //                                         ),
-        //                                       ),
-        //                                       const SizedBox(
-        //                                         height: 10,
-        //                                       ),
-        //                                       Align(
-        //                                         alignment: Alignment.center,
-        //                                         child: ElevatedButton(
-        //                                             style: ElevatedButton
-        //                                                 .styleFrom(
-        //                                               backgroundColor:
-        //                                                   Colors.blue,
-        //                                             ),
-        //                                             onPressed: () {
-        //                                               if (deliveryStatus ==
-        //                                                   true) {
-        //                                                 Get.to(() =>
-        //                                                     CampusEmployeeCompareDaysheet());
-        //                                               } else {
-        //                                                 Get.to(() =>
-        //                                                     CampusEmployeePendingDeliveryCollectionDetails());
-        //                                               }
-        //                                             },
-        //                                             child: Text(
-        //                                               deliveryStatus == true
-        //                                                   ? 'Next'
-        //                                                   : 'Check',
-        //                                               style: TextStyle(
-        //                                                 color: Colors.white,
-        //                                               ),
-        //                                             )),
-        //                                       ),
-        //                                     ],
-        //                                   ),
-        //                                 ),
-        //                               );
-        //                             });
-        //                       },
-        //                       child: Container(
-        //                         padding: EdgeInsets.all(8),
-        //                         child: Text(
-        //                           '${order.value.deliveryDate}',
-        //                           style: TextStyle(
-        //                             fontSize: 12,
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ),
-        //                   TableCell(
-        //                     child: order.value.delivered
-        //                         ? InkWell(
-        //                             onTap: () {
-        //                               setState(() {
-        //                                 id = order.value.collectionNo;
-        //                                 dateCreated = order.value.deliveryDate;
-        //                                 deliveryStatus = order.value.delivered;
-        //                                 studentTagCount = order.value.tagCount;
-        //                                 facultyTagCount =
-        //                                     order.value.facultyCount;
-        //                               });
-        //                               showModalBottomSheet(
-        //                                   context: context,
-        //                                   builder: (context) {
-        //                                     return SizedBox(
-        //                                       height: 500,
-        //                                       width: Get.width,
-        //                                       child: Padding(
-        //                                         padding:
-        //                                             const EdgeInsets.all(8.0),
-        //                                         child: Column(
-        //                                           crossAxisAlignment:
-        //                                               CrossAxisAlignment.start,
-        //                                           children: [
-        //                                             const Text(
-        //                                               'Collection Details',
-        //                                               style: TextStyle(
-        //                                                 fontSize: 25,
-        //                                                 fontWeight:
-        //                                                     FontWeight.w700,
-        //                                               ),
-        //                                             ),
-        //                                             const SizedBox(
-        //                                               height: 20,
-        //                                             ),
-        //                                             Expanded(
-        //                                               child:
-        //                                                   SingleChildScrollView(
-        //                                                 child: Table(
-        //                                                   border: TableBorder(
-        //                                                       horizontalInside:
-        //                                                           BorderSide(
-        //                                                               color: Colors
-        //                                                                   .black,
-        //                                                               width:
-        //                                                                   0.2)),
-        //                                                   children: [
-        //                                                     // Table header
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Name',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     16,
-        //                                                                 color: Colors
-        //                                                                     .blue,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Value',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     16,
-        //                                                                 color: Colors
-        //                                                                     .blue,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     // Table rows from the orders list
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'ID',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${id}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Created Date',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${dateCreated}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Delivery Status',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child: Container(
-        //                                                               padding:
-        //                                                                   EdgeInsets.all(
-        //                                                                       8),
-        //                                                               child: deliveryStatus ==
-        //                                                                       true
-        //                                                                   ? Text(
-        //                                                                       'Done')
-        //                                                                   : Text(
-        //                                                                       'Pending')),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Student Tag Count',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${studentTagCount}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Faculty Count',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${facultyTagCount}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                   ],
-        //                                                 ),
-        //                                               ),
-        //                                             ),
-        //                                             const SizedBox(
-        //                                               height: 10,
-        //                                             ),
-        //                                             Align(
-        //                                               alignment:
-        //                                                   Alignment.center,
-        //                                               child: ElevatedButton(
-        //                                                   style: ElevatedButton
-        //                                                       .styleFrom(
-        //                                                     backgroundColor:
-        //                                                         Colors.blue,
-        //                                                   ),
-        //                                                   onPressed: () {
-        //                                                     if (deliveryStatus ==
-        //                                                         true) {
-        //                                                       Get.to(() =>
-        //                                                           CampusEmployeeCompareDaysheet());
-        //                                                     } else {
-        //                                                       Get.to(() =>
-        //                                                           CampusEmployeePendingDeliveryCollectionDetails());
-        //                                                     }
-        //                                                   },
-        //                                                   child: Text(
-        //                                                     deliveryStatus ==
-        //                                                             true
-        //                                                         ? 'Next'
-        //                                                         : 'Check',
-        //                                                     style: TextStyle(
-        //                                                       color:
-        //                                                           Colors.white,
-        //                                                     ),
-        //                                                   )),
-        //                                             ),
-        //                                           ],
-        //                                         ),
-        //                                       ),
-        //                                     );
-        //                                   });
-        //                             },
-        //                             child: Icon(Icons.done))
-        //                         : InkWell(
-        //                             onTap: () {
-        //                               setState(() {
-        //                                 id = order.value.collectionNo;
-        //                                 dateCreated = order.value.deliveryDate;
-        //                                 deliveryStatus = order.value.delivered;
-        //                                 studentTagCount = order.value.tagCount;
-        //                                 facultyTagCount =
-        //                                     order.value.facultyCount;
-        //                               });
-        //                               showModalBottomSheet(
-        //                                   context: context,
-        //                                   builder: (context) {
-        //                                     return SizedBox(
-        //                                       height: 500,
-        //                                       width: Get.width,
-        //                                       child: Padding(
-        //                                         padding:
-        //                                             const EdgeInsets.all(8.0),
-        //                                         child: Column(
-        //                                           crossAxisAlignment:
-        //                                               CrossAxisAlignment.start,
-        //                                           children: [
-        //                                             const Text(
-        //                                               'Collection Details',
-        //                                               style: TextStyle(
-        //                                                 fontSize: 25,
-        //                                                 fontWeight:
-        //                                                     FontWeight.w700,
-        //                                               ),
-        //                                             ),
-        //                                             const SizedBox(
-        //                                               height: 20,
-        //                                             ),
-        //                                             Expanded(
-        //                                               child:
-        //                                                   SingleChildScrollView(
-        //                                                 child: Table(
-        //                                                   border: TableBorder(
-        //                                                       horizontalInside:
-        //                                                           BorderSide(
-        //                                                               color: Colors
-        //                                                                   .black,
-        //                                                               width:
-        //                                                                   0.2)),
-        //                                                   children: [
-        //                                                     // Table header
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Name',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     16,
-        //                                                                 color: Colors
-        //                                                                     .blue,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Value',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     16,
-        //                                                                 color: Colors
-        //                                                                     .blue,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     // Table rows from the orders list
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'ID',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${id}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Created Date',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${dateCreated}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Delivery Status',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child: Container(
-        //                                                               padding:
-        //                                                                   EdgeInsets.all(
-        //                                                                       8),
-        //                                                               child: deliveryStatus ==
-        //                                                                       true
-        //                                                                   ? Text(
-        //                                                                       'Done')
-        //                                                                   : Text(
-        //                                                                       'Pending')),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Student Tag Count',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${studentTagCount}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                     TableRow(
-        //                                                       children: [
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               'Faculty Count',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                         TableCell(
-        //                                                           child:
-        //                                                               Container(
-        //                                                             padding:
-        //                                                                 EdgeInsets
-        //                                                                     .all(8),
-        //                                                             child: Text(
-        //                                                               '${facultyTagCount}',
-        //                                                               style:
-        //                                                                   TextStyle(
-        //                                                                 fontSize:
-        //                                                                     12,
-        //                                                               ),
-        //                                                             ),
-        //                                                           ),
-        //                                                         ),
-        //                                                       ],
-        //                                                     ),
-        //                                                   ],
-        //                                                 ),
-        //                                               ),
-        //                                             ),
-        //                                             const SizedBox(
-        //                                               height: 10,
-        //                                             ),
-        //                                             Align(
-        //                                               alignment:
-        //                                                   Alignment.center,
-        //                                               child: ElevatedButton(
-        //                                                   style: ElevatedButton
-        //                                                       .styleFrom(
-        //                                                     backgroundColor:
-        //                                                         Colors.blue,
-        //                                                   ),
-        //                                                   onPressed: () {
-        //                                                     if (deliveryStatus ==
-        //                                                         true) {
-        //                                                       Get.to(() =>
-        //                                                           CampusEmployeeCompareDaysheet());
-        //                                                     } else {
-        //                                                       Get.to(() =>
-        //                                                           CampusEmployeePendingDeliveryCollectionDetails());
-        //                                                     }
-        //                                                   },
-        //                                                   child: Text(
-        //                                                     deliveryStatus ==
-        //                                                             true
-        //                                                         ? 'Next'
-        //                                                         : 'Check',
-        //                                                     style: TextStyle(
-        //                                                       color:
-        //                                                           Colors.white,
-        //                                                     ),
-        //                                                   )),
-        //                                             ),
-        //                                           ],
-        //                                         ),
-        //                                       ),
-        //                                     );
-        //                                   });
-        //                             },
-        //                             child: SizedBox()),
-        //                   ),
-        //                 ],
-        //               );
-        //             }).toList(),
-        //           ],
-        //         ),
-        //       ),
-        //     )),
+                  )),
         const SizedBox(
           height: 10,
         ),
@@ -1658,7 +533,7 @@ class _CampusEmployeeOrderFromWarehouseState
                 onPressed: () {
                   _selectDateRange(context);
                 },
-                child: Text(
+                child: const Text(
                   'Select Date Range',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -1666,11 +541,11 @@ class _CampusEmployeeOrderFromWarehouseState
             ),
           ],
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         if (startDate != null && endDate != null)
           Text(
             'Selected Date Range: ${DateFormat.yMMMd().format(startDate!)} - ${DateFormat.yMMMd().format(endDate!)}',
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
       ],
     );

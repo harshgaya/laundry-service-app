@@ -3,7 +3,23 @@ import 'package:get/get.dart';
 
 class TaskTileWidget extends StatelessWidget {
   final VoidCallback function;
-  const TaskTileWidget({super.key, required this.function});
+  final Color color1;
+  final String title1;
+  final String title2;
+  final String title3;
+  final String title4;
+  final IconData icon;
+  final Color color2;
+  const TaskTileWidget(
+      {super.key,
+      required this.function,
+      required this.color1,
+      required this.title1,
+      required this.title2,
+      required this.title3,
+      required this.title4,
+      required this.icon,
+      required this.color2});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +46,9 @@ class TaskTileWidget extends StatelessWidget {
               Container(
                 height: 100,
                 width: 10,
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: color1,
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10)),
                 ),
@@ -49,10 +65,10 @@ class TaskTileWidget extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Row(
+                        Row(
                           children: [
                             Icon(
-                              Icons.bookmark,
+                              icon,
                               color: Colors.grey,
                             ),
                             Text(

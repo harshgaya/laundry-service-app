@@ -10,7 +10,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class CampusEmployeeCompareDaysheet extends StatefulWidget {
-  const CampusEmployeeCompareDaysheet({super.key});
+  final List<CampusEmployeeStudentDaySheetCompareData>
+      campusEmployeeStudentDaySheetCompareData;
+  final List<CampusEmployeeFacultyDaySheetCompareData>
+      campusEmployeeFacultyDaySheetCompareData;
+  const CampusEmployeeCompareDaysheet(
+      {super.key,
+      required this.campusEmployeeStudentDaySheetCompareData,
+      required this.campusEmployeeFacultyDaySheetCompareData});
 
   @override
   State<CampusEmployeeCompareDaysheet> createState() =>
@@ -141,25 +148,87 @@ class _CampusEmployeeCompareDaysheetState
               height: 20,
             ),
             studentDaySheetSelected
-                ? Obx(() => Expanded(
-                      child: SingleChildScrollView(
-                        child: Table(
-                          border: TableBorder(
-                              horizontalInside:
-                                  BorderSide(color: Colors.black, width: 0.2)),
-                          children: [
-                            // Table header
-                            TableRow(
+                ? Expanded(
+                    child: SingleChildScrollView(
+                      child: Table(
+                        border: TableBorder(
+                            horizontalInside:
+                                BorderSide(color: Colors.black, width: 0.2)),
+                        children: [
+                          // Table header
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'TAG NO.',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Campus'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Warehouse'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'DELIEVERED',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Table rows from the orders list
+                          ...widget.campusEmployeeStudentDaySheetCompareData
+                              .map((order) {
+                            return TableRow(
                               children: [
                                 TableCell(
                                   child: Center(
                                     child: Container(
                                       padding: EdgeInsets.all(8),
                                       child: Text(
-                                        'TAG NO.',
+                                        order.tagNo.toString(),
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ),
@@ -170,10 +239,9 @@ class _CampusEmployeeCompareDaysheetState
                                     child: Container(
                                       padding: EdgeInsets.all(8),
                                       child: Text(
-                                        'Campus'.toUpperCase(),
+                                        '${order.campusCount}',
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ),
@@ -184,10 +252,9 @@ class _CampusEmployeeCompareDaysheetState
                                     child: Container(
                                       padding: EdgeInsets.all(8),
                                       child: Text(
-                                        'Warehouse'.toUpperCase(),
+                                        '${order.warehouseCount}',
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ),
@@ -195,109 +262,111 @@ class _CampusEmployeeCompareDaysheetState
                                 ),
                                 TableCell(
                                   child: Center(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        'DELIEVERED',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
-                                        ),
+                                      child: order.delivered
+                                          ? Icon(Icons.done)
+                                          : SizedBox()
+                                      // Checkbox(
+                                      //   value: order.value.delivered,
+                                      //   onChanged: (bool? value) {
+                                      //     setState(() {
+                                      //       order.value.delivered =
+                                      //           value ?? false;
+                                      //       campusEmployeeController
+                                      //           .campusEmployeeOrdersFromWarehouse
+                                      //           .refresh();
+                                      //     });
+                                      //   },
+                                      // ),
                                       ),
-                                    ),
-                                  ),
                                 ),
                               ],
-                            ),
-                            // Table rows from the orders list
-                            ...campusEmployeeController
-                                .campusEmployeeStudentDaySheetCompare
-                                .asMap()
-                                .entries
-                                .map((order) {
-                              return TableRow(
-                                children: [
-                                  TableCell(
-                                    child: Center(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          order.value.tagNo.toString(),
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Center(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          '${order.value.campusCount}',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Center(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          '${order.value.warehouseCount}',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Center(
-                                      child: Checkbox(
-                                        value: order.value.delivered,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            order.value.delivered =
-                                                value ?? false;
-                                            campusEmployeeController
-                                                .campusEmployeeOrdersFromWarehouse
-                                                .refresh();
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                          ],
-                        ),
+                            );
+                          }).toList(),
+                        ],
                       ),
-                    ))
-                : Obx(() => Expanded(
-                      child: SingleChildScrollView(
-                        child: Table(
-                          border: TableBorder(
-                              horizontalInside:
-                                  BorderSide(color: Colors.black, width: 0.2)),
-                          children: [
-                            // Table header
-                            TableRow(
+                    ),
+                  )
+                : Expanded(
+                    child: SingleChildScrollView(
+                      child: Table(
+                        border: TableBorder(
+                            horizontalInside:
+                                BorderSide(color: Colors.black, width: 0.2)),
+                        children: [
+                          // Table header
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Name'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Campus'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Warehouse'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      'Delivered'.toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Table rows from the orders list
+                          ...widget.campusEmployeeFacultyDaySheetCompareData
+                              .map((order) {
+                            return TableRow(
                               children: [
                                 TableCell(
                                   child: Center(
                                     child: Container(
                                       padding: EdgeInsets.all(8),
                                       child: Text(
-                                        'Name'.toUpperCase(),
+                                        order.facultyName.toString(),
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ),
@@ -308,10 +377,9 @@ class _CampusEmployeeCompareDaysheetState
                                     child: Container(
                                       padding: EdgeInsets.all(8),
                                       child: Text(
-                                        'Campus'.toUpperCase(),
+                                        '${order.campusCount}',
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ),
@@ -322,10 +390,9 @@ class _CampusEmployeeCompareDaysheetState
                                     child: Container(
                                       padding: EdgeInsets.all(8),
                                       child: Text(
-                                        'Warehouse'.toUpperCase(),
+                                        '${order.warehouseCount}',
                                         style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ),
@@ -333,90 +400,30 @@ class _CampusEmployeeCompareDaysheetState
                                 ),
                                 TableCell(
                                   child: Center(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        'Delivered'.toUpperCase(),
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.blue,
-                                        ),
+                                      child: order.delivered
+                                          ? Icon(Icons.done)
+                                          : SizedBox()
+                                      // Checkbox(
+                                      //   value: order.value.delivered,
+                                      //   onChanged: (bool? value) {
+                                      //     setState(() {
+                                      //       order.value.delivered =
+                                      //           value ?? false;
+                                      //       campusEmployeeController
+                                      //           .campusEmployeeOrdersFromWarehouse
+                                      //           .refresh();
+                                      //     });
+                                      //   },
+                                      // ),
                                       ),
-                                    ),
-                                  ),
                                 ),
                               ],
-                            ),
-                            // Table rows from the orders list
-                            ...campusEmployeeController
-                                .campusEmployeeFacultyDaySheetCompare
-                                .asMap()
-                                .entries
-                                .map((order) {
-                              return TableRow(
-                                children: [
-                                  TableCell(
-                                    child: Center(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          order.value.facultyName.toString(),
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Center(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          '${order.value.campusCount}',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Center(
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        child: Text(
-                                          '${order.value.warehouseCount}',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Center(
-                                      child: Checkbox(
-                                        value: order.value.delivered,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            order.value.delivered =
-                                                value ?? false;
-                                            campusEmployeeController
-                                                .campusEmployeeOrdersFromWarehouse
-                                                .refresh();
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                          ],
-                        ),
+                            );
+                          }).toList(),
+                        ],
                       ),
-                    )),
+                    ),
+                  ),
             const SizedBox(
               height: 10,
             ),

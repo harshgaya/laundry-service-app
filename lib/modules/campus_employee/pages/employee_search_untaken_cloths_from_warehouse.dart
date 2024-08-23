@@ -199,7 +199,7 @@ class _CampusEmployeeSearchUntakenClothsFromWarehouseState
                           TableCell(
                             child: InkWell(
                               onTap: () {
-                                Get.to(() => CampusEmployeeCompareDaysheet());
+                                //Get.to(() => CampusEmployeeCompareDaysheet());
                               },
                               child: Container(
                                 padding: EdgeInsets.all(8),

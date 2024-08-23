@@ -9,11 +9,13 @@ class UrlConstants {
   static const createCollectionNo = '${BASE_URL}createNewCollection';
 
   ///campus employee
-  static const getCampus = '${BASE_URL}/college/get-campus-details';
+  static const getCampus = '${BASE_URL}college/get-campus-details';
   static const getLatestCollectionId =
-      '${BASE_URL}/college/get-latest-collection';
+      '${BASE_URL}college/get-latest-collection';
   static const searchTag =
       '${BASE_URL}college/get-non-delivered-student-daysheet-collection/';
   static const getFacultyList = '${BASE_URL}college/get-faculty-list';
   static const uploadDaySheet = '${BASE_URL}college/collection/';
+  static const getEmployeeCollectionHistory =
+      '${BASE_URL}college/get-employee-collection-list';
 }

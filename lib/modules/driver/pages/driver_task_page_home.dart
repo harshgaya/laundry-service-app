@@ -24,6 +24,13 @@ class _DriverTaskPageHomeState extends State<DriverTaskPageHome> {
           height: 50,
         ),
         TaskTileWidget(
+          color1: Colors.red,
+          title1: 'Asset',
+          title2: 'In progress',
+          title3: 'Collection No-1',
+          title4: 'Sri Chaitnya',
+          icon: Icons.bookmark,
+          color2: Colors.green,
           function: () {
             Get.to(() => const ToDoListViewDriver());
           },
