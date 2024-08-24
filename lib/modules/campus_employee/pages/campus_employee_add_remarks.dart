@@ -128,7 +128,11 @@ class _CampusEmployeeAddRemarksState extends State<CampusEmployeeAddRemarks> {
                               TableCell(
                                 child: InkWell(
                                   onTap: () {
-                                    Get.to(() => WarehouseRemarksDetails());
+                                    Get.to(() => WarehouseRemarksDetails(
+                                          collectionId: '',
+                                          tagId: '',
+                                          campusId: '',
+                                        ));
                                   },
                                   child: Center(
                                     child: Container(
@@ -146,7 +150,11 @@ class _CampusEmployeeAddRemarksState extends State<CampusEmployeeAddRemarks> {
                               TableCell(
                                 child: InkWell(
                                   onTap: () {
-                                    Get.to(() => WarehouseRemarksDetails());
+                                    Get.to(() => WarehouseRemarksDetails(
+                                          collectionId: '',
+                                          tagId: '',
+                                          campusId: '',
+                                        ));
                                   },
                                   child: Center(
                                     child: Container(
@@ -164,7 +172,11 @@ class _CampusEmployeeAddRemarksState extends State<CampusEmployeeAddRemarks> {
                               TableCell(
                                 child: InkWell(
                                   onTap: () {
-                                    Get.to(() => WarehouseRemarksDetails());
+                                    Get.to(() => WarehouseRemarksDetails(
+                                          collectionId: '',
+                                          tagId: '',
+                                          campusId: '',
+                                        ));
                                   },
                                   child: Container(
                                     child: !order.value.remarks.isEmpty

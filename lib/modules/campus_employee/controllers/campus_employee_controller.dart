@@ -328,11 +328,12 @@ class CampusEmployeeController extends GetxController {
     }
   }
 
-  Future<bool> searchTag({required String tag}) async {
+  Future<bool> searchTag(
+      {required String tag, required String campusId}) async {
     try {
       var data = {
-        "tag_number": "${selectedTag.value}$tag",
-        "campus_uid": selectedCampusId.value,
+        "tag_number": tag,
+        "campus_uid": campusId,
       };
       var response = await _apiServices.postApi(data, UrlConstants.searchTag);
       return true;
@@ -387,6 +388,25 @@ class CampusEmployeeController extends GetxController {
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  Future<void> uploadStudentRemarks(
+      {required String collectionId, required String tagId}) async {
+    try {
+      if (remarkToWarehouse.isEmpty) {
+        return;
+      }
+      List<Map<String, dynamic>> remarksData = remarkToWarehouse.map((element) {
+        return {
+          'tag_number': '$tagId${element.tagNo}',
+          'remark': element.remarks,
+        };
+      }).toList();
+      var data = {remarksData};
+
+      var response = await _apiServices.postApi(data,
+          '${UrlConstants.uploadRemarksByCampusEmployee}$collectionId/$collectionId');
+    } catch (e) {}
   }
 
   @override

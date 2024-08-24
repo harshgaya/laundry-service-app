@@ -6,7 +6,14 @@ import 'package:laundry_service/modules/campus_employee/pages/untaken_cloths_to_
 import 'package:laundry_service/modules/campus_employee/pages/warehouse_view_remarks_pdfview.dart';
 
 class WarehouseRemarksDetails extends StatefulWidget {
-  const WarehouseRemarksDetails({super.key});
+  final String collectionId;
+  final String tagId;
+  final String campusId;
+  const WarehouseRemarksDetails(
+      {super.key,
+      required this.collectionId,
+      required this.tagId,
+      required this.campusId});
 
   @override
   State<WarehouseRemarksDetails> createState() =>
@@ -22,7 +29,7 @@ class _WarehouseRemarksDetailsState extends State<WarehouseRemarksDetails> {
           onPressed: () {
             Get.back();
           },
-          icon: CircleAvatar(
+          icon: const CircleAvatar(
             backgroundColor: Colors.blue,
             child: Center(
               child: Icon(
@@ -63,7 +70,7 @@ class _WarehouseRemarksDetailsState extends State<WarehouseRemarksDetails> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(
+                      const Text(
                         'View Remarks\nFrom Warehouse',
                         style: TextStyle(
                           color: Colors.white,
@@ -84,7 +91,11 @@ class _WarehouseRemarksDetailsState extends State<WarehouseRemarksDetails> {
             ),
             InkWell(
               onTap: () {
-                Get.to(() => AddRemarksToWarehouse());
+                Get.to(() => AddRemarksToWarehouse(
+                      tagName: widget.tagId,
+                      campusId: widget.campusId,
+                      collectionId: widget.collectionId,
+                    ));
               },
               child: Container(
                 width: Get.width,
@@ -99,7 +110,7 @@ class _WarehouseRemarksDetailsState extends State<WarehouseRemarksDetails> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(
+                      const Text(
                         'Add Remarks',
                         style: TextStyle(
                           color: Colors.white,
@@ -135,7 +146,7 @@ class _WarehouseRemarksDetailsState extends State<WarehouseRemarksDetails> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(
+                      const Text(
                         'Untaken Cloths',
                         style: TextStyle(
                           color: Colors.white,

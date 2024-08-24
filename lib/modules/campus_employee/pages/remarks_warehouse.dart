@@ -16,6 +16,14 @@ class RemarksWarehouse extends StatefulWidget {
 }
 
 class _RemarksWarehouseState extends State<RemarksWarehouse> {
+  final campusEmployeeController = Get.put(CampusEmployeeController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    campusEmployeeController.getEmployeeCollectionHistory();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -87,105 +95,58 @@ class _RemarksWarehouseState extends State<RemarksWarehouse> {
         const SizedBox(
           height: 50,
         ),
-        InkWell(
-          onTap: () {
-            //Get.to(() => CampusEmployeeAddRemarks());
-            Get.to(() => WarehouseRemarksDetails());
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 100,
-              width: Get.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ]),
-              child: Row(
-                children: [
-                  Container(
-                    height: 100,
-                    width: 10,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: Get.width - 80,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Row(
-                              children: [
-                                Icon(
-                                  Icons.access_time_filled,
-                                  color: Colors.grey,
-                                ),
-                                Text(
-                                  '23-08-24',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  height: 10,
-                                  width: 10,
-                                  decoration: const BoxDecoration(
-                                      color: Colors.green,
-                                      shape: BoxShape.circle),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text('Pending'),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'Collection No-5',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'Shri Chaitnya',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+        Obx(
+          () => Expanded(
+            child:
+                campusEmployeeController.loadingEmployeeCollectionHistory.value
+                    ? const Center(child: CircularProgressIndicator())
+                    : campusEmployeeController.employeeCollection.value == null
+                        ? const SizedBox()
+                        : ListView.builder(
+                            itemCount: campusEmployeeController
+                                .employeeCollection.value?.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return TaskTileWidget(
+                                color1: Colors.red,
+                                title1: 'Asset',
+                                title2: 'In progress',
+                                title3:
+                                    'Collection No-${campusEmployeeController.employeeCollection.value?.data[index].id}',
+                                title4: campusEmployeeController
+                                    .employeeCollection
+                                    .value!
+                                    .data[index]
+                                    .campus
+                                    .college
+                                    .name,
+                                icon: Icons.bookmark,
+                                color2: Colors.green,
+                                function: () {
+                                  Get.to(() => WarehouseRemarksDetails(
+                                        collectionId: campusEmployeeController
+                                            .employeeCollection
+                                            .value!
+                                            .data[index]
+                                            .uid,
+                                        tagId: campusEmployeeController
+                                            .employeeCollection
+                                            .value!
+                                            .data[index]
+                                            .campus
+                                            .tagName,
+                                        campusId: campusEmployeeController
+                                            .employeeCollection
+                                            .value!
+                                            .data[index]
+                                            .campus
+                                            .uid,
+                                      ));
+                                },
+                              );
+                            },
+                          ),
           ),
-        )
+        ),
       ],
     );
   }

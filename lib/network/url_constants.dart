@@ -18,4 +18,5 @@ class UrlConstants {
   static const uploadDaySheet = '${BASE_URL}college/collection/';
   static const getEmployeeCollectionHistory =
       '${BASE_URL}college/get-employee-collection-list';
+  static const uploadRemarksByCampusEmployee = '${BASE_URL}college/collection/';
 }

@@ -130,8 +130,12 @@ class _CreateCollectionDataState extends State<CreateCollectionData> {
                               enterClothVisible = false;
                             });
                           } else {
-                            bool tagExist = await campuseEmployeeController
-                                .searchTag(tag: value);
+                            bool tagExist =
+                                await campuseEmployeeController.searchTag(
+                                    tag:
+                                        '${campuseEmployeeController.selectedTag.value}$value',
+                                    campusId: campuseEmployeeController
+                                        .selectedCampusId.value);
                             if (tagExist) {
                               setState(() {
                                 enterClothVisible = true;

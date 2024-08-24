@@ -8,7 +8,15 @@ import 'package:laundry_service/modules/widegets/round_button_animate.dart';
 import '../controllers/campus_employee_controller.dart';
 
 class AddRemarksToWarehouse extends StatefulWidget {
-  const AddRemarksToWarehouse({super.key});
+  final String tagName;
+  final String campusId;
+  final String collectionId;
+  AddRemarksToWarehouse(
+      {super.key,
+      required,
+      required this.tagName,
+      required this.campusId,
+      required this.collectionId});
 
   @override
   State<AddRemarksToWarehouse> createState() => _AddRemarksToWarehouseState();
@@ -63,11 +71,11 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
                   Container(
                     height: 60,
                     width: 50,
-                    child: Center(child: Text('SKH')),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    child: Center(child: Text(widget.tagName)),
                   ),
                   const SizedBox(
                     width: 10,
@@ -77,23 +85,29 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       controller: tagController,
-                      onChanged: (value) {
+                      onChanged: (value) async {
                         if (value.isEmpty) {
                           setState(() {
                             buttonVisible = false;
                           });
                         } else {
-                          setState(() {
-                            buttonVisible = true;
-                          });
+                          bool tagExist =
+                              await campusEmployeeController.searchTag(
+                                  tag: '${widget.tagName}$value',
+                                  campusId: widget.campusId);
+                          if (tagExist) {
+                            setState(() {
+                              buttonVisible = true;
+                            });
+                          }
                         }
                       },
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search),
+                        prefixIcon: const Icon(Icons.search),
                         hintText: 'Search Tag No',
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30)),
-                        hintStyle: TextStyle(fontSize: 12),
+                        hintStyle: const TextStyle(fontSize: 12),
                       ),
                     ),
                   ),
@@ -283,10 +297,10 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
                               TableCell(
                                 child: Center(
                                   child: Container(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
-                                      order.value.tagNo.toString(),
-                                      style: TextStyle(
+                                      '${widget.tagName}${order.value.tagNo.toString()}',
+                                      style: const TextStyle(
                                         fontSize: 16,
                                       ),
                                     ),
@@ -321,7 +335,9 @@ class _AddRemarksToWarehouseState extends State<AddRemarksToWarehouse> {
       ),
       bottomSheet: RoundButtonAnimate(
         buttonName: 'Finish',
-        onClick: () {
+        onClick: () async {
+          await campusEmployeeController.uploadStudentRemarks(
+              collectionId: widget.collectionId, tagId: widget.tagName);
           Navigator.of(context).pop();
         },
         image: const Icon(

@@ -50,6 +50,7 @@ class Data {
 }
 
 class College {
+  int id;
   String uid;
   String name;
   String monthlyPayment;
@@ -58,6 +59,7 @@ class College {
   List<String> campusEmployee;
 
   College({
+    required this.id,
     required this.uid,
     required this.name,
     required this.monthlyPayment,
@@ -68,6 +70,7 @@ class College {
 
   factory College.fromJson(Map<String, dynamic> json) {
     return College(
+      id: json["id"],
       uid: json["uid"],
       name: json["name"],
       monthlyPayment: json["monthly_payment"],
@@ -79,6 +82,7 @@ class College {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "uid": uid,
       "name": name,
       "monthly_payment": monthlyPayment,
@@ -91,7 +95,6 @@ class College {
 
 class Campus {
   int id;
-  College college;
   String uid;
   bool isActive;
   DateTime createdAt;
@@ -99,10 +102,10 @@ class Campus {
   String tagName;
   String name;
   bool uniform;
+  int college;
 
   Campus({
     required this.id,
-    required this.college,
     required this.uid,
     required this.isActive,
     required this.createdAt,
@@ -110,12 +113,12 @@ class Campus {
     required this.tagName,
     required this.name,
     required this.uniform,
+    required this.college,
   });
 
   factory Campus.fromJson(Map<String, dynamic> json) {
     return Campus(
       id: json["id"],
-      college: College.fromJson(json["college"]),
       uid: json["uid"],
       isActive: json["isActive"],
       createdAt: DateTime.parse(json["created_at"]),
@@ -123,13 +126,13 @@ class Campus {
       tagName: json["tag_name"],
       name: json["name"],
       uniform: json["uniform"],
+      college: json["college"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      "college": college.toJson(),
       "uid": uid,
       "isActive": isActive,
       "created_at": createdAt.toIso8601String(),
@@ -137,6 +140,7 @@ class Campus {
       "tag_name": tagName,
       "name": name,
       "uniform": uniform,
+      "college": college,
     };
   }
 }

@@ -135,386 +135,421 @@ class _CampusEmployeeOrderFromWarehouseState
         const SizedBox(
           height: 10,
         ),
-        Obx(() => campusEmployeeController
-                .loadingEmployeeCollectionHistory.value
-            ? const CircularProgressIndicator()
-            : campusEmployeeController.employeeCollection.value == null
-                ? const SizedBox()
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: campusEmployeeController
-                          .employeeCollection.value?.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return TaskTileWidget(
-                          color1: Colors.red,
-                          title1: 'Asset',
-                          title2: 'In progress',
-                          title3:
-                              'Collection No-${campusEmployeeController.employeeCollection.value?.data[index].id}',
-                          title4: 'Sri Chaitnya',
-                          icon: Icons.bookmark,
-                          color2: Colors.green,
-                          function: () {
-                            List<CampusEmployeeStudentDaySheetCompareData>
-                                studentData = campusEmployeeController
-                                    .employeeCollection
-                                    .value!
-                                    .data[index]
-                                    .studentDaySheet
-                                    .map((e) =>
-                                        CampusEmployeeStudentDaySheetCompareData(
-                                            tagNo: e.tagNumber,
-                                            campusCount: (e.campusUniforms +
-                                                e.campusRegularCloths),
-                                            warehouseCount:
-                                                (e.wareHouseRegularCloths +
-                                                    e.wareHouseUniform),
-                                            delivered: e.delivered))
-                                    .toList();
-                            List<CampusEmployeeFacultyDaySheetCompareData>
-                                facultyData = campusEmployeeController
-                                    .employeeCollection
-                                    .value!
-                                    .data[index]
-                                    .facultyDaySheet
-                                    .map((e) =>
-                                        CampusEmployeeFacultyDaySheetCompareData(
-                                            facultyName: "",
-                                            campusCount: e.regularCloths,
-                                            warehouseCount:
-                                                e.wareHouseRegularCloths,
-                                            delivered: e.delivered))
-                                    .toList();
-
-                            setState(() {
-                              id = campusEmployeeController
-                                  .employeeCollection.value?.data[index].id;
-                              dateCreated = DateFormat('dd-MM-yyyy hh:mm a')
-                                  .format(DateTime.parse(
-                                      campusEmployeeController
-                                          .employeeCollection
-                                          .value!
-                                          .data[index]
-                                          .studentDaySheet[0]
-                                          .createdAt))
-                                  .toString();
-                              deliveryStatus = campusEmployeeController
+        Obx(() => Expanded(
+              child: campusEmployeeController
+                      .loadingEmployeeCollectionHistory.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : campusEmployeeController.employeeCollection.value == null
+                      ? const SizedBox()
+                      : ListView.builder(
+                          itemCount: campusEmployeeController
+                              .employeeCollection.value?.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return TaskTileWidget(
+                              color1: Colors.red,
+                              title1: 'Asset',
+                              title2: 'In progress',
+                              title3:
+                                  'Collection No-${campusEmployeeController.employeeCollection.value?.data[index].id}',
+                              title4: campusEmployeeController
                                   .employeeCollection
-                                  .value
-                                  ?.data[index]
-                                  .studentDaySheet[0]
-                                  .delivered;
-                              studentTagCount = campusEmployeeController
+                                  .value!
+                                  .data[index]
+                                  .campus
+                                  .college
+                                  .name,
+                              icon: Icons.bookmark,
+                              color2: Colors.green,
+                              function: () {
+                                List<CampusEmployeeStudentDaySheetCompareData>
+                                    studentData = campusEmployeeController
+                                        .employeeCollection
+                                        .value!
+                                        .data[index]
+                                        .studentDaySheet
+                                        .map((e) =>
+                                            CampusEmployeeStudentDaySheetCompareData(
+                                                tagNo: e.tagNumber,
+                                                campusCount: (e.campusUniforms +
+                                                    e.campusRegularCloths),
+                                                warehouseCount:
+                                                    (e.wareHouseRegularCloths +
+                                                        e.wareHouseUniform),
+                                                delivered: e.delivered))
+                                        .toList();
+                                List<CampusEmployeeFacultyDaySheetCompareData>
+                                    facultyData = campusEmployeeController
+                                        .employeeCollection
+                                        .value!
+                                        .data[index]
+                                        .facultyDaySheet
+                                        .map((e) =>
+                                            CampusEmployeeFacultyDaySheetCompareData(
+                                                facultyName: "",
+                                                campusCount: e.regularCloths,
+                                                warehouseCount:
+                                                    e.wareHouseRegularCloths,
+                                                delivered: e.delivered))
+                                        .toList();
+
+                                setState(() {
+                                  id = campusEmployeeController
+                                      .employeeCollection.value?.data[index].id;
+                                  dateCreated = DateFormat('dd-MM-yyyy hh:mm a')
+                                      .format(DateTime.parse(
+                                          campusEmployeeController
+                                              .employeeCollection
+                                              .value!
+                                              .data[index]
+                                              .studentDaySheet[0]
+                                              .createdAt))
+                                      .toString();
+                                  deliveryStatus = campusEmployeeController
                                       .employeeCollection
                                       .value
                                       ?.data[index]
-                                      .studentDaySheet
+                                      .studentDaySheet[0]
+                                      .delivered;
+                                  studentTagCount = campusEmployeeController
+                                          .employeeCollection
+                                          .value
+                                          ?.data[index]
+                                          .studentDaySheet
+                                          .fold(0, (previousValue, element) {
+                                        return (previousValue ?? 0) +
+                                            (element.campusRegularCloths) +
+                                            (element.campusUniforms);
+                                      }) ??
+                                      0;
+                                  facultyTagCount = campusEmployeeController
+                                      .employeeCollection
+                                      .value
+                                      ?.data[index]
+                                      .facultyDaySheet
                                       .fold(0, (previousValue, element) {
-                                    return (previousValue ?? 0) +
-                                        (element.campusRegularCloths) +
-                                        (element.campusUniforms);
-                                  }) ??
-                                  0;
-                              facultyTagCount = campusEmployeeController
-                                  .employeeCollection
-                                  .value
-                                  ?.data[index]
-                                  .facultyDaySheet
-                                  .fold(0, (previousValue, element) {
-                                return previousValue! + (element.regularCloths);
-                              });
-                            });
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return SizedBox(
-                                    height: 500,
-                                    width: Get.width,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Collection Details',
-                                            style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Expanded(
-                                            child: SingleChildScrollView(
-                                              child: Table(
-                                                border: const TableBorder(
-                                                    horizontalInside:
-                                                        BorderSide(
-                                                            color: Colors.black,
-                                                            width: 0.2)),
-                                                children: [
-                                                  TableRow(
-                                                    children: [
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: Text(
-                                                              'Name'
-                                                                  .toUpperCase(),
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 18,
-                                                                color:
-                                                                    Colors.blue,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: const Text(
-                                                              'Value',
-                                                              style: TextStyle(
-                                                                fontSize: 18,
-                                                                color:
-                                                                    Colors.blue,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  // Table rows from the orders list
-                                                  TableRow(
-                                                    children: [
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: const Text(
-                                                              'ID',
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: Text(
-                                                              '$id',
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  TableRow(
-                                                    children: [
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: const Text(
-                                                              'Created Date',
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: Text(
-                                                              '$dateCreated',
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  TableRow(
-                                                    children: [
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: const Text(
-                                                              'Delivery Status',
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8),
-                                                              child: deliveryStatus ==
-                                                                      true
-                                                                  ? const Text(
-                                                                      'Done')
-                                                                  : const Text(
-                                                                      'Pending')),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  TableRow(
-                                                    children: [
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: const Text(
-                                                              'Student Tag Count',
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: Text(
-                                                              '$studentTagCount',
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  TableRow(
-                                                    children: [
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: const Text(
-                                                              'Faculty Count',
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TableCell(
-                                                        child: Center(
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: Text(
-                                                              '$facultyTagCount',
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.blue,
-                                                ),
-                                                onPressed: () {
-                                                  if (deliveryStatus == true) {
-                                                    Get.to(() =>
-                                                        CampusEmployeeCompareDaysheet(
-                                                          campusEmployeeStudentDaySheetCompareData:
-                                                              studentData,
-                                                          campusEmployeeFacultyDaySheetCompareData:
-                                                              facultyData,
-                                                        ));
-                                                  } else {
-                                                    Get.to(() =>
-                                                        const CampusEmployeePendingDeliveryCollectionDetails());
-                                                  }
-                                                },
-                                                child: Text(
-                                                  deliveryStatus == true
-                                                      ? 'Next'
-                                                      : 'Check',
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                )),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                                    return previousValue! +
+                                        (element.regularCloths);
+                                  });
                                 });
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return SizedBox(
+                                        height: 500,
+                                        width: Get.width,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Collection Details',
+                                                style: TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Expanded(
+                                                child: SingleChildScrollView(
+                                                  child: Table(
+                                                    border: const TableBorder(
+                                                        horizontalInside:
+                                                            BorderSide(
+                                                                color: Colors
+                                                                    .black,
+                                                                width: 0.2)),
+                                                    children: [
+                                                      TableRow(
+                                                        children: [
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child: Text(
+                                                                  'Name'
+                                                                      .toUpperCase(),
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child:
+                                                                    const Text(
+                                                                  'Value',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      // Table rows from the orders list
+                                                      TableRow(
+                                                        children: [
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child:
+                                                                    const Text(
+                                                                  'ID',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child: Text(
+                                                                  '$id',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      TableRow(
+                                                        children: [
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child:
+                                                                    const Text(
+                                                                  'Created Date',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child: Text(
+                                                                  '$dateCreated',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      TableRow(
+                                                        children: [
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child:
+                                                                    const Text(
+                                                                  'Delivery Status',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          8),
+                                                                  child: deliveryStatus ==
+                                                                          true
+                                                                      ? const Text(
+                                                                          'Done')
+                                                                      : const Text(
+                                                                          'Pending')),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      TableRow(
+                                                        children: [
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child:
+                                                                    const Text(
+                                                                  'Student Tag Count',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child: Text(
+                                                                  '$studentTagCount',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      TableRow(
+                                                        children: [
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child:
+                                                                    const Text(
+                                                                  'Faculty Count',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          TableCell(
+                                                            child: Center(
+                                                              child: Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                child: Text(
+                                                                  '$facultyTagCount',
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Align(
+                                                alignment: Alignment.center,
+                                                child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Colors.blue,
+                                                    ),
+                                                    onPressed: () {
+                                                      if (deliveryStatus ==
+                                                          true) {
+                                                        Get.to(() =>
+                                                            CampusEmployeeCompareDaysheet(
+                                                              campusEmployeeStudentDaySheetCompareData:
+                                                                  studentData,
+                                                              campusEmployeeFacultyDaySheetCompareData:
+                                                                  facultyData,
+                                                            ));
+                                                      } else {
+                                                        Get.to(() =>
+                                                            const CampusEmployeePendingDeliveryCollectionDetails());
+                                                      }
+                                                    },
+                                                    child: Text(
+                                                      deliveryStatus == true
+                                                          ? 'Next'
+                                                          : 'Check',
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    )),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
+                            );
                           },
-                        );
-                      },
-                    ),
-                  )),
+                        ),
+            )),
         const SizedBox(
           height: 10,
         ),

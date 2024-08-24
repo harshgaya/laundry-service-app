@@ -99,16 +99,17 @@ class TaskTileWidget extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
-                    'Collection No-5',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  Text(
+                    title3,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
-                    'Shri Chaitnya',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  Text(
+                    title4,
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
               ),
