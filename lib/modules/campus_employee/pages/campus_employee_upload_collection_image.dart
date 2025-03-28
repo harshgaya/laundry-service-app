@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:laundry_service/helpers/utils.dart';
 
-import 'CampusEmployeeUploadDaySheetImage.dart';
+import 'campus_collection_crud/CampusEmployeeUploadDaySheetImage.dart';
 
 class CampusEmployeeUploadCollectionImage extends StatefulWidget {
   const CampusEmployeeUploadCollectionImage({super.key});

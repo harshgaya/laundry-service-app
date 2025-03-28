@@ -5,9 +5,10 @@ import 'package:laundry_service/modules/segregation/page/profile/seg_profile.dar
 import 'package:laundry_service/modules/segregation/page/seg_assign_to_driver.dart';
 import 'package:laundry_service/modules/segregation/page/seg_driver_add.dart';
 import 'package:laundry_service/modules/segregation/page/seg_history.dart';
-import 'package:laundry_service/modules/segregation/page/seg_todo_list.dart';
+import 'package:laundry_service/modules/segregation/page/seg_crud/seg_todo_list.dart';
 
 import '../../authentication/controllers/login_controller.dart';
+import '../../campus_employee/pages/profile/campus_employee_profile.dart';
 
 class SegDashboard extends StatefulWidget {
   const SegDashboard({super.key});
@@ -30,81 +31,83 @@ class _SegDashboardState extends State<SegDashboard> {
       SegToDoList(),
       SegHistory(),
       SegDriverAdd(),
-      SegProfile(),
+      // SegProfile(),
+      CampusEmployeeProfile(),
     ];
-    return SafeArea(
-      child: Scaffold(
-        body: PageView(
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: PageView(
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: List.generate(
               bottomBarPages.length, (index) => bottomBarPages[index]),
         ),
-        extendBody: true,
-        bottomNavigationBar: (bottomBarPages.length <= maxCount)
-            ? AnimatedNotchBottomBar(
-                /// Provide NotchBottomBarController
-                notchBottomBarController: _controller,
-                color: Colors.white,
-                showLabel: true,
-                textOverflow: TextOverflow.visible,
-                maxLine: 1,
-                shadowElevation: 5,
-                kBottomRadius: 28.0,
-
-                notchColor: Colors.blue,
-
-                /// restart app if you change removeMargins
-                removeMargins: false,
-                bottomBarWidth: Get.width,
-                showShadow: true,
-                durationInMilliSeconds: 300,
-
-                itemLabelStyle: const TextStyle(fontSize: 10),
-
-                elevation: 1,
-                bottomBarItems: [
-                  BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/home.png'),
-                    activeItem: Image.asset(
-                      'assets/icons/home.png',
-                      color: Colors.white,
-                    ),
-                    itemLabel: 'Home',
-                  ),
-                  BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/collection.png'),
-                    activeItem: Image.asset(
-                      'assets/icons/collection.png',
-                      color: Colors.white,
-                    ),
-                    itemLabel: 'Collection',
-                  ),
-                  BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/driver.png'),
-                    activeItem: Image.asset(
-                      'assets/icons/driver.png',
-                      color: Colors.white,
-                    ),
-                    itemLabel: 'Driver',
-                  ),
-                  BottomBarItem(
-                    inActiveItem: Image.asset('assets/icons/user.png'),
-                    activeItem: Image.asset(
-                      'assets/icons/user.png',
-                      color: Colors.white,
-                    ),
-                    itemLabel: 'Profile',
-                  ),
-                ],
-
-                onTap: (index) {
-                  _pageController.jumpToPage(index);
-                },
-                kIconSize: 24.0,
-              )
-            : null,
       ),
+      extendBody: true,
+      bottomNavigationBar: (bottomBarPages.length <= maxCount)
+          ? AnimatedNotchBottomBar(
+              /// Provide NotchBottomBarController
+              notchBottomBarController: _controller,
+              color: Colors.white,
+              showLabel: true,
+              textOverflow: TextOverflow.visible,
+              maxLine: 1,
+              shadowElevation: 5,
+              kBottomRadius: 28.0,
+
+              notchColor: Colors.blue,
+
+              /// restart app if you change removeMargins
+              removeMargins: false,
+              bottomBarWidth: Get.width,
+              showShadow: true,
+              durationInMilliSeconds: 300,
+
+              itemLabelStyle: const TextStyle(fontSize: 10),
+
+              elevation: 1,
+              bottomBarItems: [
+                BottomBarItem(
+                  inActiveItem: Image.asset('assets/icons/home.png'),
+                  activeItem: Image.asset(
+                    'assets/icons/home.png',
+                    color: Colors.white,
+                  ),
+                  itemLabel: 'Home',
+                ),
+                BottomBarItem(
+                  inActiveItem: Image.asset('assets/icons/collection.png'),
+                  activeItem: Image.asset(
+                    'assets/icons/collection.png',
+                    color: Colors.white,
+                  ),
+                  itemLabel: 'Collection',
+                ),
+                BottomBarItem(
+                  inActiveItem: Image.asset('assets/icons/driver.png'),
+                  activeItem: Image.asset(
+                    'assets/icons/driver.png',
+                    color: Colors.white,
+                  ),
+                  itemLabel: 'Driver',
+                ),
+                BottomBarItem(
+                  inActiveItem: Image.asset('assets/icons/user.png'),
+                  activeItem: Image.asset(
+                    'assets/icons/user.png',
+                    color: Colors.white,
+                  ),
+                  itemLabel: 'Profile',
+                ),
+              ],
+
+              onTap: (index) {
+                _pageController.jumpToPage(index);
+              },
+              kIconSize: 24.0,
+            )
+          : null,
     );
   }
 }

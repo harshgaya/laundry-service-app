@@ -11,7 +11,14 @@ import 'package:share_plus/share_plus.dart';
 import '../controllers/campus_employee_controller.dart';
 
 class CampusEmployeePendingDeliveryCollectionDetails extends StatefulWidget {
-  const CampusEmployeePendingDeliveryCollectionDetails({super.key});
+  final List<CampusEmployeeStudentDaySheetCompareData>
+      campusEmployeeStudentDaySheetCompareData;
+  final List<CampusEmployeeFacultyDaySheetCompareData>
+      campusEmployeeFacultyDaySheetCompareData;
+  const CampusEmployeePendingDeliveryCollectionDetails(
+      {super.key,
+      required this.campusEmployeeStudentDaySheetCompareData,
+      required this.campusEmployeeFacultyDaySheetCompareData});
 
   @override
   State<CampusEmployeePendingDeliveryCollectionDetails> createState() =>
@@ -50,7 +57,7 @@ class _CampusEmployeePendingDeliveryCollectionDetailsState
     } catch (e) {
       print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to download file')),
+        const SnackBar(content: Text('Failed to download file')),
       );
     }
   }
@@ -86,7 +93,7 @@ class _CampusEmployeePendingDeliveryCollectionDetailsState
           onPressed: () {
             Get.back();
           },
-          icon: CircleAvatar(
+          icon: const CircleAvatar(
             backgroundColor: Colors.blue,
             child: Center(
               child: Icon(
@@ -108,7 +115,7 @@ class _CampusEmployeePendingDeliveryCollectionDetailsState
                   ? 'Student Delivery\nDay Sheet'
                   : 'Faculty Delivery\nDay Sheet',
               textAlign: TextAlign.start,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w700,
               ),
@@ -116,210 +123,210 @@ class _CampusEmployeePendingDeliveryCollectionDetailsState
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  onPressed: () {
-                    setState(() {
-                      studentDaySheetSelected = !studentDaySheetSelected;
-                      facultyDaySheetSelected = !facultyDaySheetSelected;
-                    });
-                  },
-                  child: Text(
-                    facultyDaySheetSelected
-                        ? 'Student Day Sheet'
-                        : 'Faculty Day Sheet',
-                    style: TextStyle(
-                      color: Colors.white,
+            if (widget.campusEmployeeFacultyDaySheetCompareData.isNotEmpty)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    onPressed: () {
+                      setState(() {
+                        studentDaySheetSelected = !studentDaySheetSelected;
+                        facultyDaySheetSelected = !facultyDaySheetSelected;
+                      });
+                    },
+                    child: Text(
+                      facultyDaySheetSelected
+                          ? 'Student Day Sheet'
+                          : 'Faculty Day Sheet',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             const SizedBox(
               height: 20,
             ),
             studentDaySheetSelected
-                ? Obx(() => Expanded(
-                      child: SingleChildScrollView(
-                        child: Table(
-                          border: TableBorder(
-                              horizontalInside:
-                                  BorderSide(color: Colors.black, width: 0.2)),
-                          children: [
-                            // Table header
-                            TableRow(
+                ? Expanded(
+                    child: SingleChildScrollView(
+                      child: Table(
+                        border: const TableBorder(
+                            horizontalInside:
+                                BorderSide(color: Colors.black, width: 0.2)),
+                        children: [
+                          // Table header
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: const Text(
+                                    'TAG NO.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: const Text(
+                                    'Campus Count',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Table rows from the orders list
+                          ...widget.campusEmployeeStudentDaySheetCompareData
+                              .asMap()
+                              .entries
+                              .map((order) {
+                            return TableRow(
                               children: [
                                 TableCell(
                                   child: Container(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
-                                      'TAG NO.',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                      order.value.tagNo.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 12,
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
                                   child: Container(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
-                                      'Campus Count',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                      '${order.value.campusCount}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
                                       ),
                                     ),
                                   ),
                                 ),
                               ],
-                            ),
-                            // Table rows from the orders list
-                            ...campusEmployeeController
-                                .campusEmployeeStudentDaySheetCompare
-                                .asMap()
-                                .entries
-                                .map((order) {
-                              return TableRow(
-                                children: [
-                                  TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        order.value.tagNo.toString(),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.campusCount}',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                          ],
-                        ),
+                            );
+                          }).toList(),
+                        ],
                       ),
-                    ))
-                : Obx(() => Expanded(
-                      child: SingleChildScrollView(
-                        child: Table(
-                          border: TableBorder(
-                              horizontalInside:
-                                  BorderSide(color: Colors.black, width: 0.2)),
-                          children: [
-                            // Table header
-                            TableRow(
+                    ),
+                  )
+                : Expanded(
+                    child: SingleChildScrollView(
+                      child: Table(
+                        border: const TableBorder(
+                            horizontalInside:
+                                BorderSide(color: Colors.black, width: 0.2)),
+                        children: [
+                          // Table header
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: const Text(
+                                    'Faculty Name',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  child: const Text(
+                                    'Campus Count',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Table rows from the orders list
+                          ...widget.campusEmployeeFacultyDaySheetCompareData
+                              .asMap()
+                              .entries
+                              .map((order) {
+                            return TableRow(
                               children: [
                                 TableCell(
                                   child: Container(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
-                                      'Faculty Name',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                      order.value.facultyName.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 12,
                                       ),
                                     ),
                                   ),
                                 ),
                                 TableCell(
                                   child: Container(
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
-                                      'Campus Count',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
+                                      '${order.value.campusCount}',
+                                      style: const TextStyle(
+                                        fontSize: 12,
                                       ),
                                     ),
                                   ),
                                 ),
                               ],
-                            ),
-                            // Table rows from the orders list
-                            ...campusEmployeeController
-                                .campusEmployeeFacultyDaySheetCompare
-                                .asMap()
-                                .entries
-                                .map((order) {
-                              return TableRow(
-                                children: [
-                                  TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        order.value.facultyName.toString(),
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text(
-                                        '${order.value.campusCount}',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                          ],
-                        ),
+                            );
+                          }).toList(),
+                        ],
                       ),
-                    )),
+                    ),
+                  ),
             const SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () async {
-                      if (_localFilePath != null) {
-                        await Share.shareXFiles([XFile(_localFilePath!)],
-                            text: 'Check out this PDF!');
-                      } else {
-                        print('No file to share.');
-                      }
-                    },
-                    icon: Icon(
-                      Icons.share,
-                      size: 50,
-                    )),
-                const SizedBox(
-                  width: 10,
-                ),
-                IconButton(
-                    onPressed: () async {
-                      await _downloadFile();
-                    },
-                    icon: Icon(
-                      Icons.download,
-                      size: 50,
-                    ))
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     IconButton(
+            //         onPressed: () async {
+            //           if (_localFilePath != null) {
+            //             await Share.shareXFiles([XFile(_localFilePath!)],
+            //                 text: 'Check out this PDF!');
+            //           } else {
+            //             print('No file to share.');
+            //           }
+            //         },
+            //         icon: const Icon(
+            //           Icons.share,
+            //           size: 50,
+            //         )),
+            //     const SizedBox(
+            //       width: 10,
+            //     ),
+            //     IconButton(
+            //         onPressed: () async {
+            //           await _downloadFile();
+            //         },
+            //         icon: const Icon(
+            //           Icons.download,
+            //           size: 50,
+            //         ))
+            //   ],
+            // ),
           ],
         ),
       ),

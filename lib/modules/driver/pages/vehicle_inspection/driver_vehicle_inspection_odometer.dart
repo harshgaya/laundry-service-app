@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
-
 import 'package:laundry_service/helpers/utils.dart';
-
-import 'driver_vehicle_inspection_sparetyre.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import '../../../widegets/round_button_animate.dart';
+import '../../controllers/driver_controller.dart';
 
 class DriverVehicleInspectionOdometer extends StatefulWidget {
-  const DriverVehicleInspectionOdometer({super.key});
+  final String vehicleUid;
+  const DriverVehicleInspectionOdometer({super.key, required this.vehicleUid});
 
   @override
   State<DriverVehicleInspectionOdometer> createState() =>
@@ -19,6 +20,7 @@ class DriverVehicleInspectionOdometer extends StatefulWidget {
 class _DriverVehicleInspectionOdometerState
     extends State<DriverVehicleInspectionOdometer> {
   File? _image;
+  final driverController = Get.put(DriverController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class _DriverVehicleInspectionOdometerState
             const SizedBox(
               height: 50,
             ),
-            Align(
+            const Align(
               alignment: Alignment.center,
               child: Text(
                 'Please take a photo of the\nOdometer of the Vehicle',
@@ -95,60 +97,34 @@ class _DriverVehicleInspectionOdometerState
                       ),
                     )),
             const Spacer(),
-            InkWell(
-              onTap: () {
-                if (_image == null) {
-                  Utils.showScaffoldMessageI(
-                      context: context, title: 'Please select odometer image');
-                } else {
-                  Get.to(() => VehicleInspectionSpareTyre());
-                }
-              },
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
+            Obx(() => driverController.updatingVehicle.value
+                ? Center(
+                    child: LoadingAnimationWidget.discreteCircle(
+                        size: 40,
                         color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.done,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Next',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                        secondRingColor: const Color(0xFF1A1A3F),
+                        thirdRingColor: const Color(0xFFEA3799)),
+                  )
+                : Center(
+                    child: RoundButtonAnimate(
+                        buttonName: 'Home',
+                        onClick: () {
+                          if (_image == null) {
+                            Utils.showScaffoldMessageI(
+                                context: context,
+                                title: 'Please upload odometer image!');
+                          } else {
+                            driverController.updateVehicle(
+                                vehicleUid: widget.vehicleUid,
+                                image: _image!,
+                                context: context);
+                          }
+                        },
+                        image: const Icon(
+                          Icons.delivery_dining,
+                          color: Colors.white,
+                        )),
+                  )),
           ],
         ),
       ),

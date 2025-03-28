@@ -125,7 +125,7 @@ class Campus {
       updatedAt: DateTime.parse(json["updated_at"]),
       tagName: json["tag_name"],
       name: json["name"],
-      uniform: json["uniform"],
+      uniform: json["uniform"] ?? false,
       college: json["college"],
     );
   }

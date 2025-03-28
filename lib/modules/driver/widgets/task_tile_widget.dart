@@ -38,7 +38,7 @@ class TaskTileWidget extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 7,
-                  offset: const Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3),
                 ),
               ]),
           child: Row(
@@ -61,25 +61,18 @@ class TaskTileWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: Get.width - 80,
+                    width: Get.width - 60,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Icon(
-                              icon,
-                              color: Colors.grey,
-                            ),
-                            Text(
-                              'Asset',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                            )
-                          ],
+                        Text(
+                          title1,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                          ),
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               height: 10,
@@ -90,7 +83,13 @@ class TaskTileWidget extends StatelessWidget {
                             const SizedBox(
                               width: 5,
                             ),
-                            const Text('In Progress'),
+                            SizedBox(
+                              child: Text(
+                                title2.toUpperCase(),
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 9),
+                              ),
+                            ),
                           ],
                         )
                       ],

@@ -1,9 +1,16 @@
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:laundry_service/modules/authentication/pages/user_state.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.blue,
+    ),
+  );
   WidgetsFlutterBinding.ensureInitialized();
   await FaceCamera.initialize();
   runApp(const MyApp());
@@ -12,17 +19,23 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily:
-            'OverusedGrotesk', // Use the font family name you defined in pubspec.yaml
+        // textTheme: GoogleFonts.poppinsTextTheme(
+        //   Theme.of(context).textTheme,
+        // ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
+        fontFamily: 'OverusedGrotesk',
       ),
-      title: 'Laundry Service',
-      home: UserState(),
+      title: 'Fast and Fresh',
+      home: const UserState(),
     );
   }
 }

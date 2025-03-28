@@ -6,7 +6,18 @@ import 'package:laundry_service/modules/driver/pages/profile/driver_profile.dart
 import 'package:laundry_service/modules/driver/widgets/task_count_widget.dart';
 
 class HomeTaskNumberPage extends StatelessWidget {
-  const HomeTaskNumberPage({super.key});
+  final int todo;
+  final int open;
+  final int finished;
+  final int overdue;
+  final String title;
+  const HomeTaskNumberPage(
+      {super.key,
+      required this.todo,
+      required this.open,
+      required this.overdue,
+      required this.finished,
+      required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -23,50 +34,10 @@ class HomeTaskNumberPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Text(
-                //       'Login Time :${DateFormat.jm().format(DateTime.now())}',
-                //       style: TextStyle(
-                //         color: Colors.white,
-                //       ),
-                //     ),
-                //     InkWell(
-                //       onTap: () {
-                //         Get.to(() => DriverProfile());
-                //       },
-                //       child: Row(
-                //         children: [
-                //           Text(
-                //             'Nima',
-                //             style: TextStyle(
-                //               fontSize: 18,
-                //               color: Colors.white,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //           const SizedBox(
-                //             width: 5,
-                //           ),
-                //           CircleAvatar(
-                //             backgroundColor: Colors.black,
-                //             child: Text(
-                //               'N',
-                //               style: TextStyle(
-                //                 color: Colors.white,
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                const Center(
+                Center(
                   child: Text(
-                    'To Do List',
-                    style: TextStyle(
+                    title,
+                    style: const TextStyle(
                       fontSize: 25,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -95,15 +66,15 @@ class HomeTaskNumberPage extends StatelessWidget {
                     offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ]),
-            child: const Center(
+            child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  TaskCountWidget(title: 'Overdue', count: '200'),
-                  TaskCountWidget(title: 'To Do', count: '81'),
-                  TaskCountWidget(title: 'Open', count: '5'),
-                  TaskCountWidget(title: 'Overdue', count: '50'),
+                  TaskCountWidget(title: 'To Do', count: '$todo'),
+                  TaskCountWidget(title: 'Open', count: '$open'),
+                  TaskCountWidget(title: 'Finished', count: '$finished'),
+                  TaskCountWidget(title: 'Overdue', count: '$overdue'),
                 ],
               ),
             ),
